@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity implements Controller.ViewInterface, SensorEventListener {
 
@@ -19,7 +20,8 @@ public class MainActivity extends AppCompatActivity implements Controller.ViewIn
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        controller = new Controller(this);
+        MyImageView myImageView = (MyImageView) findViewById(R.id.myImageView);
+        controller = new Controller(this, myImageView);
 
         setupGameVectorSensor();
     }
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity implements Controller.ViewIn
     private void setupGameVectorSensor() {
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        gameVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        gameVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
         sensorManager.registerListener(this, gameVectorSensor,
                 SensorManager.SENSOR_DELAY_GAME);
@@ -35,12 +37,11 @@ public class MainActivity extends AppCompatActivity implements Controller.ViewIn
 
     @Override
     public void updateView() {
-        
     }
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-
+        controller.sensorChanged(event.values);
     }
 
     @Override
