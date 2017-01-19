@@ -1,12 +1,17 @@
 package rosko.bojan.rupko.newlevel;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.PointF;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import rosko.bojan.rupko.Controller;
+import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.imageview.MyImageView;
 
 /**
@@ -16,21 +21,30 @@ import rosko.bojan.rupko.imageview.MyImageView;
 public class NewLevelController extends Controller implements View.OnTouchListener{
 
     private GestureDetector gestureDetector;
+    private Level level;
+
+    private PointF lastLongPress;
+    private NewElementDialog listDialog;
 
     public NewLevelController(Context context, ViewInterface view, MyImageView myImageView) {
         super(context, view, myImageView);
 
+        level = new Level();
+        imageData.setLevel(level);
+
+
         initGestureDetector();
 
-        myImageView.setOnTouchListener(this);
 
+        myImageView.setOnTouchListener(this);
     }
 
     private void initGestureDetector() {
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-                Log.d("longpress", motionEvent.toString());
+                lastLongPress = new PointF(motionEvent.getX(), motionEvent.getY());
+                openSpawnDialogue();
             }
         });
     }
@@ -44,5 +58,33 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         Log.d("ontouch", "motionEventtype down " + MotionEvent.ACTION_DOWN);
 
         return false;
+    }
+
+    private void openSpawnDialogue() {
+        if (imageData.checkCollisions(lastLongPress)) {
+            Logger.throwError(context, "New hole would collide!");
+        }
+        else {
+            // Create an instance of the dialog fragment and show it
+            DialogFragment dialog = new NewElementDialog();
+            Activity activity = (Activity) context;
+            dialog.show(activity.getFragmentManager(), "NewElementDialog");
+        }
+    }
+
+    public void newItem(Hole.Type newItem) {
+        switch (newItem) {
+            case START:
+                level.setStartHole(new Hole(lastLongPress, Hole.Type.START));
+                break;
+            case HOLE:
+                level.addHole(new Hole(lastLongPress, Hole.Type.HOLE));
+                break;
+            case END:
+                level.setEndHole(new Hole(lastLongPress, Hole.Type.END));
+                break;
+        }
+
+        view.updateImageView();
     }
 }

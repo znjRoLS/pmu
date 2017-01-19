@@ -15,7 +15,7 @@ import rosko.bojan.rupko.imageview.MyImageView;
  * Created by rols on 1/19/17.
  */
 
-public class NewLevelActivity extends AppCompatActivity implements Controller.ViewInterface {
+public class NewLevelActivity extends AppCompatActivity implements Controller.ViewInterface, NewElementDialog.ListDialogListener {
 
     NewLevelController controller;
     MyImageView myImageView;
@@ -40,5 +40,10 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
                 myImageView.invalidate();
             }
         });
+    }
+
+    @Override
+    public void onDialogItemClick(Hole.Type itemType) {
+        controller.newItem(itemType);
     }
 }

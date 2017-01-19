@@ -2,9 +2,14 @@ package rosko.bojan.rupko.imageview;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.widget.ImageView;
+
+import rosko.bojan.rupko.GameConfiguration;
+import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.newlevel.Hole;
 
 /**
  * Created by rols on 1/15/17.
@@ -13,15 +18,24 @@ import android.widget.ImageView;
 public class MyImageView extends ImageView {
 
     ImageData imageData;
-    Paint paint;
 
-    public ImageData getImageData() {
-        return imageData;
-    }
+    Paint holePaint;
+    Paint startHolePaint;
+    Paint endHolePaint;
+    Paint wallPaint;
+
 
     public void MyImageViewConstructor() {
         imageData = new ImageData();
-        paint = new Paint();
+
+        holePaint = new Paint();
+        holePaint.setColor(GameConfiguration.HOLE_COLOR);
+        startHolePaint = new Paint();
+        startHolePaint.setColor(GameConfiguration.START_HOLE_COLOR);
+        endHolePaint = new Paint();
+        endHolePaint.setColor(GameConfiguration.END_HOLE_COLOR);
+        wallPaint = new Paint();
+        wallPaint.setColor(GameConfiguration.WALL_COLOR);
     }
 
     public MyImageView(Context context) {
@@ -44,9 +58,37 @@ public class MyImageView extends ImageView {
         MyImageViewConstructor();
     }
 
+    private void drawHole(Canvas canvas, Hole hole) {
+        Paint paint;
+        switch (hole.getType()) {
+            case START: paint = startHolePaint; break;
+            case HOLE: paint = holePaint; break;
+            case END: paint = endHolePaint; break;
+            default: paint = holePaint; break;
+        }
+
+        canvas.drawCircle(hole.getCenter().x, hole.getCenter().y, hole.getRadius(), paint);
+    }
+
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        canvas.drawCircle(imageData.getCircleCenter().x, imageData.getCircleCenter().y, 15, paint);
+        Level level = imageData.getLevel();
+
+        for (Hole hole: level.getHoles()) {
+            drawHole(canvas, hole);
+        }
+        if (level.getStartHole() != null) {
+            drawHole(canvas, level.getStartHole());
+        }
+        if (level.getEndHole() != null) {
+            drawHole(canvas, level.getEndHole());
+        }
+
+    }
+
+
+    public ImageData getImageData() {
+        return imageData;
     }
 }

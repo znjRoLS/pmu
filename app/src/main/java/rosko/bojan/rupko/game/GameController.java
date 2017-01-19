@@ -72,7 +72,7 @@ public class GameController implements SensorEventListener {
         double xTheta = Math.atan2(dx, dz);
         double yTheta = Math.atan2(dy, dz);
 
-        imageData.incCircle((float)xTheta * MAGNITUDE, (float)yTheta * MAGNITUDE);
+//        imageData.incCircle((float)xTheta * MAGNITUDE, (float)yTheta * MAGNITUDE);
         myImageView.invalidate();
         view.updateView();
     }
