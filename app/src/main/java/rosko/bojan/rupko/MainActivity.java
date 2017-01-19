@@ -1,61 +1,79 @@
 package rosko.bojan.rupko;
 
 import android.content.Context;
+import android.content.Intent;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.widget.ListView;
 
-public class MainActivity extends AppCompatActivity implements Controller.ViewInterface, SensorEventListener {
+import rosko.bojan.rupko.newlevel.NewLevelActivity;
 
-    Controller controller;
-    SensorManager sensorManager;
-    Sensor gameVectorSensor;
+public class MainActivity extends AppCompatActivity {
+
+    ListView levelsListView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        MyImageView myImageView = (MyImageView) findViewById(R.id.myImageView);
-        controller = new Controller(this, myImageView);
+        levelsListView = (ListView) findViewById(R.id.levelsListView);
 
-        setupGameVectorSensor();
+        inflateLevels();
     }
 
-    private void setupGameVectorSensor() {
+    private void inflateLevels() {
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        gameVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
 
-        sensorManager.registerListener(this, gameVectorSensor,
-                SensorManager.SENSOR_DELAY_GAME);
+
     }
 
     @Override
-    public void updateView() {
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        return true;
     }
 
     @Override
-    public void onSensorChanged(SensorEvent event) {
-        controller.sensorChanged(event.values);
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.new_level_menu_item:
+                startNewLevelActivity();
+                return true;
+            case R.id.show_statistics_menu_item:
+                startStatisticsActivity();
+                return true;
+            case R.id.show_preferences_menu_item:
+                startPreferencesActivity();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int accuracy) {
-
+    private void startNewLevelActivity() {
+        Intent intent = new Intent(this, NewLevelActivity.class);
+        startActivity(intent);
     }
 
-    protected void onResume() {
-        super.onResume();
-        sensorManager.registerListener(this, gameVectorSensor, SensorManager.SENSOR_DELAY_GAME);
+    private void startStatisticsActivity() {
+        Logger.throwError(this, "Not implemented yet!");
+//        Intent intent = new Intent(this, StatisticsActivity.class);
+//        startActivity(intent);
     }
 
-    protected void onPause() {
-        super.onPause();
-        sensorManager.unregisterListener(this);
+    private void startPreferencesActivity() {
+        Logger.throwError(this, "Not implemented yet!");
+//        Intent intent = new Intent(this, PreferencesActivity.class);
+//        startActivity(intent);
     }
 }
