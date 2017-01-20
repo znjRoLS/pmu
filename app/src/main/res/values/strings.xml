@@ -5,4 +5,7 @@
     <string name="preference_file_key">GLOBAL_PREFERENCES</string>
     <string name="preference_ball_traction">BALL_TRACTION</string>
     <string name="preference_ball_bounce">BALL_BOUNCE</string>
+
+    <string name="preference_default_ball_bounce">0.7</string>
+    <string name="preference_default_ball_traction">0.08</string>
 </resources>

@@ -5,4 +5,9 @@
         <item>Add new hole</item>
         <item>Place end point</item>
     </string-array>
+    <string-array name="ball_bounce_values">
+        <item>0.2</item>
+        <item>0.7</item>
+        <item>1.0</item>
+    </string-array>
 </resources>

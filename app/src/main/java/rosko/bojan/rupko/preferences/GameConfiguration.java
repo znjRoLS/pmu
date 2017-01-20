@@ -64,15 +64,7 @@ public class GameConfiguration implements Cloneable{
     public static void restoreDefaultPreferences(Context context) {
 
         copyDefaultPreferences();
-        savePreferences(context);
-    }
 
-    public static void savePreferences(Context context) {
-//        SharedPreferences sharedPreferences = context.getSharedPreferences(
-//                context.getString(R.string.app_prefix) +
-//                        context.getString(R.string.preference_file_key),
-//                Context.MODE_PRIVATE
-//        );
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
 
         SharedPreferences.Editor editor = sharedPreferences.edit();

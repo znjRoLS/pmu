@@ -3,6 +3,8 @@ package rosko.bojan.rupko.imageview;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.PointF;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.ImageView;
 
@@ -14,16 +16,16 @@ import rosko.bojan.rupko.preferences.GameConfiguration;
 
 public class MyImageView extends ImageView {
 
-    ImageData imageData;
+    protected ImageData imageData;
 
-    Paint holePaint;
-    Paint startHolePaint;
-    Paint endHolePaint;
-    Paint wallPaint;
+    protected Paint holePaint;
+    protected Paint startHolePaint;
+    protected Paint endHolePaint;
+    protected Paint wallPaint;
 
 
     public void MyImageViewConstructor() {
-        imageData = new ImageData();
+//        imageData = new ImageData();
 
         holePaint = new Paint();
         holePaint.setColor(GameConfiguration.currentConfiguration.HOLE_COLOR);
@@ -42,6 +44,23 @@ public class MyImageView extends ImageView {
 
     public MyImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
+
+        for(int i = 0; i < attrs.getAttributeCount(); i ++) {
+            String key = attrs.getAttributeName(i);
+            String val = attrs.getAttributeValue(i);
+            if (key.equalsIgnoreCase("imageDataClass")) {
+                try {
+                    imageData = (ImageData) Class.forName(val).newInstance();
+                } catch (InstantiationException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         MyImageViewConstructor();
     }
 
@@ -79,6 +98,7 @@ public class MyImageView extends ImageView {
         if (imageData.getEndHole() != null) {
             drawHole(canvas, imageData.getEndHole());
         }
+
 
     }
 

@@ -3,11 +3,17 @@
     <PreferenceCategory
         android:title="Ball behavior "
         android:key="pref_key_storage_settings">
-        <CheckBoxPreference
+        <rosko.bojan.rupko.preferences.NumberPickerPreference
             android:key="@string/preference_ball_bounce"
             android:title="Ball bounce"
             android:summary="Change Ball bounce ratio"
-            android:defaultValue="true" />
+            android:defaultValue="@string/preference_default_ball_bounce"
+            array="ball_bounce_values"/>
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_ball_traction"
+            android:title="Ball Traction"
+            android:summary="Set ball traction ratio"
+            android:defaultValue="@string/preference_default_ball_traction" />
         <!--<ListPreference-->
             <!--android:depende
             ncy="pref_sync"-->

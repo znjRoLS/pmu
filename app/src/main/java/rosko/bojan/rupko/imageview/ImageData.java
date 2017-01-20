@@ -19,19 +19,20 @@ public class ImageData implements Serializable{
 
 //    private Level level;
 
-    private Hole startHole;
-    private Hole endHole;
-    private ArrayList<Hole> holes;
-    private ArrayList<RectF> walls;
+    protected Hole startHole;
+    protected Hole endHole;
+    protected ArrayList<Hole> holes;
+    protected ArrayList<RectF> walls;
 
-    private int screenWidth;
-    private int screenHeight;
-    private float currentRadius;
+    protected int screenWidth;
+    protected int screenHeight;
+    protected float currentRadius;
 
     public ImageData() {
         holes = new ArrayList<>();
         walls = new ArrayList<>();
         currentRadius = 0f;
+
     }
 
 
@@ -82,30 +83,6 @@ public class ImageData implements Serializable{
 //
 //    }
 //
-    public Level getLevel() {
-
-        if (!validLevel()) {
-            return null;
-        }
-
-        Level level = new Level();
-
-        if (startHole != null) {
-
-        }
-        level.setStartHole(startHole.getCenter());
-        level.setEndHole(endHole.getCenter());
-        for (Hole hole : holes) {
-            level.addHole(hole.getCenter());
-        }
-        level.setWalls(walls);
-
-        return level;
-    }
-
-    public boolean validLevel() {
-        return (startHole != null && endHole != null);
-    }
 
 
     public Hole getStartHole() {

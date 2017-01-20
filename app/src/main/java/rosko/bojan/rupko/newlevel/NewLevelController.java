@@ -3,11 +3,14 @@ package rosko.bojan.rupko.newlevel;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
+import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
+
+import java.util.HashMap;
 
 import rosko.bojan.rupko.Controller;
 import rosko.bojan.rupko.Logger;
@@ -24,8 +27,13 @@ public class NewLevelController extends Controller implements View.OnTouchListen
 
     private PointF lastLongPress;
 
+    private NewLevelImageData newLevelImageData;
+
+
     public NewLevelController(Context context, ViewInterface view, MyImageView myImageView) {
         super(context, view, myImageView);
+
+        newLevelImageData = (NewLevelImageData) imageData;
 
         initGestureDetector();
 
@@ -48,9 +56,29 @@ public class NewLevelController extends Controller implements View.OnTouchListen
 
         Log.d("ontouch", "view " + view.getId() + " with height " + view.getHeight());
         Log.d("ontouch", "motionEventtype " + motionEvent.getAction());
-        Log.d("ontouch", "motionEventtype down " + MotionEvent.ACTION_DOWN);
+        Log.d("ontouch", "motion index " + motionEvent.getActionIndex());
 
-        return false;
+        //TODO: fix multiple touches
+        switch (motionEvent.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+            case MotionEvent.ACTION_POINTER_DOWN:
+                Log.d("ontouch", "asction down");
+                newLevelImageData.addDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
+                break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_POINTER_UP:
+                Log.d("ontouch", "asction up");
+                newLevelImageData.finishDraggable(motionEvent.getActionIndex());
+                break;
+            case MotionEvent.ACTION_MOVE:
+                Log.d("ontouch", "asction move");
+                newLevelImageData.updateDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
+                break;
+        }
+
+        this.view.updateImageView();
+
+        return true;
     }
 
     private void openSpawnDialogue() {

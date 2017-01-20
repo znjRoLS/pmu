@@ -1,6 +1,7 @@
 package rosko.bojan.rupko.imageview;
 
 import android.graphics.PointF;
+import android.graphics.RectF;
 
 import java.io.Serializable;
 
@@ -21,6 +22,34 @@ public class Hole implements Serializable{
 
     public boolean collides(Hole otherHole) {
         return dist(center, otherHole.center) <= radius + otherHole.radius;
+    }
+
+    public boolean collides(RectF rectangle) {
+        float xtopLeft = Math.max(center.x - radius, rectangle.left);
+        float ytopLeft = Math.max(center.y - radius, rectangle.top);
+        float xbottomRight = Math.min(center.x + radius, rectangle.right);
+        float ybottomRight = Math.min(center.y + radius, rectangle.bottom);
+
+        if (xtopLeft > xbottomRight || ytopLeft > ybottomRight) {
+            return false;
+        }
+
+        PointF topLeft = new PointF(rectangle.left, rectangle.top);
+        PointF topRight = new PointF(rectangle.right, rectangle.top);
+        PointF bottomLeft = new PointF(rectangle.left, rectangle.bottom);
+        PointF bottomRight = new PointF(rectangle.right, rectangle.bottom);
+
+        if (
+                dist(topLeft, center) <= radius ||
+                dist(topRight, center) <= radius ||
+                dist(bottomLeft, center) <= radius ||
+                dist(bottomRight, center) <= radius
+        ) {
+            return true;
+        }
+
+
+
     }
 
     private float dist(PointF point1, PointF point2) {

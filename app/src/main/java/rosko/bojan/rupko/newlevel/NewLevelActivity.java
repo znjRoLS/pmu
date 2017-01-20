@@ -19,7 +19,7 @@ import rosko.bojan.rupko.imageview.MyImageView;
 public class NewLevelActivity extends AppCompatActivity implements Controller.ViewInterface, NewElementDialog.ListDialogListener {
 
     NewLevelController controller;
-    MyImageView myImageView;
+    NewLevelImageView myImageView;
     ImageData imageData;
 
     @Override
@@ -29,7 +29,7 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
 
         GameConfiguration.fillCurrentConfiguration(this);
 
-        myImageView = (MyImageView) findViewById(R.id.myImageView);
+        myImageView = (NewLevelImageView) findViewById(R.id.myImageView);
         imageData = myImageView.getImageData();
         imageData.setScreenSize(getScreenSize());
 
