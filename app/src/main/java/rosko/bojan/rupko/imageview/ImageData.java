@@ -2,45 +2,165 @@ package rosko.bojan.rupko.imageview;
 
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.graphics.RectF;
+import android.util.Log;
+import android.util.Pair;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
+import rosko.bojan.rupko.GameConfiguration;
 import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.newlevel.Hole;
+
+import static android.R.attr.fastScrollPreviewBackgroundRight;
+import static android.R.attr.screenSize;
 
 /**
  * Created by rols on 1/15/17.
  */
 
-public class ImageData {
+public class ImageData implements Serializable{
 
-    private Level level;
+//    private Level level;
+
+    private Hole startHole;
+    private Hole endHole;
+    private ArrayList<Hole> holes;
+    private ArrayList<RectF> walls;
+
+    private int screenWidth;
+    private int screenHeight;
+    private float currentRadius;
 
     public ImageData() {
+        holes = new ArrayList<>();
+        walls = new ArrayList<>();
+        currentRadius = 0f;
     }
 
-    public Level getLevel() {
-        return level;
-    }
-
-    public void setLevel(Level level) {
-        this.level = level;
-    }
 
     public boolean checkCollisions(PointF newHoleCenter) {
 
         Hole newHole = new Hole(newHoleCenter, Hole.Type.HOLE);
+        newHole.setRadius(currentRadius);
 
-        for (Hole hole : level.getHoles()) {
+        for (Hole hole : holes) {
+
             if (newHole.collides(hole)) {
                 return true;
             }
         }
-        if (level.getStartHole() != null && newHole.collides(level.getStartHole())){
+        if (startHole != null && newHole.collides(startHole)){
             return true;
         }
-        if (level.getEndHole() != null && newHole.collides(level.getEndHole())){
+        if (endHole != null && newHole.collides(endHole)){
             return true;
         }
 
         return false;
+    }
+
+    public void setScreenSize(Pair<Integer, Integer> size) {
+
+        Log.d("screensize", "yep im herhe " + size.first + " " + size.second );
+
+        screenHeight = size.first;
+        screenWidth = size.second;
+
+        int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
+
+        currentRadius = GameConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
+
+        Log.d("screensize", currentRadius + "");
+
+        if (startHole != null)
+            startHole.setRadius(currentRadius);
+        if (endHole != null)
+            endHole.setRadius(currentRadius);
+        for (Hole hole : holes)
+            hole.setRadius(currentRadius);
+    }
+
+
+//    public void loadLevel(Level level) {
+//
+//    }
+//
+    public Level getLevel() {
+
+        if (!validLevel()) {
+            return null;
+        }
+
+        Level level = new Level();
+
+        if (startHole != null) {
+
+        }
+        level.setStartHole(startHole.getCenter());
+        level.setEndHole(endHole.getCenter());
+        for (Hole hole : holes) {
+            level.addHole(hole.getCenter());
+        }
+        level.setWalls(walls);
+
+        return level;
+    }
+
+    public boolean validLevel() {
+        return (startHole != null && endHole != null);
+    }
+
+
+    public Hole getStartHole() {
+        return startHole;
+    }
+
+    public void setStartHole(Hole startHole) {
+        startHole.setRadius(currentRadius);
+        this.startHole = startHole;
+    }
+
+    public Hole getEndHole() {
+        return endHole;
+    }
+
+    public void setEndHole(Hole endHole) {
+        endHole.setRadius(currentRadius);
+        this.endHole = endHole;
+    }
+
+    public ArrayList<Hole> getHoles() {
+        return holes;
+    }
+
+    public void setHoles(ArrayList<Hole> holes) {
+        this.holes = holes;
+    }
+
+    public void addHole(Hole hole) {
+        hole.setRadius(currentRadius);
+        this.holes.add(hole);
+    }
+
+    public void removeHole(Hole hole) {
+        this.holes.remove(hole);
+    }
+
+    public void addWall(RectF wall) {
+        this.walls.add(wall);
+    }
+
+    public void removeWall(RectF wall) {
+        this.walls.remove(wall);
+    }
+
+    public ArrayList<RectF> getWalls() {
+        return walls;
+    }
+
+    public void setWalls(ArrayList<RectF> walls) {
+        this.walls = walls;
     }
 }

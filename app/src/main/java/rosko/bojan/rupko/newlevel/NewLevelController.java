@@ -21,20 +21,13 @@ import rosko.bojan.rupko.imageview.MyImageView;
 public class NewLevelController extends Controller implements View.OnTouchListener{
 
     private GestureDetector gestureDetector;
-    private Level level;
 
     private PointF lastLongPress;
-    private NewElementDialog listDialog;
 
     public NewLevelController(Context context, ViewInterface view, MyImageView myImageView) {
         super(context, view, myImageView);
 
-        level = new Level();
-        imageData.setLevel(level);
-
-
         initGestureDetector();
-
 
         myImageView.setOnTouchListener(this);
     }
@@ -75,13 +68,13 @@ public class NewLevelController extends Controller implements View.OnTouchListen
     public void newItem(Hole.Type newItem) {
         switch (newItem) {
             case START:
-                level.setStartHole(new Hole(lastLongPress, Hole.Type.START));
+                imageData.setStartHole(new Hole(lastLongPress, Hole.Type.START));
                 break;
             case HOLE:
-                level.addHole(new Hole(lastLongPress, Hole.Type.HOLE));
+                imageData.addHole(new Hole(lastLongPress, Hole.Type.HOLE));
                 break;
             case END:
-                level.setEndHole(new Hole(lastLongPress, Hole.Type.END));
+                imageData.setEndHole(new Hole(lastLongPress, Hole.Type.END));
                 break;
         }
 

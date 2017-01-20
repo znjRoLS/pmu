@@ -7,7 +7,7 @@ import android.graphics.Color;
  */
 
 public class GameConfiguration {
-    public final static float HOLE_RADIUS_PERCENTAGE = 0.05f;
+    public final static float HOLE_RADIUS_PERCENTAGE = 0.07f;
 
     public final static int START_HOLE_COLOR = Color.GREEN;
     public final static int END_HOLE_COLOR = Color.BLUE;

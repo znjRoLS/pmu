@@ -2,13 +2,15 @@ package rosko.bojan.rupko.newlevel;
 
 import android.graphics.PointF;
 
+import java.io.Serializable;
+
 import rosko.bojan.rupko.GameConfiguration;
 
 /**
  * Created by rols on 1/19/17.
  */
 
-public class Hole {
+public class Hole implements Serializable{
     public enum Type {
         START, HOLE, END
     }

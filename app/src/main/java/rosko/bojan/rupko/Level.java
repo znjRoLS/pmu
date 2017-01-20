@@ -12,10 +12,11 @@ import rosko.bojan.rupko.newlevel.Hole;
  * Created by rols on 1/19/17.
  */
 
+//Note, everything is in percentage!
 public class Level {
-    Hole startHole;
-    Hole endHole;
-    ArrayList<Hole> holes;
+    PointF startHole;
+    PointF endHole;
+    ArrayList<PointF> holes;
     ArrayList<RectF> walls;
 
     public Level() {
@@ -23,35 +24,35 @@ public class Level {
         walls = new ArrayList<>();
     }
 
-    public Hole getStartHole() {
+    public PointF getStartHole() {
         return startHole;
     }
 
-    public void setStartHole(Hole startHole) {
+    public void setStartHole(PointF startHole) {
         this.startHole = startHole;
     }
 
-    public Hole getEndHole() {
+    public PointF getEndHole() {
         return endHole;
     }
 
-    public void setEndHole(Hole endHole) {
+    public void setEndHole(PointF endHole) {
         this.endHole = endHole;
     }
 
-    public ArrayList<Hole> getHoles() {
+    public ArrayList<PointF> getHoles() {
         return holes;
     }
 
-    public void setHoles(ArrayList<Hole> holes) {
+    public void setHoles(ArrayList<PointF> holes) {
         this.holes = holes;
     }
 
-    public void addHole(Hole hole) {
+    public void addHole(PointF hole) {
         this.holes.add(hole);
     }
 
-    public void removeHole(Hole hole) {
+    public void removeHole(PointF hole) {
         this.holes.remove(hole);
     }
 

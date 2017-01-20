@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ImageView;
 
 import rosko.bojan.rupko.GameConfiguration;
@@ -73,16 +74,14 @@ public class MyImageView extends ImageView {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Level level = imageData.getLevel();
-
-        for (Hole hole: level.getHoles()) {
+        for (Hole hole: imageData.getHoles()) {
             drawHole(canvas, hole);
         }
-        if (level.getStartHole() != null) {
-            drawHole(canvas, level.getStartHole());
+        if (imageData.getStartHole() != null) {
+            drawHole(canvas, imageData.getStartHole());
         }
-        if (level.getEndHole() != null) {
-            drawHole(canvas, level.getEndHole());
+        if (imageData.getEndHole() != null) {
+            drawHole(canvas, imageData.getEndHole());
         }
 
     }

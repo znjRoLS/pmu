@@ -2,6 +2,8 @@ package rosko.bojan.rupko.newlevel;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Pair;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ListView;
@@ -28,9 +30,11 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
 
         myImageView = (MyImageView) findViewById(R.id.myImageView);
         imageData = myImageView.getImageData();
+        imageData.setScreenSize(getScreenSize());
 
         controller = new NewLevelController(this, this, myImageView);
     }
+
 
     @Override
     public void updateImageView() {
@@ -45,5 +49,32 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
     @Override
     public void onDialogItemClick(Hole.Type itemType) {
         controller.newItem(itemType);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        super.onSaveInstanceState(savedInstanceState);
+
+        savedInstanceState.putSerializable("data", imageData);
+    }
+
+    @Override
+    public void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        imageData = (ImageData) savedInstanceState.getSerializable("data");
+
+        imageData.setScreenSize(getScreenSize());
+    }
+
+    private Pair<Integer, Integer> getScreenSize() {
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        return new Pair<Integer, Integer>(height, width);
     }
 }
