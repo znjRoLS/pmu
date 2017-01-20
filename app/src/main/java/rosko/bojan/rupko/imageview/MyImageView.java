@@ -2,15 +2,11 @@ package rosko.bojan.rupko.imageview;
 
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
-import rosko.bojan.rupko.GameConfiguration;
-import rosko.bojan.rupko.Level;
-import rosko.bojan.rupko.newlevel.Hole;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
  * Created by rols on 1/15/17.
@@ -30,13 +26,13 @@ public class MyImageView extends ImageView {
         imageData = new ImageData();
 
         holePaint = new Paint();
-        holePaint.setColor(GameConfiguration.HOLE_COLOR);
+        holePaint.setColor(GameConfiguration.currentConfiguration.HOLE_COLOR);
         startHolePaint = new Paint();
-        startHolePaint.setColor(GameConfiguration.START_HOLE_COLOR);
+        startHolePaint.setColor(GameConfiguration.currentConfiguration.START_HOLE_COLOR);
         endHolePaint = new Paint();
-        endHolePaint.setColor(GameConfiguration.END_HOLE_COLOR);
+        endHolePaint.setColor(GameConfiguration.currentConfiguration.END_HOLE_COLOR);
         wallPaint = new Paint();
-        wallPaint.setColor(GameConfiguration.WALL_COLOR);
+        wallPaint.setColor(GameConfiguration.currentConfiguration.WALL_COLOR);
     }
 
     public MyImageView(Context context) {

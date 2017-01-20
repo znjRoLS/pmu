@@ -1,6 +1,5 @@
 package rosko.bojan.rupko.newlevel;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -9,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 
 import rosko.bojan.rupko.R;
+import rosko.bojan.rupko.imageview.Hole;
 
 /**
  * Created by rols on 1/19/17.

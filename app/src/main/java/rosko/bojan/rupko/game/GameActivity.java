@@ -3,6 +3,7 @@ package rosko.bojan.rupko.game;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.R;
 
@@ -19,6 +20,8 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        GameConfiguration.fillCurrentConfiguration(this);
 
         myImageView = (MyImageView) findViewById(R.id.myImageView);
         gameController = new GameController(this, this, myImageView);

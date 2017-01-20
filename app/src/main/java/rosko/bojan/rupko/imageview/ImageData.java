@@ -1,6 +1,5 @@
 package rosko.bojan.rupko.imageview;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 import android.util.Log;
@@ -9,12 +8,8 @@ import android.util.Pair;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-import rosko.bojan.rupko.GameConfiguration;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.Level;
-import rosko.bojan.rupko.newlevel.Hole;
-
-import static android.R.attr.fastScrollPreviewBackgroundRight;
-import static android.R.attr.screenSize;
 
 /**
  * Created by rols on 1/15/17.
@@ -70,7 +65,7 @@ public class ImageData implements Serializable{
 
         int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
 
-        currentRadius = GameConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
+        currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
 
         Log.d("screensize", currentRadius + "");
 

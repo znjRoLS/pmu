@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Rupko</string>
+    <string name="app_prefix">rosko.bojan.rupko.</string>
+
+    <string name="preference_file_key">GLOBAL_PREFERENCES</string>
+    <string name="preference_ball_traction">BALL_TRACTION</string>
+    <string name="preference_ball_bounce">BALL_BOUNCE</string>
 </resources>

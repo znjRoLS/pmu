@@ -1,12 +1,9 @@
 package rosko.bojan.rupko;
 
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
 import java.util.ArrayList;
-
-import rosko.bojan.rupko.newlevel.Hole;
 
 /**
  * Created by rols on 1/19/17.

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="Ball behavior "
+        android:key="pref_key_storage_settings">
+        <CheckBoxPreference
+            android:key="@string/preference_ball_bounce"
+            android:title="Ball bounce"
+            android:summary="Change Ball bounce ratio"
+            android:defaultValue="true" />
+        <!--<ListPreference-->
+            <!--android:depende
+            ncy="pref_sync"-->
+            <!--android:key="pref_syncConnectionType"-->
+            <!--android:title="@string/pref_syncConnectionType"-->
+            <!--android:dialogTitle="opalaaa"-->
+            <!--android:entries="@array/pref_syncConnectionTypes_entries"-->
+            <!--android:entryValues="@array/pref_syncConnectionTypes_values"-->
+            <!--android:defaultValue="@string/pref_syncConnectionTypes_default" />-->
+    </PreferenceCategory>
+</PreferenceScreen>

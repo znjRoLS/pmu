@@ -10,8 +10,8 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import rosko.bojan.rupko.Controller;
-import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
+import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.MyImageView;
 
 /**

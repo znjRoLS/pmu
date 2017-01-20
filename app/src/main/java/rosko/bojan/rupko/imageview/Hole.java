@@ -1,10 +1,8 @@
-package rosko.bojan.rupko.newlevel;
+package rosko.bojan.rupko.imageview;
 
 import android.graphics.PointF;
 
 import java.io.Serializable;
-
-import rosko.bojan.rupko.GameConfiguration;
 
 /**
  * Created by rols on 1/19/17.

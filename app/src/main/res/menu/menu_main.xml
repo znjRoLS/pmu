@@ -3,13 +3,13 @@
     <item android:id="@+id/new_level_menu_item"
         android:icon="@android:drawable/ic_menu_add"
         android:title="Create a level"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="always"/>
     <item android:id="@+id/show_statistics_menu_item"
         android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="Show statistics"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="always"/>
     <item android:id="@+id/show_preferences_menu_item"
         android:icon="@android:drawable/ic_menu_preferences"
         android:title="Preferences"
-        android:showAsAction="ifRoom"/>
+        android:showAsAction="always"/>
 </menu>

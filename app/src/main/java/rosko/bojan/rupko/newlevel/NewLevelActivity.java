@@ -4,12 +4,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Pair;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.ListView;
 
 import rosko.bojan.rupko.Controller;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.R;
+import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
 
@@ -27,6 +26,8 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_level);
+
+        GameConfiguration.fillCurrentConfiguration(this);
 
         myImageView = (MyImageView) findViewById(R.id.myImageView);
         imageData = myImageView.getImageData();
@@ -55,6 +56,7 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
+        //TODO: proper serialization
         savedInstanceState.putSerializable("data", imageData);
     }
 
@@ -68,6 +70,8 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
     }
 
     private Pair<Integer, Integer> getScreenSize() {
+
+        //TODO: imageview size, not screen size
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager()
                 .getDefaultDisplay()
