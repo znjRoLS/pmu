@@ -39,17 +39,12 @@ public class Hole implements Serializable{
         PointF bottomLeft = new PointF(rectangle.left, rectangle.bottom);
         PointF bottomRight = new PointF(rectangle.right, rectangle.bottom);
 
-        if (
+        return (
                 dist(topLeft, center) <= radius ||
                 dist(topRight, center) <= radius ||
                 dist(bottomLeft, center) <= radius ||
                 dist(bottomRight, center) <= radius
-        ) {
-            return true;
-        }
-
-
-
+        );
     }
 
     private float dist(PointF point1, PointF point2) {

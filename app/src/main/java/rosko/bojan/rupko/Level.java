@@ -3,6 +3,7 @@ package rosko.bojan.rupko;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 /**
@@ -10,7 +11,7 @@ import java.util.ArrayList;
  */
 
 //Note, everything is in percentage!
-public class Level {
+public class Level implements Serializable{
     PointF startHole;
     PointF endHole;
     ArrayList<PointF> holes;

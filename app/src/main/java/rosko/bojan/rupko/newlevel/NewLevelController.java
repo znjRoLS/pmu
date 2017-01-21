@@ -10,9 +10,15 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.HashMap;
 
 import rosko.bojan.rupko.Controller;
+import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.MyImageView;
@@ -68,7 +74,9 @@ public class NewLevelController extends Controller implements View.OnTouchListen
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
                 Log.d("ontouch", "asction up");
-                newLevelImageData.finishDraggable(motionEvent.getActionIndex());
+                if (!newLevelImageData.finishDraggable(motionEvent.getActionIndex())) {
+                    Logger.throwError(context, "New wall collides!");
+                }
                 break;
             case MotionEvent.ACTION_MOVE:
                 Log.d("ontouch", "asction move");
@@ -107,5 +115,38 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         }
 
         view.updateImageView();
+    }
+
+    public boolean saveLevel(String filename) {
+        Level level = newLevelImageData.getLevel();
+        if (level == null) {
+            Logger.throwError(context, "Level not valid!");
+            return false;
+        }
+
+        File internalDir = context.getFilesDir();
+
+        File file = new File(internalDir, filename);
+        boolean fileExisted = file.exists();
+
+        try {
+            FileOutputStream outputStream = new FileOutputStream(file);
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
+            objectOutputStream.writeObject(level);
+            objectOutputStream.close();
+            outputStream.close();
+        } catch (IOException e) {
+            Logger.throwError(context, "Problem with output stream!");
+            e.printStackTrace();
+        }
+
+        if (fileExisted) {
+            Logger.throwError(context, "Successfully overwritten existing level");
+        }
+        else {
+            Logger.throwError(context, "Successfully saved level!");
+        }
+
+        return true;
     }
 }

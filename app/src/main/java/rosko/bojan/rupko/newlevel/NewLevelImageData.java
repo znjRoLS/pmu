@@ -13,8 +13,11 @@ import rosko.bojan.rupko.imageview.ImageData;
 
 public class NewLevelImageData extends ImageData {
 
+    //TODO: refactor
     private PointF dragPoints[];
     private PointF dragPointsEnd[];
+
+    //TODO: small rectangles
     //private HashMap<Integer, PointF> dragPoints;
 
     public NewLevelImageData() {
@@ -66,7 +69,7 @@ public class NewLevelImageData extends ImageData {
         dragPointsEnd[index] = new PointF(x,y);
     }
 
-    public void finishDraggable(int index) {
+    public boolean finishDraggable(int index) {
         PointF startPoint = dragPoints[index];
         PointF endPoint = dragPointsEnd[index];
 
@@ -79,6 +82,24 @@ public class NewLevelImageData extends ImageData {
 
         dragPoints[index] = null;
         dragPointsEnd[index] = null;
+
+        if (startHole != null){
+            if (startHole.collides(wall)) return false;
+        }
+        if (endHole != null) {
+            if (endHole.collides(wall)) return false;
+        }
+        for (Hole hole : holes) {
+            if (hole.collides(wall)) return false;
+        }
+        for (RectF existingWall : walls) {
+            if (wall.intersect(existingWall)) {
+                return false;
+            }
+        }
+
+        walls.add(wall);
+        return true;
     }
 
     public void updateDraggable(int index, float x, float y) {

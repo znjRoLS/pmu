@@ -54,6 +54,12 @@ public class ImageData implements Serializable{
             return true;
         }
 
+        for (RectF wall : walls) {
+            if (newHole.collides(wall)) {
+                return true;
+            }
+        }
+
         return false;
     }
 

@@ -16,7 +16,11 @@ import rosko.bojan.rupko.imageview.MyImageView;
  * Created by rols on 1/19/17.
  */
 
-public class NewLevelActivity extends AppCompatActivity implements Controller.ViewInterface, NewElementDialog.ListDialogListener {
+public class NewLevelActivity extends AppCompatActivity implements
+        Controller.ViewInterface,
+        NewElementDialog.ListDialogListener,
+        SaveDialog.DialogActionListener
+{
 
     NewLevelController controller;
     NewLevelImageView myImageView;
@@ -80,5 +84,12 @@ public class NewLevelActivity extends AppCompatActivity implements Controller.Vi
         int width = displayMetrics.widthPixels;
 
         return new Pair<Integer, Integer>(height, width);
+    }
+
+    @Override
+    public void onDialogPositiveAction(String name) {
+        if (controller.saveLevel(name)) {
+            finish();
+        }
     }
 }
