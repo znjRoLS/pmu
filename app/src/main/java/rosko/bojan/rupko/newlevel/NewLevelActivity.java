@@ -5,12 +5,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Pair;
 
-import rosko.bojan.rupko.Controller;
+import rosko.bojan.rupko.imageview.Controller;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
-import rosko.bojan.rupko.imageview.MyImageView;
 
 /**
  * Created by rols on 1/19/17.

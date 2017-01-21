@@ -3,7 +3,6 @@ package rosko.bojan.rupko.newlevel;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -11,17 +10,16 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.util.HashMap;
 
-import rosko.bojan.rupko.Controller;
+import rosko.bojan.rupko.imageview.Controller;
 import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.MyImageView;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
  * Created by rols on 1/19/17.
@@ -124,9 +122,13 @@ public class NewLevelController extends Controller implements View.OnTouchListen
             return false;
         }
 
+        level.setName(filename);
+
+        String levelSuffix = GameConfiguration.currentConfiguration.LEVEL_SUFIX;
+
         File internalDir = context.getFilesDir();
 
-        File file = new File(internalDir, filename);
+        File file = new File(internalDir, filename + levelSuffix);
         boolean fileExisted = file.exists();
 
         try {

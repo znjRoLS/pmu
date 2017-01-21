@@ -17,9 +17,19 @@ public class Level implements Serializable{
     ArrayList<PointF> holes;
     ArrayList<RectF> walls;
 
+    String name;
+
     public Level() {
         holes = new ArrayList<>();
         walls = new ArrayList<>();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public PointF getStartHole() {

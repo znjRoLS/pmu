@@ -1,4 +1,4 @@
-package rosko.bojan.rupko;
+package rosko.bojan.rupko.imageview;
 
 import android.content.Context;
 

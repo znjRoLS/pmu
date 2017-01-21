@@ -25,6 +25,8 @@ public class GameConfiguration implements Cloneable{
     public float BALL_TRACTION;
     public float BALL_BOUNCE;
 
+    public String LEVEL_SUFIX;
+
     public final static GameConfiguration defaultConfiguration;
     public static GameConfiguration currentConfiguration;
 
@@ -40,6 +42,8 @@ public class GameConfiguration implements Cloneable{
 
         defaultConfiguration.BALL_BOUNCE = 0.7f;
         defaultConfiguration.BALL_TRACTION = 0.07f;
+
+        defaultConfiguration.LEVEL_SUFIX = ".level";
 
         copyDefaultPreferences();
     }
