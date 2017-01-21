@@ -31,6 +31,7 @@ public class GameController implements SensorEventListener {
     final float MAGNITUDE = 5.0f;
 
     StatsDbHelper dbHelper;
+    String levelName;
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -48,10 +49,11 @@ public class GameController implements SensorEventListener {
 
     protected ViewInterface view;
 
-    public GameController(Context context, ViewInterface view, MyImageView myImageView) {
+    public GameController(Context context, ViewInterface view, MyImageView myImageView, String levelName) {
         this.view = view;
         this.myImageView = myImageView;
         this.context = context;
+        this.levelName = levelName;
 
         imageData = myImageView.getImageData();
 
@@ -104,7 +106,7 @@ public class GameController implements SensorEventListener {
         // Gets the data repository in write mode
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
-
+        dbHelper.insertNewStat(levelName, username, time);
     }
 
 }

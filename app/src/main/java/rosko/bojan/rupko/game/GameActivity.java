@@ -18,18 +18,21 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
     GameController gameController;
     MyImageView myImageView;
 
+    String levelName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Intent intent = getIntent();
+        levelName = intent.getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
+
         GameConfiguration.fillCurrentConfiguration(this);
 
         myImageView = (MyImageView) findViewById(R.id.myImageView);
-        gameController = new GameController(this, this, myImageView);
+        gameController = new GameController(this, this, myImageView, levelName);
 
-        Intent intent = getIntent();
-        String level = intent.getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
     }
 
 

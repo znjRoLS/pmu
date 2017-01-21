@@ -1,6 +1,9 @@
 package rosko.bojan.rupko.main;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,15 +28,18 @@ import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.game.GameActivity;
+import rosko.bojan.rupko.newlevel.NewElementDialog;
 import rosko.bojan.rupko.newlevel.NewLevelActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.preferences.PreferencesActivity;
+import rosko.bojan.rupko.statistics.StatsDbHelper;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements LevelEditDialog.ListDialogListener {
 
     ListView levelsListView;
 
     public final static String INTENT_LEVEL_EXTRA_NAME = "rosko.bojan.rupko.LEVEL_EXTRA";
+    public final static String DIALOG_BUNDLE_LEVEL_NAME = "rosko.bojan.rupko.LEVEL_DIALOG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +58,7 @@ public class MainActivity extends AppCompatActivity {
         File internalDir = getFilesDir();
 
         String levelRegex = ".*" + GameConfiguration.currentConfiguration.LEVEL_SUFIX.replace(".", "\\.");
-
         final Pattern levelPattern = Pattern.compile(levelRegex);
-
         File[] levelList = internalDir.listFiles(new FileFilter() {
             @Override
             public boolean accept(File file) {
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
 
         LevelListAdapter adapter = new LevelListAdapter(this, R.layout.row_level, levels);
         levelsListView.setAdapter(adapter);
-
         levelsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -77,12 +80,11 @@ public class MainActivity extends AppCompatActivity {
                 startNewGameActivity(textView.getText().toString());
             }
         });
-
         levelsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
+                TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
+                openEditLevelDialog(textView.getText().toString());
 
 //                return false;
                 return true;
@@ -159,5 +161,37 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
         startActivity(intent);
+    }
+
+    private void openEditLevelDialog(String level) {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new LevelEditDialog();
+        Bundle bundle = new Bundle();
+        bundle.putString(DIALOG_BUNDLE_LEVEL_NAME,level);
+        dialog.setArguments(bundle);
+        dialog.show(getFragmentManager(), "LevelEditDialog");
+    }
+
+    @Override
+    public void onDialogEditClick(String levelName) {
+        Intent intent = new Intent(this, NewLevelActivity.class);
+        intent.putExtra(INTENT_LEVEL_EXTRA_NAME, levelName);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDialogDeleteClick(String levelName) {
+
+        //delete stats from database
+        StatsDbHelper dbHelper = new StatsDbHelper(this);
+        dbHelper.dropLevelStats(levelName);
+
+        //delete level file
+        File dir = getFilesDir();
+        File file = new File(dir, levelName + GameConfiguration.currentConfiguration.LEVEL_SUFIX);
+        boolean deleted = file.delete();
+
+        //update list view
+        inflateLevels();
     }
 }

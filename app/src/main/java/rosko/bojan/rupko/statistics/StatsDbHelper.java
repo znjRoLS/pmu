@@ -55,8 +55,11 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         onCreate(sqLiteDatabase);
     }
 
-    public static void insertNewStat(SQLiteDatabase sqLiteDatabase, String level, String username, Time time) {
+    public void insertNewStat(String level, String username, Time time) {
         // Create a new map of values, where column names are the keys
+
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
+
         ContentValues values = new ContentValues();
         values.put(StatsEntry.COLUMN_NAME_LEVEL, level);
         values.put(StatsEntry.COLUMN_NAME_USERNAME, username);
@@ -66,7 +69,8 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         long newRowId = sqLiteDatabase.insert(StatsEntry.TABLE_NAME, null, values);
     }
 
-    public static Cursor getOrderedStatsForLevel(SQLiteDatabase sqLiteDatabase, String level) {
+    public Cursor getOrderedStatsForLevel(String level) {
+        SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         // Define a projection that specifies which columns from the database
         // you will actually use after this query.
         String[] projection = {
@@ -97,13 +101,15 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         return cursor;
     }
 
-    public static void dropLevelStats(SQLiteDatabase sqLiteDatabase, String level) {
+    public void dropLevelStats(String level) {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         String command = "DELETE FROM " + StatsEntry.TABLE_NAME +
                 " WHERE LEVEL = " + level + ";";
         sqLiteDatabase.execSQL(command);
     }
 
-    public static void dropAllStats(SQLiteDatabase sqLiteDatabase) {
+    public void dropAllStats() {
+        SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         sqLiteDatabase.execSQL(SQL_DELETE_ENTRIES);
         sqLiteDatabase.execSQL(SQL_CREATE_ENTRIES);
     }
