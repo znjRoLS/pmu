@@ -19,6 +19,7 @@ public class GameConfiguration implements Cloneable{
     public int HOLE_COLOR;
     public int WALL_COLOR;
     public int DRAGGABLE_COLOR;
+    public int BALL_COLOR;
 
     public float HOLE_RADIUS_PERCENTAGE;
 
@@ -41,6 +42,7 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration.END_HOLE_COLOR = Color.DKGRAY;
         defaultConfiguration.WALL_COLOR = Color.parseColor("#8B4513");
         defaultConfiguration.DRAGGABLE_COLOR = Color.parseColor("#998B4513");
+        defaultConfiguration.BALL_COLOR = Color.GRAY;
 
         defaultConfiguration.BALL_BOUNCE = 0.7f;
         defaultConfiguration.BALL_TRACTION = 0.07f;

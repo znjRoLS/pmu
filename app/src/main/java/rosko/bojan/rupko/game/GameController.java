@@ -13,6 +13,7 @@ import java.sql.Time;
 
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
+import rosko.bojan.rupko.newlevel.NewLevelImageData;
 import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 /**
@@ -32,6 +33,9 @@ public class GameController implements SensorEventListener {
 
     StatsDbHelper dbHelper;
     String levelName;
+
+    private GameImageData gameImageData;
+
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -56,6 +60,8 @@ public class GameController implements SensorEventListener {
         this.levelName = levelName;
 
         imageData = myImageView.getImageData();
+
+        gameImageData = (GameImageData) imageData;
 
         setupGameVectorSensor();
 
@@ -84,7 +90,7 @@ public class GameController implements SensorEventListener {
         double xTheta = Math.atan2(dx, dz);
         double yTheta = Math.atan2(dy, dz);
 
-//        imageData.incCircle((float)xTheta * MAGNITUDE, (float)yTheta * MAGNITUDE);
+        gameImageData.moveBall((float)xTheta * MAGNITUDE, (float)yTheta * MAGNITUDE);
         myImageView.invalidate();
         view.updateView();
     }
