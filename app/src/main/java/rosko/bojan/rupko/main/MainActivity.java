@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,6 +24,7 @@ import java.util.regex.Pattern;
 import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
+import rosko.bojan.rupko.game.GameActivity;
 import rosko.bojan.rupko.newlevel.NewLevelActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.preferences.PreferencesActivity;
@@ -28,6 +32,8 @@ import rosko.bojan.rupko.preferences.PreferencesActivity;
 public class MainActivity extends AppCompatActivity {
 
     ListView levelsListView;
+
+    public final static String INTENT_LEVEL_EXTRA_NAME = "rosko.bojan.rupko.LEVEL_EXTRA";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +70,24 @@ public class MainActivity extends AppCompatActivity {
         LevelListAdapter adapter = new LevelListAdapter(this, R.layout.row_level, levels);
         levelsListView.setAdapter(adapter);
 
+        levelsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
+                startNewGameActivity(textView.getText().toString());
+            }
+        });
+
+        levelsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+
+//                return false;
+                return true;
+            }
+        });
     }
 
     //TODO: somewhere else?
@@ -122,12 +146,18 @@ public class MainActivity extends AppCompatActivity {
 
     private void startStatisticsActivity() {
         Logger.throwError(this, "Not implemented yet!");
-//        Intent intent = new Intent(this, StatisticsActivity.class);
+//        Intent intent = new Intent(this, StatsActivity.class);
 //        startActivity(intent);
     }
 
     private void startPreferencesActivity() {
         Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    private void startNewGameActivity(String level) {
+        Intent intent = new Intent(this, GameActivity.class);
+        intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
         startActivity(intent);
     }
 }

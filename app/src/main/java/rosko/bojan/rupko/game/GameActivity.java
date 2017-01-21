@@ -1,8 +1,10 @@
 package rosko.bojan.rupko.game;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import rosko.bojan.rupko.main.MainActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.R;
@@ -25,6 +27,9 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
         myImageView = (MyImageView) findViewById(R.id.myImageView);
         gameController = new GameController(this, this, myImageView);
+
+        Intent intent = getIntent();
+        String level = intent.getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
     }
 
 

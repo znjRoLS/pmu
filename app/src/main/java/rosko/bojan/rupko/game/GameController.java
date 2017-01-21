@@ -1,13 +1,19 @@
 package rosko.bojan.rupko.game;
 
+import android.content.ContentValues;
 import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 
+import java.sql.Date;
+import java.sql.Time;
+
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
+import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 /**
  * Created by rols on 1/12/17.
@@ -23,6 +29,8 @@ public class GameController implements SensorEventListener {
     ImageData imageData;
     MyImageView myImageView;
     final float MAGNITUDE = 5.0f;
+
+    StatsDbHelper dbHelper;
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -48,6 +56,8 @@ public class GameController implements SensorEventListener {
         imageData = myImageView.getImageData();
 
         setupGameVectorSensor();
+
+        dbHelper = new StatsDbHelper(context);
     }
 
     private void setupGameVectorSensor() {
@@ -84,6 +94,17 @@ public class GameController implements SensorEventListener {
 
     public void onPause() {
         sensorManager.unregisterListener(this);
+    }
+
+    public void gameEnd() {
+
+    }
+
+    public void writeScore(String username, Time time) {
+        // Gets the data repository in write mode
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+
     }
 
 }

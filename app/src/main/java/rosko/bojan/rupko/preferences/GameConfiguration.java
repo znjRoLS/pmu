@@ -30,6 +30,8 @@ public class GameConfiguration implements Cloneable{
     public final static GameConfiguration defaultConfiguration;
     public static GameConfiguration currentConfiguration;
 
+    private GameConfiguration(){};
+
     static {
         defaultConfiguration = new GameConfiguration();
 
