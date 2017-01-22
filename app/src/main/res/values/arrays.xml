@@ -7,7 +7,7 @@
     </string-array>
     <string-array name="edit_remove_dialog_items">
         <item>Edit</item>
-        <itme>Delete</itme>
+        <item>Delete</item>
     </string-array>
     <string-array name="ball_bounce_values">
         <item>0.2</item>

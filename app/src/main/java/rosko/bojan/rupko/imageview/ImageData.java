@@ -36,7 +36,7 @@ public class ImageData implements Serializable{
     }
 
 
-    public boolean checkCollisions(PointF newHoleCenter) {
+    public boolean checkCollisions(MyPointF newHoleCenter) {
 
         Hole newHole = new Hole(newHoleCenter, Hole.Type.HOLE);
         newHole.setRadius(currentRadius);

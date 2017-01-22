@@ -19,6 +19,7 @@ import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.MyImageView;
+import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
@@ -29,7 +30,7 @@ public class NewLevelController extends Controller implements View.OnTouchListen
 
     private GestureDetector gestureDetector;
 
-    private PointF lastLongPress;
+    private MyPointF lastLongPress;
 
     private NewLevelImageData newLevelImageData;
 
@@ -48,7 +49,7 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-                lastLongPress = new PointF(motionEvent.getX(), motionEvent.getY());
+                lastLongPress = new MyPointF(motionEvent.getX(), motionEvent.getY());
                 openSpawnDialogue();
             }
         });
@@ -58,26 +59,26 @@ public class NewLevelController extends Controller implements View.OnTouchListen
     public boolean onTouch(View view, MotionEvent motionEvent) {
         gestureDetector.onTouchEvent(motionEvent);
 
-        Log.d("ontouch", "view " + view.getId() + " with height " + view.getHeight());
-        Log.d("ontouch", "motionEventtype " + motionEvent.getAction());
-        Log.d("ontouch", "motion index " + motionEvent.getActionIndex());
+//        Log.d("ontouch", "view " + view.getId() + " with height " + view.getHeight());
+//        Log.d("ontouch", "motionEventtype " + motionEvent.getAction());
+//        Log.d("ontouch", "motion index " + motionEvent.getActionIndex());
 
         //TODO: fix multiple touches
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-                Log.d("ontouch", "asction down");
+//                Log.d("ontouch", "asction down");
                 newLevelImageData.addDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-                Log.d("ontouch", "asction up");
+//                Log.d("ontouch", "asction up");
                 if (!newLevelImageData.finishDraggable(motionEvent.getActionIndex())) {
                     Logger.throwError(context, "New wall collides!");
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-                Log.d("ontouch", "asction move");
+//                Log.d("ontouch", "asction move");
                 newLevelImageData.updateDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
                 break;
         }
@@ -129,6 +130,7 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         File internalDir = context.getFilesDir();
 
         File file = new File(internalDir, filename + levelSuffix);
+
         boolean fileExisted = file.exists();
 
         try {

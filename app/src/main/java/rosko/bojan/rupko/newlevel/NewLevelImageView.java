@@ -8,6 +8,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 
 import rosko.bojan.rupko.imageview.MyImageView;
+import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
@@ -50,7 +51,7 @@ public class NewLevelImageView extends MyImageView {
         MyNewLevelConstructior();
     }
 
-    private void drawWall(Canvas canvas, PointF startPoint, PointF endPoint, Paint paint) {
+    private void drawWall(Canvas canvas, MyPointF startPoint, MyPointF endPoint, Paint paint) {
         float left = startPoint.x < endPoint.x ? startPoint.x : endPoint.x;
         float right = startPoint.x < endPoint.x ? endPoint.x : startPoint.x;
         float top = startPoint.y < endPoint.y ? startPoint.y : endPoint.y;
@@ -63,8 +64,8 @@ public class NewLevelImageView extends MyImageView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        PointF[] draggablesStart = newLevelImageData.getDraggables();
-        PointF[] draggablesEnd = newLevelImageData.getDraggablesEnd();
+        MyPointF[] draggablesStart = newLevelImageData.getDraggables();
+        MyPointF[] draggablesEnd = newLevelImageData.getDraggablesEnd();
         //TODO: hardcoded
         for (int i = 0; i < 20; i ++) {
             if (draggablesStart[i] != null) {

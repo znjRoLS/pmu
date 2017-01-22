@@ -1,9 +1,14 @@
 package rosko.bojan.rupko.newlevel;
 
+import android.app.Activity;
+import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Pair;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import rosko.bojan.rupko.imageview.Controller;
 import rosko.bojan.rupko.preferences.GameConfiguration;
@@ -39,6 +44,30 @@ public class NewLevelActivity extends AppCompatActivity implements
         controller = new NewLevelController(this, this, myImageView);
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_newlevel, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.save_newlevel_menu_item:
+                openSaveDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void openSaveDialog() {
+        // Create an instance of the dialog fragment and show it
+        DialogFragment dialog = new SaveDialog();
+        dialog.show(getFragmentManager(), "SaveDialog");
+    }
 
     @Override
     public void updateImageView() {

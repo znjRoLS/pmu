@@ -6,15 +6,17 @@ import android.graphics.RectF;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import rosko.bojan.rupko.imageview.MyPointF;
+
 /**
  * Created by rols on 1/19/17.
  */
 
 //Note, everything is in percentage!
 public class Level implements Serializable{
-    PointF startHole;
-    PointF endHole;
-    ArrayList<PointF> holes;
+    MyPointF startHole;
+    MyPointF endHole;
+    ArrayList<MyPointF> holes;
     ArrayList<RectF> walls;
 
     String name;
@@ -32,35 +34,35 @@ public class Level implements Serializable{
         this.name = name;
     }
 
-    public PointF getStartHole() {
+    public MyPointF getStartHole() {
         return startHole;
     }
 
-    public void setStartHole(PointF startHole) {
+    public void setStartHole(MyPointF startHole) {
         this.startHole = startHole;
     }
 
-    public PointF getEndHole() {
+    public MyPointF getEndHole() {
         return endHole;
     }
 
-    public void setEndHole(PointF endHole) {
+    public void setEndHole(MyPointF endHole) {
         this.endHole = endHole;
     }
 
-    public ArrayList<PointF> getHoles() {
+    public ArrayList<MyPointF> getHoles() {
         return holes;
     }
 
-    public void setHoles(ArrayList<PointF> holes) {
+    public void setHoles(ArrayList<MyPointF> holes) {
         this.holes = holes;
     }
 
-    public void addHole(PointF hole) {
+    public void addHole(MyPointF hole) {
         this.holes.add(hole);
     }
 
-    public void removeHole(PointF hole) {
+    public void removeHole(MyPointF hole) {
         this.holes.remove(hole);
     }
 

@@ -14,7 +14,7 @@ public class Hole implements Serializable{
         START, HOLE, END
     }
 
-    PointF center;
+    MyPointF center;
     float radius;
     Type type;
 
@@ -34,10 +34,10 @@ public class Hole implements Serializable{
             return false;
         }
 
-        PointF topLeft = new PointF(rectangle.left, rectangle.top);
-        PointF topRight = new PointF(rectangle.right, rectangle.top);
-        PointF bottomLeft = new PointF(rectangle.left, rectangle.bottom);
-        PointF bottomRight = new PointF(rectangle.right, rectangle.bottom);
+        MyPointF topLeft = new MyPointF(rectangle.left, rectangle.top);
+        MyPointF topRight = new MyPointF(rectangle.right, rectangle.top);
+        MyPointF bottomLeft = new MyPointF(rectangle.left, rectangle.bottom);
+        MyPointF bottomRight = new MyPointF(rectangle.right, rectangle.bottom);
 
         return (
                 dist(topLeft, center) <= radius ||
@@ -47,11 +47,11 @@ public class Hole implements Serializable{
         );
     }
 
-    private float dist(PointF point1, PointF point2) {
+    private float dist(MyPointF point1, MyPointF point2) {
         return (float)Math.sqrt(Math.pow(point1.x - point2.x, 2) + Math.pow(point1.y - point2.y, 2));
     }
 
-    public Hole(PointF center, Type type) {
+    public Hole(MyPointF center, Type type) {
         this.center = center;
         this.type = type;
 
@@ -67,11 +67,11 @@ public class Hole implements Serializable{
         this.type = type;
     }
 
-    public PointF getCenter() {
+    public MyPointF getCenter() {
         return center;
     }
 
-    public void setCenter(PointF center) {
+    public void setCenter(MyPointF center) {
         this.center = center;
     }
 
