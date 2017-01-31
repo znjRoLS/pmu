@@ -15,6 +15,9 @@ import rosko.bojan.rupko.imageview.MyRectF;
 
 //Note, everything is in percentage!
 public class Level implements Serializable{
+
+    private static final long serialVersionUID = 5555555L;
+
     MyPointF startHole;
     MyPointF endHole;
     ArrayList<MyPointF> holes;

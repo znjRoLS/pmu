@@ -70,6 +70,10 @@ public class ImageData implements Serializable{
         screenHeight = size.first;
         screenWidth = size.second;
 
+
+    }
+
+    public void updateRadius(){
         int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
 
         currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
@@ -84,12 +88,55 @@ public class ImageData implements Serializable{
             hole.setRadius(currentRadius);
     }
 
+    public void loadLevel(Level level) {
 
-//    public void loadLevel(Level level) {
-//
-//    }
-//
+        MyPointF normalizedStartHole = level.getStartHole();
 
+        startHole = new Hole(
+                new MyPointF(
+                    normalizedStartHole.x * screenWidth,
+                    normalizedStartHole.y * screenHeight
+                ),
+                Hole.Type.START
+        );
+
+        MyPointF normalizedEndHole = level.getEndHole();
+
+        endHole = new Hole(
+                new MyPointF(
+                        normalizedEndHole.x * screenWidth,
+                        normalizedEndHole.y * screenHeight
+                ),
+                Hole.Type.END
+        );
+
+        for (MyPointF levelHole : level.getHoles()) {
+
+            Hole hole = new Hole(
+                    new MyPointF(
+                            levelHole.x * screenWidth,
+                            levelHole.y * screenHeight
+                    ),
+                    Hole.Type.HOLE
+            );
+
+            holes.add(hole);
+        }
+
+        for (MyRectF levelWall : level.getWalls()) {
+            MyRectF wall = new MyRectF(
+                    levelWall.left * screenWidth,
+                    levelWall.top * screenHeight,
+                    levelWall.right * screenWidth,
+                    levelWall.bottom * screenHeight
+            );
+
+            Log.d("wall", "one wall " + wall.left + " " + wall.top);
+            Log.d("wall", "two wall " + levelWall.left + " " + levelWall.top);
+
+            walls.add(wall);
+        }
+    }
 
     public Hole getStartHole() {
         return startHole;

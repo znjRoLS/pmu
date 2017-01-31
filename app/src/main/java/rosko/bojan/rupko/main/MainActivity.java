@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
+                //TODO: omg, please dont mess up with textviews
                 startNewGameActivity(textView.getText().toString());
             }
         });

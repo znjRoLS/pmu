@@ -99,6 +99,9 @@ public class MyImageView extends ImageView {
             drawHole(canvas, imageData.getEndHole());
         }
 
+        for (MyRectF wall : imageData.getWalls()) {
+            canvas.drawRect(wall.left, wall.top, wall.right, wall.bottom, wallPaint);
+        }
 
     }
 

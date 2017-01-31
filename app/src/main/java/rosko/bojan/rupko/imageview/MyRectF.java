@@ -8,15 +8,31 @@ import java.io.Serializable;
  * Created by rols on 31.1.17..
  */
 
-public class MyRectF extends RectF implements Serializable {
+public class MyRectF implements Serializable {
 
+    private static final long serialVersionUID = 55555L;
+
+    public float left, top, right, bottom;
 
     public MyRectF(float left, float top, float right, float bottom) {
-        super(left,top,right,bottom);
+        this.bottom = bottom;
+        this.left = left;
+        this.top = top;
+        this.right = right;
     }
 
     public MyRectF() {
-        super();
+        bottom = left = top = right = 0;
+    }
+
+    public boolean intersect(MyRectF other) {
+        float interLeft = Math.max(left, other.left);
+        float interRight = Math.min(right, other.right);
+        float interTop = Math.max(top, other.top);
+        float interBottom = Math.min(bottom, other.bottom);
+
+        return (interLeft <= interRight && interTop <= interBottom);
+
     }
 
 }

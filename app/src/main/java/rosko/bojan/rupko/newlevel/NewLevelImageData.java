@@ -2,6 +2,7 @@ package rosko.bojan.rupko.newlevel;
 
 import android.graphics.PointF;
 import android.graphics.RectF;
+import android.util.Log;
 
 import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.imageview.Hole;
@@ -57,7 +58,18 @@ public class NewLevelImageData extends ImageData {
             );
             level.addHole(normalizedHole);
         }
-        level.setWalls(walls);
+
+        for (MyRectF wall : walls) {
+            MyRectF normalizedWall = new MyRectF(
+                    wall.left / screenWidth,
+                    wall.top / screenHeight,
+                    wall.right / screenWidth,
+                    wall.bottom / screenHeight
+            );
+            Log.d("wall", "one wall " + wall.left + " " + wall.top);
+            Log.d("wall", "two wall " + normalizedWall.left + " " + normalizedWall.top);
+            level.addWall(normalizedWall);
+        }
 
         return level;
     }

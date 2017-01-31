@@ -40,6 +40,7 @@ public class NewLevelActivity extends AppCompatActivity implements
         myImageView = (NewLevelImageView) findViewById(R.id.myImageView);
         imageData = myImageView.getImageData();
         imageData.setScreenSize(getScreenSize());
+        imageData.updateRadius();
 
         controller = new NewLevelController(this, this, myImageView);
     }
@@ -99,8 +100,10 @@ public class NewLevelActivity extends AppCompatActivity implements
         imageData = (ImageData) savedInstanceState.getSerializable("data");
 
         imageData.setScreenSize(getScreenSize());
+        imageData.updateRadius();
     }
 
+    //TODO : refactor
     private Pair<Integer, Integer> getScreenSize() {
 
         //TODO: imageview size, not screen size

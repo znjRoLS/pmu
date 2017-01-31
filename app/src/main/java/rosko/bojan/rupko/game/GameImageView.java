@@ -53,7 +53,7 @@ public class GameImageView extends MyImageView {
     public void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        Hole ball = gameImageData.getBall();
+        Ball ball = gameImageData.getBall();
 
         canvas.drawCircle(ball.getCenter().x, ball.getCenter().y, ball.getRadius(), ballPaint);
     }

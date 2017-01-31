@@ -8,6 +8,8 @@ import java.io.Serializable;
 
 public class MyPointF implements Serializable {
 
+    private static final long serialVersionUID = 555555L;
+
     public float x;
     public float y;
 

@@ -3,6 +3,8 @@ package rosko.bojan.rupko.game;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.util.Pair;
 
 import rosko.bojan.rupko.main.MainActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
@@ -16,23 +18,29 @@ import rosko.bojan.rupko.R;
 public class GameActivity extends AppCompatActivity implements GameController.ViewInterface {
 
     GameController gameController;
-    MyImageView myImageView;
+    GameImageView myImageView;
+    GameImageData imageData;
 
     String levelName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
         levelName = intent.getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
 
         GameConfiguration.fillCurrentConfiguration(this);
 
-        myImageView = (MyImageView) findViewById(R.id.myImageView);
-        gameController = new GameController(this, this, myImageView, levelName);
+        myImageView = (GameImageView) findViewById(R.id.myImageView);
+        imageData = (GameImageData) myImageView.getImageData();
+        imageData.setScreenSize(getScreenSize());
 
+        gameController = new GameController(this, this, myImageView, levelName);
+        gameController.loadLevel(levelName);
+
+        imageData.updateRadius();
     }
 
 
@@ -51,5 +59,18 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
     @Override
     public void updateView() {
         myImageView.invalidate();
+    }
+
+    private Pair<Integer, Integer> getScreenSize() {
+
+        //TODO: imageview size, not screen size
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        getWindowManager()
+                .getDefaultDisplay()
+                .getMetrics(displayMetrics);
+        int height = displayMetrics.heightPixels;
+        int width = displayMetrics.widthPixels;
+
+        return new Pair<Integer, Integer>(height, width);
     }
 }

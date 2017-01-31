@@ -24,7 +24,7 @@ public class Hole implements Serializable{
         return dist(center, otherHole.center) <= radius + otherHole.radius;
     }
 
-    public boolean collides(RectF rectangle) {
+    public boolean collides(MyRectF rectangle) {
         float xtopLeft = Math.max(center.x - radius, rectangle.left);
         float ytopLeft = Math.max(center.y - radius, rectangle.top);
         float xbottomRight = Math.min(center.x + radius, rectangle.right);

@@ -9,6 +9,7 @@ import android.util.AttributeSet;
 
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.imageview.MyPointF;
+import rosko.bojan.rupko.imageview.MyRectF;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
@@ -73,8 +74,5 @@ public class NewLevelImageView extends MyImageView {
             }
         }
 
-        for (RectF wall : imageData.getWalls()) {
-            canvas.drawRect(wall, wallPaint);
-        }
     }
 }
