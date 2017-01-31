@@ -1,9 +1,11 @@
 package rosko.bojan.rupko.game;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 
 import rosko.bojan.rupko.main.MainActivity;
@@ -37,6 +39,21 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         imageData = (GameImageData) myImageView.getImageData();
         imageData.setScreenSize(getScreenSize());
         imageData.updateRadius();
+
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double x = getScreenSize().second/dm.xdpi;
+        double y = getScreenSize().first/dm.ydpi;
+        x *= 2.54;
+        y *= 2.54;
+
+//        Log.d("gravity", 9.81f / (x/100) + "");
+//        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second + "");
+//        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2) + "");
+        //TODO: refactor
+        GameConfiguration.currentConfiguration.GRAVITY_MAGNITUDE = (float) (
+                9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2));
+
 
         gameController = new GameController(this, this, myImageView, levelName);
         gameController.startLevel();

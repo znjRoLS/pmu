@@ -91,7 +91,7 @@ public class GameController implements SensorEventListener {
         this.context = context;
         this.levelName = levelName;
 
-        GAME_UPDATE_MS = GameConfiguration.currentConfiguration.GAME_UPDATE_MS;
+        GAME_UPDATE_MS = (long)(1000.0f / GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
 
         currentXTheta = 0;
         currentYTheta = 0;
@@ -136,7 +136,9 @@ public class GameController implements SensorEventListener {
     }
 
     public void onPause() {
+
         sensorManager.unregisterListener(this);
+        gameEnd = true;
     }
 
     public void gameEnd() {

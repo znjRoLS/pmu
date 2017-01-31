@@ -1,5 +1,7 @@
 package rosko.bojan.rupko.game;
 
+import android.util.Log;
+
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.imageview.MyRectF;
@@ -47,11 +49,27 @@ public class Ball {
 
     public void updateBallMovement(float gravityX, float gravityY) {
 
-        velocity.x *= 1 - BALL_TRACTION;
-        velocity.y *= 1 - BALL_TRACTION;
+//        velocity.x *= 1 - BALL_TRACTION;
+//        velocity.y *= 1 - BALL_TRACTION;
+
+//        Log.d("velocity", "start: x " + velocity.x + " y " + velocity.y);
+
+        if (velocity.getMagnitude() > BALL_TRACTION) {
+            float velocityAngle = velocity.getAngle();
+            velocity.rotate(-velocityAngle);
+            velocity.x -= BALL_TRACTION;
+            velocity.rotate(velocityAngle);
+        }
+        else {
+            velocity.x = velocity.y = 0;
+        }
+
+//        Log.d("velocity", "traction: x " + velocity.x + " y " + velocity.y);
 
         velocity.x += gravityX * GRAVITY_MAGNITUDE;
         velocity.y += gravityY * GRAVITY_MAGNITUDE;
+
+//        Log.d("velocity", "gravity: x " + velocity.x + " y " + velocity.y);
 
         float oldX = center.x;
         float oldY = center.y;
@@ -69,6 +87,9 @@ public class Ball {
             center.x = oldX + velocity.x;
             center.y = oldY + velocity.y;
         }
+
+
+//        Log.d("velocity", "bounce: x " + velocity.x + " y " + velocity.y);
 
     }
 
