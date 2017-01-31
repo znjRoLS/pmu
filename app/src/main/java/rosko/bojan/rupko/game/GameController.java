@@ -150,11 +150,7 @@ public class GameController implements SensorEventListener {
         dbHelper.insertNewStat(levelName, username, time);
     }
 
-
-    public void startLevel() {
-
-        gameEnd = false;
-
+    public void loadLevel() {
         Level level = null;
 
         String levelSuffix = GameConfiguration.currentConfiguration.LEVEL_SUFIX;
@@ -184,6 +180,14 @@ public class GameController implements SensorEventListener {
         Logger.throwError(context, "Successfully loaded level!");
 
         gameImageData.loadLevel(level);
+        gameImageData.updateRadius();
+    }
+
+    public void startLevel() {
+
+        gameEnd = false;
+
+        loadLevel();
 
         physicsThread.start();
     }

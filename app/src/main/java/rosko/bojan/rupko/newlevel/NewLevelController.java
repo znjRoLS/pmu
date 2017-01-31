@@ -49,6 +49,9 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
+
+                newLevelImageData.removeDraggable(motionEvent.getActionIndex());
+
                 lastLongPress = new MyPointF(motionEvent.getX(), motionEvent.getY());
                 openSpawnDialogue();
             }

@@ -83,9 +83,17 @@ public class NewLevelImageData extends ImageData {
         dragPointsEnd[index] = new MyPointF(x,y);
     }
 
+    public void removeDraggable(int index) {
+        dragPoints[index] = null;
+        dragPointsEnd[index] = null;
+    }
+
     public boolean finishDraggable(int index) {
         MyPointF startPoint = dragPoints[index];
         MyPointF endPoint = dragPointsEnd[index];
+
+        if (startPoint == null || endPoint == null)
+            return false;
 
         float left = startPoint.x < endPoint.x ? startPoint.x : endPoint.x;
         float right = startPoint.x < endPoint.x ? endPoint.x : startPoint.x;
@@ -117,8 +125,11 @@ public class NewLevelImageData extends ImageData {
     }
 
     public void updateDraggable(int index, float x, float y) {
-        dragPointsEnd[index].x = x;
-        dragPointsEnd[index].y = y;
+        //if removed after long press, this happens
+        if (dragPointsEnd[index] != null) {
+            dragPointsEnd[index].x = x;
+            dragPointsEnd[index].y = y;
+        }
     }
 
     public MyPointF[] getDraggables() {

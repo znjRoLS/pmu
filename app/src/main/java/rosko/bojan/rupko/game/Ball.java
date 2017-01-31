@@ -53,32 +53,43 @@ public class Ball {
         velocity.x += gravityX * GRAVITY_MAGNITUDE;
         velocity.y += gravityY * GRAVITY_MAGNITUDE;
 
-        for(MyRectF wall : imageData.getWalls()) {
-            bounceOfWall(wall);
-        }
+        float oldX = center.x;
+        float oldY = center.y;
 
         center.x += velocity.x;
         center.y += velocity.y;
+
+        boolean collides = false;
+
+        for(MyRectF wall : imageData.getWalls()) {
+            collides = collides || bounceOfWall(wall);
+        }
+
+        if (collides) {
+            center.x = oldX + velocity.x;
+            center.y = oldY + velocity.y;
+        }
+
     }
 
-    private void bounceOfWall(MyRectF wall) {
+    private boolean bounceOfWall(MyRectF wall) {
         float xtopLeft = Math.max(center.x - radius, wall.left);
         float ytopLeft = Math.max(center.y - radius, wall.top);
         float xbottomRight = Math.min(center.x + radius, wall.right);
         float ybottomRight = Math.min(center.y + radius, wall.bottom);
 
         if (xtopLeft > xbottomRight || ytopLeft > ybottomRight) {
-            return;
+            return false;
         }
 
         if (center.y >= wall.top && center.y <= wall.bottom) {
             velocity.x *= - BALL_BOUNCE;
-            return;
+            return true;
         }
 
         if (center.x >= wall.left && center.x <= wall.right) {
             velocity.y *= - BALL_BOUNCE;
-            return;
+            return true;
         }
 
         boolean collision = false;
@@ -106,7 +117,7 @@ public class Ball {
         }
 
         if (!collision)
-            return;
+            return false;
 
         MyPointF resistanceVector = new MyPointF(otherPoint.x, otherPoint.y);
         resistanceVector.subtract(center);
@@ -115,6 +126,7 @@ public class Ball {
         velocity.x *= -BALL_BOUNCE;
         velocity.rotate(resistanceAngle);
 
+        return true;
     }
 
 
