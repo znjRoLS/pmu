@@ -45,8 +45,7 @@ public class LevelListAdapter extends ArrayAdapter<Level> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View view = convertView;
+    public View getView(int position, View view, ViewGroup parent) {
 
         if (view == null) {
             LayoutInflater layoutInflater;
@@ -57,7 +56,7 @@ public class LevelListAdapter extends ArrayAdapter<Level> {
         Level level = getItem(position);
 
         if (level != null) {
-            TextView levelName = (TextView) convertView.findViewById(R.id.levelNameTextView);
+            TextView levelName = (TextView) view.findViewById(R.id.levelNameTextView);
 
             levelName.setText(level.getName());
         }

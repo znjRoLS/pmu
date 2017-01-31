@@ -22,7 +22,7 @@ public class ImageData implements Serializable{
     protected Hole startHole;
     protected Hole endHole;
     protected ArrayList<Hole> holes;
-    protected ArrayList<RectF> walls;
+    protected ArrayList<MyRectF> walls;
 
     protected int screenWidth;
     protected int screenHeight;
@@ -54,7 +54,7 @@ public class ImageData implements Serializable{
             return true;
         }
 
-        for (RectF wall : walls) {
+        for (MyRectF wall : walls) {
             if (newHole.collides(wall)) {
                 return true;
             }
@@ -126,19 +126,19 @@ public class ImageData implements Serializable{
         this.holes.remove(hole);
     }
 
-    public void addWall(RectF wall) {
+    public void addWall(MyRectF wall) {
         this.walls.add(wall);
     }
 
-    public void removeWall(RectF wall) {
+    public void removeWall(MyRectF wall) {
         this.walls.remove(wall);
     }
 
-    public ArrayList<RectF> getWalls() {
+    public ArrayList<MyRectF> getWalls() {
         return walls;
     }
 
-    public void setWalls(ArrayList<RectF> walls) {
+    public void setWalls(ArrayList<MyRectF> walls) {
         this.walls = walls;
     }
 }

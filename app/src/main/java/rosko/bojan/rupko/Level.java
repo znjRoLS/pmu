@@ -7,6 +7,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import rosko.bojan.rupko.imageview.MyPointF;
+import rosko.bojan.rupko.imageview.MyRectF;
 
 /**
  * Created by rols on 1/19/17.
@@ -17,7 +18,7 @@ public class Level implements Serializable{
     MyPointF startHole;
     MyPointF endHole;
     ArrayList<MyPointF> holes;
-    ArrayList<RectF> walls;
+    ArrayList<MyRectF> walls;
 
     String name;
 
@@ -66,19 +67,19 @@ public class Level implements Serializable{
         this.holes.remove(hole);
     }
 
-    public ArrayList<RectF> getWalls() {
+    public ArrayList<MyRectF> getWalls() {
         return walls;
     }
 
-    public void setWalls(ArrayList<RectF> walls) {
+    public void setWalls(ArrayList<MyRectF> walls) {
         this.walls = walls;
     }
 
-    public void addWall(RectF wall) {
+    public void addWall(MyRectF wall) {
         this.walls.add(wall);
     }
 
-    public void removeWall(RectF wall) {
+    public void removeWall(MyRectF wall) {
         this.walls.remove(wall);
     }
 }

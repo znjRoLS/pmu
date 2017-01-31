@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -50,8 +51,16 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
 
         levelsListView = (ListView) findViewById(R.id.levelsListView);
 
+        Log.d("imherh", "am i here?");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
         inflateLevels();
     }
+
 
     private void inflateLevels() {
 
@@ -68,7 +77,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
 
         ArrayList<Level> levels = new ArrayList<>();
         for (File levelFile: levelList) {
-            levels.add(getLevel(levelFile + GameConfiguration.currentConfiguration.LEVEL_SUFIX));
+            levels.add(getLevel(levelFile));
         }
 
         LevelListAdapter adapter = new LevelListAdapter(this, R.layout.row_level, levels);
@@ -93,13 +102,13 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     }
 
     //TODO: somewhere else?
-    private Level getLevel(String levelFilename) {
+    private Level getLevel(File levelFile) {
         Level level = null;
 
-        File file = new File(getFilesDir(), levelFilename);
+        //File file = new File(getFilesDir(), levelFilename);
 
         try {
-            FileInputStream inputStream = new FileInputStream(file);
+            FileInputStream inputStream = new FileInputStream(levelFile);
             ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
             level = (Level) objectInputStream.readObject();
             objectInputStream.close();

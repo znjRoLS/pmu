@@ -7,6 +7,7 @@ import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;
+import rosko.bojan.rupko.imageview.MyRectF;
 
 /**
  * Created by rols on 1/20/17.
@@ -79,7 +80,7 @@ public class NewLevelImageData extends ImageData {
         float top = startPoint.y < endPoint.y ? startPoint.y : endPoint.y;
         float bottom = startPoint.y < endPoint.y ? endPoint.y : startPoint.y;
 
-        RectF wall = new RectF(left, top, right, bottom);
+        MyRectF wall = new MyRectF(left, top, right, bottom);
 
         dragPoints[index] = null;
         dragPointsEnd[index] = null;
@@ -93,7 +94,7 @@ public class NewLevelImageData extends ImageData {
         for (Hole hole : holes) {
             if (hole.collides(wall)) return false;
         }
-        for (RectF existingWall : walls) {
+        for (MyRectF existingWall : walls) {
             if (wall.intersect(existingWall)) {
                 return false;
             }
