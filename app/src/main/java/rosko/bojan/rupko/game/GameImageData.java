@@ -6,6 +6,7 @@ import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
  * Created by rols on 1/22/17.
@@ -17,6 +18,8 @@ public class GameImageData extends ImageData {
 
     public GameImageData() {
         super();
+
+        ball = new Ball(this);
     }
 
     public Ball getBall() {
@@ -28,27 +31,26 @@ public class GameImageData extends ImageData {
     }
 
     public void moveBall(float dx, float dy) {
-
-        ball.getCenter().x += dx;
-        ball.getCenter().y += dy;
+        ball.updateBallMovement(dx,dy);
     }
 
     @Override
     public void loadLevel(Level level) {
         super.loadLevel(level);
 
-        ball = new Ball(this);
         ball.setCenter(new MyPointF(
                 startHole.getCenter().x,
                 startHole.getCenter().y
         ));
-        ball.setRadius(startHole.getRadius());
     }
 
     @Override
     public void updateRadius() {
         super.updateRadius();
 
-        ball.setRadius(startHole.getRadius());
+        int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
+        currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
+
+        ball.setRadius(currentRadius);
     }
 }

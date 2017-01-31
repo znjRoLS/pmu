@@ -34,6 +34,11 @@ public class Hole implements Serializable{
             return false;
         }
 
+        if (center.y >= rectangle.top && center.y <= rectangle.bottom)
+            return true;
+        if (center.x >= rectangle.left && center.x <= rectangle.right)
+            return true;
+
         MyPointF topLeft = new MyPointF(rectangle.left, rectangle.top);
         MyPointF topRight = new MyPointF(rectangle.right, rectangle.top);
         MyPointF bottomLeft = new MyPointF(rectangle.left, rectangle.bottom);

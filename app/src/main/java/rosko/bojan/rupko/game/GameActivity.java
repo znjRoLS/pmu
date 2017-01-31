@@ -36,11 +36,10 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         myImageView = (GameImageView) findViewById(R.id.myImageView);
         imageData = (GameImageData) myImageView.getImageData();
         imageData.setScreenSize(getScreenSize());
+        imageData.updateRadius();
 
         gameController = new GameController(this, this, myImageView, levelName);
-        gameController.loadLevel(levelName);
-
-        imageData.updateRadius();
+        gameController.startLevel();
     }
 
 
@@ -58,7 +57,12 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
     @Override
     public void updateView() {
-        myImageView.invalidate();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                myImageView.invalidate();
+            }
+        });
     }
 
     private Pair<Integer, Integer> getScreenSize() {
@@ -72,5 +76,11 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         int width = displayMetrics.widthPixels;
 
         return new Pair<Integer, Integer>(height, width);
+    }
+
+    @Override
+    public void finish(){
+        gameController.gameEnd();
+        super.finish();
     }
 }

@@ -32,19 +32,41 @@ import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 public class GameController implements SensorEventListener {
 
+    private long GAME_UPDATE_MS;
+
+    Thread physicsThread = new Thread(new Runnable() {
+        @Override
+        public void run() {
+            while(!gameEnd) {
+                try {
+                    gameImageData.moveBall(currentXTheta, currentYTheta);
+                    view.updateView();
+                    Thread.sleep(GAME_UPDATE_MS);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    });
+
+    //TODO:add restart game
+
     Context context;
 
     SensorManager sensorManager;
     Sensor accelerometerSensor;
+    private float currentXTheta;
+    private float currentYTheta;
 
     ImageData imageData;
     MyImageView myImageView;
-    final float MAGNITUDE = 5.0f;
 
     StatsDbHelper dbHelper;
     String levelName;
 
     private GameImageData gameImageData;
+
+    private boolean gameEnd;
 
 
     @Override
@@ -63,15 +85,16 @@ public class GameController implements SensorEventListener {
 
     protected ViewInterface view;
 
-    public void startLevel() {
-
-    }
-
     public GameController(Context context, ViewInterface view, MyImageView myImageView, String levelName) {
         this.view = view;
         this.myImageView = myImageView;
         this.context = context;
         this.levelName = levelName;
+
+        GAME_UPDATE_MS = GameConfiguration.currentConfiguration.GAME_UPDATE_MS;
+
+        currentXTheta = 0;
+        currentYTheta = 0;
 
         imageData = myImageView.getImageData();
 
@@ -103,12 +126,8 @@ public class GameController implements SensorEventListener {
         float dy = values[1];
         float dz = values[2];
 
-        double xTheta = Math.atan2(dx, dz);
-        double yTheta = Math.atan2(dy, dz);
-
-        gameImageData.moveBall((float)xTheta * MAGNITUDE, (float)yTheta * MAGNITUDE);
-        myImageView.invalidate();
-        view.updateView();
+        currentXTheta = (float)Math.atan2(dx, dz);
+        currentYTheta = (float)Math.atan2(dy, dz);
     }
 
     public void onResume() {
@@ -121,7 +140,7 @@ public class GameController implements SensorEventListener {
     }
 
     public void gameEnd() {
-
+        gameEnd = true;
     }
 
     public void writeScore(String username, Time time) {
@@ -132,18 +151,20 @@ public class GameController implements SensorEventListener {
     }
 
 
-    public boolean loadLevel(String filename) {
+    public void startLevel() {
+
+        gameEnd = false;
 
         Level level = null;
 
         String levelSuffix = GameConfiguration.currentConfiguration.LEVEL_SUFIX;
         File internalDir = context.getFilesDir();
-        File file = new File(internalDir, filename + levelSuffix);
+        File file = new File(internalDir, levelName + levelSuffix);
         boolean fileExisted = file.exists();
 
         if (!fileExisted) {
-            Logger.throwError(context, "Level doesn't exist! Level: " + filename + levelSuffix);
-            return false;
+            Logger.throwError(context, "Level doesn't exist! Level: " + levelName + levelSuffix);
+            return;
         }
 
         try {
@@ -164,7 +185,7 @@ public class GameController implements SensorEventListener {
 
         gameImageData.loadLevel(level);
 
-        return true;
+        physicsThread.start();
     }
 
 }
