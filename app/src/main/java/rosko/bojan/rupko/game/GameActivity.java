@@ -1,5 +1,6 @@
 package rosko.bojan.rupko.game;
 
+import android.app.DialogFragment;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
@@ -12,6 +13,7 @@ import android.util.Pair;
 import java.sql.Time;
 
 import rosko.bojan.rupko.main.MainActivity;
+import rosko.bojan.rupko.newlevel.SaveDialog;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.R;
@@ -89,6 +91,12 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         });
     }
 
+    @Override
+    public void showEndGameDialog() {
+        DialogFragment dialog = new ScoreDialog();
+        dialog.show(getFragmentManager(), "ScoreDialog");
+    }
+
     private Pair<Integer, Integer> getScreenSize() {
 
         //TODO: imageview size, not screen size
@@ -110,11 +118,16 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
     @Override
     public void onDialogPositiveAction(String name) {
+
+        Log.d("endgame", "herhe");
+
         Time time = new Time(gameController.getTimer().getTime());
         writeScore(name, time);
+        Log.d("endgame", "herhe2");
 
         Intent intent = new Intent(this, StatsActivity.class);
         intent.putExtra(StatsActivity.STATS_LEVEL_EXTRA, levelName);
+        startActivity(intent);
     }
 
     public void writeScore(String username, Time time) {
@@ -125,6 +138,7 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         dbHelper.insertNewStat(levelName, username, time);
+        Log.d("endgame", "herhe3");
     }
 
 

@@ -86,7 +86,7 @@ public class StatsDbHelper extends SQLiteOpenHelper {
 
         // How you want the results sorted in the resulting Cursor
         String sortOrder =
-                StatsEntry.COLUMN_NAME_TIME + " DESC";
+                StatsEntry.COLUMN_NAME_TIME + " ASC";
 
         Cursor cursor = sqLiteDatabase.query(
                 StatsEntry.TABLE_NAME,                     // The table to query

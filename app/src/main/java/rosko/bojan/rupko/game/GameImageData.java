@@ -16,6 +16,8 @@ public class GameImageData extends ImageData {
 
     Ball ball;
 
+    private float pixelsByMetersRatio = 0;
+
     public GameImageData() {
         super();
 
@@ -42,6 +44,7 @@ public class GameImageData extends ImageData {
                 startHole.getCenter().y
         ));
         ball.setRadius(ballRad);
+        ball.setPixelsByMetersRatio(pixelsByMetersRatio);
     }
 
     @Override
@@ -66,6 +69,7 @@ public class GameImageData extends ImageData {
     }
 
     public void setPixelsRatio(float pixelsByMetersRatio) {
+        this.pixelsByMetersRatio = pixelsByMetersRatio;
         ball.setPixelsByMetersRatio(pixelsByMetersRatio);
     }
 }

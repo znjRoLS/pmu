@@ -1,5 +1,6 @@
 package rosko.bojan.rupko.game;
 
+import android.app.DialogFragment;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -24,6 +25,7 @@ import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.newlevel.NewLevelImageData;
+import rosko.bojan.rupko.newlevel.SaveDialog;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.statistics.StatsDbHelper;
 
@@ -44,11 +46,14 @@ public class GameController implements SensorEventListener {
                 try {
                     Ball.BallMovement ballState = gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
                     view.updateView();
-                    processGameState(ballState);
 
-                    timer.updateView();
                     deltaTime = timer.tick();
-                    Thread.sleep(deltaTime);
+                    processGameState(ballState);
+                    timer.updateView();
+                    if (deltaTime > 0) {
+                        Thread.sleep(deltaTime);
+                    }
+
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -111,6 +116,7 @@ public class GameController implements SensorEventListener {
 
     public interface ViewInterface {
         void updateView();
+        void showEndGameDialog();
     }
 
     protected ViewInterface view;
@@ -180,17 +186,20 @@ public class GameController implements SensorEventListener {
     }
 
     public void onResume() {
+        Log.d("sensor", "register1");
         sensorManager.registerListener(this, accelerometerSensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
     public void onPause() {
 
+        Log.d("sensor", "unregisterd1");
         sensorManager.unregisterListener(this);
         gameEnd = true;
     }
 
     public void gameStop() {
+        Log.d("sensor", "unregisterd2");
         sensorManager.unregisterListener(this);
         gameEnd = true;
     }
@@ -198,14 +207,8 @@ public class GameController implements SensorEventListener {
     public void gameEnd() {
 
         gameEnd = true;
-        try {
-            timerThread.wait();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
 
-
-
+        view.showEndGameDialog();
     }
 
 

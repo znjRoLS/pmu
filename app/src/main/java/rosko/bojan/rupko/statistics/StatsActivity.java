@@ -1,9 +1,21 @@
 package rosko.bojan.rupko.statistics;
 
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
+import android.widget.CursorAdapter;
+import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
+
+import java.util.Locale;
 
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.preferences.GameConfiguration;
@@ -16,6 +28,9 @@ public class StatsActivity extends AppCompatActivity {
 
     public static final String STATS_LEVEL_EXTRA = "rosko.bojan.rupko.stats_level_extra";
 
+    private String levelName;
+    private ListView statsListView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,8 +38,46 @@ public class StatsActivity extends AppCompatActivity {
 
         GameConfiguration.fillCurrentConfiguration(this);
 
-        String levelName = getIntent().getStringExtra(STATS_LEVEL_EXTRA);
+        levelName = getIntent().getStringExtra(STATS_LEVEL_EXTRA);
 
-        ListView statsListView = (ListView) findViewById(R.id.statsListView);
+        statsListView = (ListView) findViewById(R.id.statsListView);
+
+        inflateListView();
+    }
+
+    private void inflateListView() {
+        Log.d("statsinflate", "hreh");
+        Log.d("statsinflate", "levelname " + levelName);
+
+        StatsDbHelper dbHelper = new StatsDbHelper(this);
+        Cursor cursor = dbHelper.getOrderedStatsForLevel(levelName);
+
+        ListAdapter adapter = new CursorAdapter(this, cursor, 0) {
+            @Override
+            public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
+                return LayoutInflater.from(context).inflate(R.layout.row_stats, viewGroup, false);
+            }
+
+            @Override
+            public void bindView(View view, Context context, Cursor cursor) {
+                // Find fields to populate in inflated template
+                TextView tvusername = (TextView) view.findViewById(R.id.scoreUsernameTextView);
+                TextView tvtime = (TextView) view.findViewById(R.id.scoreTimeTextView);
+                // Extract properties from cursor
+                String username = cursor.getString(cursor.getColumnIndexOrThrow("username"));
+                long time = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+                // Populate fields with extracted properties
+                tvusername.setText(username);
+
+                long minutes = time / 60000;
+                long seconds = time / 1000 % 60;
+                long millis = time % 1000;
+
+                tvtime.setText(String.format(Locale.getDefault(), "%02d:%02d:%03d", minutes, seconds, millis));
+            }
+        };
+
+        statsListView.setAdapter(adapter);
+
     }
 }
