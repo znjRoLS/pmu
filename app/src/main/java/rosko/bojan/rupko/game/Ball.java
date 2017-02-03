@@ -12,6 +12,8 @@ import rosko.bojan.rupko.preferences.GameConfiguration;
  */
 
 public class Ball {
+    //todo: create countdown
+
     MyPointF center;
     float radius;
 
@@ -82,14 +84,18 @@ public class Ball {
         center.x += velocity.x * deltaTime;
         center.y += velocity.y * deltaTime;
 
-
-        Log.d("ball", "grav effect " + gravityEffect);
-        Log.d("ball", "gravX " + gravityX);
-        Log.d("ball", "deltatime " + deltaTime);
-        Log.d("ball", "velocity change " + gravityX * deltaTime * gravityEffect);
-        Log.d("ball", "velocity " + velocity.x);
-        Log.d("ball", "center change " + velocity.x * deltaTime);
-        Log.d("ball", "center " + center.x);
+//        Log.d("ball", "pixel by meter " + pixelsByMetersRatio );
+//        Log.d("ball", "grav effect " + gravityEffect);
+//        Log.d("ball", "gravX " + gravityX);
+//        Log.d("ball", "deltatime " + deltaTime);
+//        Log.d("ball", "velocity change " + gravityX * deltaTime * gravityEffect);
+//        Log.d("ball", "velocity " + velocity.x);
+//        Log.d("ball", "center change " + velocity.x * deltaTime);
+//        Log.d("ball", "center " + center.x);
+//
+//        Log.d("ball", "v2elocity change " + gravityX * deltaTime * gravityEffect/ pixelsByMetersRatio);
+//        Log.d("ball", "v2elocity " + velocity.x / pixelsByMetersRatio);
+//        Log.d("ball", "c2enter change " + velocity.x * deltaTime / pixelsByMetersRatio);
 
 
         boolean collides = false;

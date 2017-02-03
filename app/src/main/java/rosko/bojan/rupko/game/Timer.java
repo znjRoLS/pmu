@@ -5,6 +5,8 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 
 /**
  * Created by rols on 2/3/17.
@@ -33,22 +35,17 @@ public class Timer extends TextView{
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
-
     public void updateView() {
         post(new Runnable() {
             @Override
             public void run() {
-
                 long diffTime = lastTimeMillis - startTimeMillis;
-//                Log.d("timer", "difftimed " + diffTime);
-//                Log.d("timer", "difftimes " + startTimeMillis);
-//                Log.d("timer", "difftimel " + lastTimeMillis);
 
                 long minutes = diffTime / 60000;
                 long seconds = diffTime / 1000 % 60;
                 long millis = diffTime % 1000;
 
-                setText(minutes + ":" + seconds + ":" + millis);
+                setText(String.format(Locale.getDefault(), "%02d:%02d:%03d", minutes, seconds, millis));
             }
         });
     }
@@ -56,10 +53,7 @@ public class Timer extends TextView{
 
     //returns number of milliseconds that one should sleep so that the time from last tick is equal to stepMillis
     public long tick(){
-//        Log.d("timer", lastTimeMillis + " lasttimemilis");
-//        Log.d("timer" , "step " + stepMillis);
         lastTimeMillis += stepMillis;
-//        Log.d("timer" , "return " + (lastTimeMillis - System.currentTimeMillis()));
         return lastTimeMillis - System.currentTimeMillis();
     }
 

@@ -38,8 +38,8 @@ public class GameController implements SensorEventListener {
     Thread timerThread = new Thread(new Runnable() {
         @Override
         public void run() {
+            timer.start(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
             while(!gameEnd) {
-                timer.start(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
                 long deltaTime;
                 try {
                     timer.updateView();
@@ -64,6 +64,7 @@ public class GameController implements SensorEventListener {
     Sensor accelerometerSensor;
     private float currentXTheta;
     private float currentYTheta;
+    private LowPassFilter filterX, filterY, filterZ;
     private float currentX, currentY, currentZ;
     private float pixelsByMetersRatio;
 
@@ -103,6 +104,10 @@ public class GameController implements SensorEventListener {
         this.myImageView = myImageView;
         this.context = context;
         this.levelName = levelName;
+
+        filterX = new LowPassFilter();
+        filterY = new LowPassFilter();
+        filterZ = new LowPassFilter();
 
         //todo : fix this
         timer = (Timer)((GameActivity)context).findViewById(R.id.timerTextView);
@@ -150,9 +155,9 @@ public class GameController implements SensorEventListener {
 //        currentXTheta = (float)Math.atan2(dx, dz);
 //        currentYTheta = (float)Math.atan2(dy, dz);
 
-        currentX = dx;
-        currentY = dy;
-        currentZ = dz;
+        currentX = filterX.filter(dx);
+        currentY = filterY.filter(dy);
+        currentZ = filterZ.filter(dz);
     }
 
     public void onResume() {

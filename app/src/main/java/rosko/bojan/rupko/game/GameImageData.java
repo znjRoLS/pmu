@@ -50,6 +50,7 @@ public class GameImageData extends ImageData {
 
         int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
         currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
+        currentRadius *= GameConfiguration.currentConfiguration.BALL_RADIUS_PERCENTAGE;
 
         ball.setRadius(currentRadius);
     }

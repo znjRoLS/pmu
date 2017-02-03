@@ -22,6 +22,7 @@ public class GameConfiguration implements Cloneable{
     public int BALL_COLOR;
 
     public float HOLE_RADIUS_PERCENTAGE;
+    public float BALL_RADIUS_PERCENTAGE;
 
     public float BALL_TRACTION;
     public float BALL_BOUNCE;
@@ -29,6 +30,8 @@ public class GameConfiguration implements Cloneable{
     public float GAME_UPDATE_RATE;
 
     public String LEVEL_SUFIX;
+
+    public float FILTER_ALFA;
 
     public final static GameConfiguration defaultConfiguration;
     public static GameConfiguration currentConfiguration;
@@ -39,6 +42,7 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration = new GameConfiguration();
 
         defaultConfiguration.HOLE_RADIUS_PERCENTAGE = 0.07f;
+        defaultConfiguration.BALL_RADIUS_PERCENTAGE = 0.8f;
         defaultConfiguration.START_HOLE_COLOR = Color.GREEN;
         defaultConfiguration.HOLE_COLOR = Color.BLUE;
         defaultConfiguration.END_HOLE_COLOR = Color.DKGRAY;
@@ -46,10 +50,12 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration.DRAGGABLE_COLOR = Color.parseColor("#998B4513");
         defaultConfiguration.BALL_COLOR = Color.GRAY;
 
-        defaultConfiguration.BALL_BOUNCE = 0.7f;
-        defaultConfiguration.BALL_TRACTION = 0.07f;
-        defaultConfiguration.GRAVITY_MAGNITUDE = 1f;
-        defaultConfiguration.GAME_UPDATE_RATE = 30;
+        defaultConfiguration.BALL_BOUNCE = 0.8f;
+        defaultConfiguration.BALL_TRACTION = 0.001f;
+        defaultConfiguration.GRAVITY_MAGNITUDE = 0.1f;
+        defaultConfiguration.GAME_UPDATE_RATE = 60;
+
+        defaultConfiguration.FILTER_ALFA = 1f;
 
         defaultConfiguration.LEVEL_SUFIX = ".level";
 
