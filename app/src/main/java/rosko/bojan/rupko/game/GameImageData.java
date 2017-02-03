@@ -30,8 +30,8 @@ public class GameImageData extends ImageData {
         this.ball = ball;
     }
 
-    public void moveBall(float dx, float dy) {
-        ball.updateBallMovement(dx,dy);
+    public void moveBall(float dx, float dy, float dz, float deltaTime) {
+        ball.updateBallMovement(dx, dy, dz, deltaTime);
     }
 
     @Override
@@ -52,5 +52,9 @@ public class GameImageData extends ImageData {
         currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
 
         ball.setRadius(currentRadius);
+    }
+
+    public void setPixelsRatio(float pixelsByMetersRatio) {
+        ball.setPixelsByMetersRatio(pixelsByMetersRatio);
     }
 }

@@ -5,17 +5,21 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="rosko.bojan.rupko.main.MainActivity">
 
     <rosko.bojan.rupko.game.GameImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:srcCompat="@android:drawable/btn_dialog"
-        android:layout_alignParentTop="true"
+        android:id="@+id/myImageView"
+        android:layout_alignParentBottom="true" />
+
+    <rosko.bojan.rupko.game.Timer
+        android:text="00:00:000"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:id="@+id/myImageView" />
+        android:id="@+id/timerTextView"
+        android:textSize="36sp" />
 </RelativeLayout>

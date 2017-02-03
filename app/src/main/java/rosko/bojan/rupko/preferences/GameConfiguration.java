@@ -48,7 +48,7 @@ public class GameConfiguration implements Cloneable{
 
         defaultConfiguration.BALL_BOUNCE = 0.7f;
         defaultConfiguration.BALL_TRACTION = 0.07f;
-        defaultConfiguration.GRAVITY_MAGNITUDE = 2f;
+        defaultConfiguration.GRAVITY_MAGNITUDE = 1f;
         defaultConfiguration.GAME_UPDATE_RATE = 30;
 
         defaultConfiguration.LEVEL_SUFIX = ".level";

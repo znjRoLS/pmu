@@ -15,6 +15,7 @@ public class Ball {
     MyPointF center;
     float radius;
 
+    private float pixelsByMetersRatio;
     private MyPointF velocity;
     private float GRAVITY_MAGNITUDE;
     private float BALL_TRACTION;
@@ -28,6 +29,10 @@ public class Ball {
         GRAVITY_MAGNITUDE = GameConfiguration.currentConfiguration.GRAVITY_MAGNITUDE;
         BALL_TRACTION = GameConfiguration.currentConfiguration.BALL_TRACTION;
         BALL_BOUNCE = GameConfiguration.currentConfiguration.BALL_BOUNCE;
+    }
+
+    public void setPixelsByMetersRatio(float pixelsByMetersRatio){
+        this.pixelsByMetersRatio = pixelsByMetersRatio;
     }
 
     public MyPointF getCenter() {
@@ -47,35 +52,45 @@ public class Ball {
     }
 
 
-    public void updateBallMovement(float gravityX, float gravityY) {
+    public void updateBallMovement(float gravityX, float gravityY, float gravityZ,  float deltaTime) {
+
+        float gravityEffect = pixelsByMetersRatio * GRAVITY_MAGNITUDE ;
 
 //        velocity.x *= 1 - BALL_TRACTION;
 //        velocity.y *= 1 - BALL_TRACTION;
 
 //        Log.d("velocity", "start: x " + velocity.x + " y " + velocity.y);
 
-        if (velocity.getMagnitude() > BALL_TRACTION) {
+        velocity.x += gravityX * gravityEffect * deltaTime;
+        velocity.y += gravityY * gravityEffect * deltaTime;
+
+        float tractionAcceleration = gravityZ * BALL_TRACTION * pixelsByMetersRatio * deltaTime;
+
+        if (velocity.getMagnitude() > tractionAcceleration) {
             float velocityAngle = velocity.getAngle();
             velocity.rotate(-velocityAngle);
-            velocity.x -= BALL_TRACTION;
+            velocity.x -= tractionAcceleration;
             velocity.rotate(velocityAngle);
         }
         else {
             velocity.x = velocity.y = 0;
         }
 
-//        Log.d("velocity", "traction: x " + velocity.x + " y " + velocity.y);
-
-        velocity.x += gravityX * GRAVITY_MAGNITUDE;
-        velocity.y += gravityY * GRAVITY_MAGNITUDE;
-
-//        Log.d("velocity", "gravity: x " + velocity.x + " y " + velocity.y);
-
         float oldX = center.x;
         float oldY = center.y;
 
-        center.x += velocity.x;
-        center.y += velocity.y;
+        center.x += velocity.x * deltaTime;
+        center.y += velocity.y * deltaTime;
+
+
+        Log.d("ball", "grav effect " + gravityEffect);
+        Log.d("ball", "gravX " + gravityX);
+        Log.d("ball", "deltatime " + deltaTime);
+        Log.d("ball", "velocity change " + gravityX * deltaTime * gravityEffect);
+        Log.d("ball", "velocity " + velocity.x);
+        Log.d("ball", "center change " + velocity.x * deltaTime);
+        Log.d("ball", "center " + center.x);
+
 
         boolean collides = false;
 
@@ -84,8 +99,8 @@ public class Ball {
         }
 
         if (collides) {
-            center.x = oldX + velocity.x;
-            center.y = oldY + velocity.y;
+            center.x = oldX + velocity.x * deltaTime;
+            center.y = oldY + velocity.y * deltaTime;
         }
 
 

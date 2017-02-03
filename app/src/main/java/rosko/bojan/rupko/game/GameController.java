@@ -20,6 +20,7 @@ import java.sql.Time;
 
 import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
+import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.newlevel.NewLevelImageData;
@@ -32,16 +33,20 @@ import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 public class GameController implements SensorEventListener {
 
-    private long GAME_UPDATE_MS;
+    private float GAME_UPDATE_MS;
 
-    Thread physicsThread = new Thread(new Runnable() {
+    Thread timerThread = new Thread(new Runnable() {
         @Override
         public void run() {
             while(!gameEnd) {
+                timer.start(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
+                long deltaTime;
                 try {
-                    gameImageData.moveBall(currentXTheta, currentYTheta);
+                    timer.updateView();
+                    deltaTime = timer.tick();
+                    gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
                     view.updateView();
-                    Thread.sleep(GAME_UPDATE_MS);
+                    Thread.sleep(deltaTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -51,12 +56,16 @@ public class GameController implements SensorEventListener {
 
     //TODO:add restart game
 
+    Timer timer;
+
     Context context;
 
     SensorManager sensorManager;
     Sensor accelerometerSensor;
     private float currentXTheta;
     private float currentYTheta;
+    private float currentX, currentY, currentZ;
+    private float pixelsByMetersRatio;
 
     ImageData imageData;
     MyImageView myImageView;
@@ -68,6 +77,10 @@ public class GameController implements SensorEventListener {
 
     private boolean gameEnd;
 
+
+    public void setPixelsRatio(float pixelsByMetersRatio) {
+        this.pixelsByMetersRatio = pixelsByMetersRatio;
+    }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
@@ -91,7 +104,10 @@ public class GameController implements SensorEventListener {
         this.context = context;
         this.levelName = levelName;
 
-        GAME_UPDATE_MS = (long)(1000.0f / GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
+        //todo : fix this
+        timer = (Timer)((GameActivity)context).findViewById(R.id.timerTextView);
+
+        GAME_UPDATE_MS = (long)((999 + GameConfiguration.currentConfiguration.GAME_UPDATE_RATE) / GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
 
         currentXTheta = 0;
         currentYTheta = 0;
@@ -126,8 +142,17 @@ public class GameController implements SensorEventListener {
         float dy = values[1];
         float dz = values[2];
 
-        currentXTheta = (float)Math.atan2(dx, dz);
-        currentYTheta = (float)Math.atan2(dy, dz);
+//        Log.d("sensor", dx + "dx");
+//        Log.d("sensor", dy + "dy");
+//        Log.d("sensor", dz + "dz");
+
+        // this is already normalized dumbass
+//        currentXTheta = (float)Math.atan2(dx, dz);
+//        currentYTheta = (float)Math.atan2(dy, dz);
+
+        currentX = dx;
+        currentY = dy;
+        currentZ = dz;
     }
 
     public void onResume() {
@@ -183,6 +208,7 @@ public class GameController implements SensorEventListener {
 
         gameImageData.loadLevel(level);
         gameImageData.updateRadius();
+        gameImageData.setPixelsRatio(pixelsByMetersRatio);
     }
 
     public void startLevel() {
@@ -191,7 +217,7 @@ public class GameController implements SensorEventListener {
 
         loadLevel();
 
-        physicsThread.start();
+        timerThread.start();
     }
 
 }

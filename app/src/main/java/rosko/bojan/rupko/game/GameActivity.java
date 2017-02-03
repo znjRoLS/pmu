@@ -49,13 +49,15 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
 //        Log.d("gravity", 9.81f / (x/100) + "");
 //        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second + "");
-//        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2) + "");
-        //TODO: refactor
-        GameConfiguration.currentConfiguration.GRAVITY_MAGNITUDE = (float) (
-                9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2));
+////        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2) + "");
+//        //TODO: refactor
+//        float gravityByPixels = (float) (
+//                9.81f / (x/100) * getScreenSize().second);// / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2));
 
+        float pixelsByMeter = getScreenSize().second / (float)(x/100);
 
         gameController = new GameController(this, this, myImageView, levelName);
+        gameController.setPixelsRatio(pixelsByMeter);
         gameController.startLevel();
     }
 
