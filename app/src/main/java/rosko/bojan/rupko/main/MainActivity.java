@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     private void startNewGameActivity(String level) {
         Intent intent = new Intent(this, GameActivity.class);
         intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         startActivity(intent);
     }
 

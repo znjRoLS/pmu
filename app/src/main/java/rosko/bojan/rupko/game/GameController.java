@@ -42,10 +42,12 @@ public class GameController implements SensorEventListener {
             while(!gameEnd) {
                 long deltaTime;
                 try {
+                    Ball.BallMovement ballState = gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
+                    view.updateView();
+                    processGameState(ballState);
+
                     timer.updateView();
                     deltaTime = timer.tick();
-                    gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
-                    view.updateView();
                     Thread.sleep(deltaTime);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -53,6 +55,20 @@ public class GameController implements SensorEventListener {
             }
         }
     });
+
+    private void processGameState(Ball.BallMovement ballState) {
+        switch (ballState) {
+            case START:
+                timer.reset();
+                break;
+            case END:
+                gameEnd();
+                break;
+            case HOLE:
+                restartLevel();
+                break;
+        }
+    }
 
     //TODO:add restart game
 
@@ -123,7 +139,10 @@ public class GameController implements SensorEventListener {
 
         setupGameVectorSensor();
 
-        dbHelper = new StatsDbHelper(context);
+    }
+
+    public Timer getTimer() {
+        return timer;
     }
 
     private void setupGameVectorSensor() {
@@ -171,16 +190,24 @@ public class GameController implements SensorEventListener {
         gameEnd = true;
     }
 
-    public void gameEnd() {
+    public void gameStop() {
+        sensorManager.unregisterListener(this);
         gameEnd = true;
     }
 
-    public void writeScore(String username, Time time) {
-        // Gets the data repository in write mode
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
+    public void gameEnd() {
 
-        dbHelper.insertNewStat(levelName, username, time);
+        gameEnd = true;
+        try {
+            timerThread.wait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+
     }
+
 
     public void loadLevel() {
         Level level = null;
@@ -223,6 +250,17 @@ public class GameController implements SensorEventListener {
         loadLevel();
 
         timerThread.start();
+
+        restartLevel();
+    }
+
+    public void restartLevel() {
+
+        timer.reset();
+        filterX.reset();
+        filterY.reset();
+        filterZ.reset();
+        gameImageData.resetBall();
     }
 
 }

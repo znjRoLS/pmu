@@ -30,8 +30,18 @@ public class GameImageData extends ImageData {
         this.ball = ball;
     }
 
-    public void moveBall(float dx, float dy, float dz, float deltaTime) {
-        ball.updateBallMovement(dx, dy, dz, deltaTime);
+    public Ball.BallMovement moveBall(float dx, float dy, float dz, float deltaTime) {
+        return ball.updateBallMovement(dx, dy, dz, deltaTime);
+    }
+
+    public void resetBall() {
+        float ballRad = ball.getRadius();
+        ball = new Ball(this);
+        ball.setCenter(new MyPointF(
+                startHole.getCenter().x,
+                startHole.getCenter().y
+        ));
+        ball.setRadius(ballRad);
     }
 
     @Override

@@ -14,6 +14,8 @@ import java.util.Locale;
 
 public class Timer extends TextView{
 
+    //todo offscreen countdown and return to start
+
     private long startTimeMillis;
     private long lastTimeMillis;
     private long stepMillis;
@@ -60,5 +62,13 @@ public class Timer extends TextView{
     public void start(float frequency) {
         stepMillis = (long)((frequency + 999) / frequency); //ceil(1000/freq)
         startTimeMillis = lastTimeMillis = System.currentTimeMillis();
+    }
+
+    public void reset() {
+        startTimeMillis = lastTimeMillis = System.currentTimeMillis();
+    }
+
+    public long getTime() {
+        return lastTimeMillis - startTimeMillis;
     }
 }

@@ -20,4 +20,8 @@ public class LowPassFilter {
         lastValue = alfa * value + (1 - alfa) * lastValue;
         return lastValue;
     }
+
+    public void reset() {
+        lastValue = 0;
+    }
 }

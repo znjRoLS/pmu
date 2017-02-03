@@ -1,6 +1,7 @@
 package rosko.bojan.rupko.game;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -8,16 +9,20 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 
+import java.sql.Time;
+
 import rosko.bojan.rupko.main.MainActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.imageview.MyImageView;
 import rosko.bojan.rupko.R;
+import rosko.bojan.rupko.statistics.StatsActivity;
+import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 /**
  * Created by rols on 1/19/17.
  */
 
-public class GameActivity extends AppCompatActivity implements GameController.ViewInterface {
+public class GameActivity extends AppCompatActivity implements GameController.ViewInterface, ScoreDialog.DialogActionListener {
 
     GameController gameController;
     GameImageView myImageView;
@@ -99,7 +104,28 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
     @Override
     public void finish(){
-        gameController.gameEnd();
+        gameController.gameStop();
         super.finish();
     }
+
+    @Override
+    public void onDialogPositiveAction(String name) {
+        Time time = new Time(gameController.getTimer().getTime());
+        writeScore(name, time);
+
+        Intent intent = new Intent(this, StatsActivity.class);
+        intent.putExtra(StatsActivity.STATS_LEVEL_EXTRA, levelName);
+    }
+
+    public void writeScore(String username, Time time) {
+
+        StatsDbHelper dbHelper = new StatsDbHelper(this);
+
+        // Gets the data repository in write mode
+        SQLiteDatabase db = dbHelper.getWritableDatabase();
+
+        dbHelper.insertNewStat(levelName, username, time);
+    }
+
+
 }

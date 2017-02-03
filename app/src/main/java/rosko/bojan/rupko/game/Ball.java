@@ -2,6 +2,7 @@ package rosko.bojan.rupko.game;
 
 import android.util.Log;
 
+import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.imageview.MyRectF;
@@ -24,6 +25,10 @@ public class Ball {
     private float BALL_BOUNCE;
 
     ImageData imageData;
+
+    public enum BallMovement {
+        DEFAULT, BOUNCE, START, END, HOLE, OFSCREEN
+    }
 
     public Ball(ImageData imageData) {
         this.imageData = imageData;
@@ -54,19 +59,17 @@ public class Ball {
     }
 
 
-    public void updateBallMovement(float gravityX, float gravityY, float gravityZ,  float deltaTime) {
+    public BallMovement updateBallMovement(float gravityX, float gravityY, float gravityZ,  float deltaTime) {
 
-        float gravityEffect = pixelsByMetersRatio * GRAVITY_MAGNITUDE ;
+        BallMovement bState = BallMovement.DEFAULT;
 
-//        velocity.x *= 1 - BALL_TRACTION;
-//        velocity.y *= 1 - BALL_TRACTION;
+        float accelerationStrength = pixelsByMetersRatio * GRAVITY_MAGNITUDE ;
 
-//        Log.d("velocity", "start: x " + velocity.x + " y " + velocity.y);
+        velocity.x += gravityX * accelerationStrength * deltaTime;
+        velocity.y += gravityY * accelerationStrength * deltaTime;
 
-        velocity.x += gravityX * gravityEffect * deltaTime;
-        velocity.y += gravityY * gravityEffect * deltaTime;
-
-        float tractionAcceleration = gravityZ * BALL_TRACTION * pixelsByMetersRatio * deltaTime;
+        float tractionStrength = BALL_TRACTION * pixelsByMetersRatio;
+        float tractionAcceleration = gravityZ * tractionStrength * deltaTime;
 
         if (velocity.getMagnitude() > tractionAcceleration) {
             float velocityAngle = velocity.getAngle();
@@ -84,20 +87,6 @@ public class Ball {
         center.x += velocity.x * deltaTime;
         center.y += velocity.y * deltaTime;
 
-//        Log.d("ball", "pixel by meter " + pixelsByMetersRatio );
-//        Log.d("ball", "grav effect " + gravityEffect);
-//        Log.d("ball", "gravX " + gravityX);
-//        Log.d("ball", "deltatime " + deltaTime);
-//        Log.d("ball", "velocity change " + gravityX * deltaTime * gravityEffect);
-//        Log.d("ball", "velocity " + velocity.x);
-//        Log.d("ball", "center change " + velocity.x * deltaTime);
-//        Log.d("ball", "center " + center.x);
-//
-//        Log.d("ball", "v2elocity change " + gravityX * deltaTime * gravityEffect/ pixelsByMetersRatio);
-//        Log.d("ball", "v2elocity " + velocity.x / pixelsByMetersRatio);
-//        Log.d("ball", "c2enter change " + velocity.x * deltaTime / pixelsByMetersRatio);
-
-
         boolean collides = false;
 
         for(MyRectF wall : imageData.getWalls()) {
@@ -105,13 +94,28 @@ public class Ball {
         }
 
         if (collides) {
+            bState = BallMovement.BOUNCE;
             center.x = oldX + velocity.x * deltaTime;
             center.y = oldY + velocity.y * deltaTime;
         }
 
+        if (fallInHole(imageData.getStartHole())) {
+            bState = BallMovement.START;
+        }
+        if (fallInHole(imageData.getEndHole())) {
+            bState = BallMovement.END;
+        }
+        for(Hole hole : imageData.getHoles()) {
+            if (fallInHole(hole)) {
+                bState = BallMovement.HOLE;
+            }
+        }
 
-//        Log.d("velocity", "bounce: x " + velocity.x + " y " + velocity.y);
+        return bState;
+    }
 
+    private boolean fallInHole(Hole hole) {
+        return dist(hole.getCenter(), center) <= Math.max(hole.getRadius(), radius);
     }
 
     private boolean bounceOfWall(MyRectF wall) {
