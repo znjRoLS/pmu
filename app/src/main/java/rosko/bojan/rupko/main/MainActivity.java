@@ -33,6 +33,7 @@ import rosko.bojan.rupko.newlevel.NewElementDialog;
 import rosko.bojan.rupko.newlevel.NewLevelActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.preferences.PreferencesActivity;
+import rosko.bojan.rupko.statistics.StatsActivity;
 import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 public class MainActivity extends AppCompatActivity implements LevelEditDialog.ListDialogListener {
@@ -42,10 +43,14 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     public final static String INTENT_LEVEL_EXTRA_NAME = "rosko.bojan.rupko.LEVEL_EXTRA";
     public final static String DIALOG_BUNDLE_LEVEL_NAME = "rosko.bojan.rupko.LEVEL_DIALOG";
 
+    private boolean statsWaiting;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        statsWaiting = false;
 
         GameConfiguration.fillCurrentConfiguration(this);
 
@@ -85,9 +90,16 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         levelsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
-                //TODO: omg, please dont mess up with textviews
-                startNewGameActivity(textView.getText().toString());
+                if (statsWaiting) {
+                    statsWaiting = false;
+                    TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
+                    startStatsActivity(textView.getText().toString());
+                }
+                else {
+                    TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
+                    //TODO: omg, please dont mess up with textviews
+                    startNewGameActivity(textView.getText().toString());
+                }
             }
         });
         levelsListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
@@ -125,6 +137,17 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         return level;
     }
 
+    @Override
+    public void onBackPressed() {
+        if (statsWaiting) {
+            //TODO: lepse pisanije
+            Logger.throwError(this, "Got out from STATS mode");
+            statsWaiting = false;
+        }
+        else {
+            super.onBackPressed();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -141,7 +164,8 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
                 startNewLevelActivity();
                 return true;
             case R.id.show_statistics_menu_item:
-                startStatisticsActivity();
+                statsWaiting = true;
+                Logger.throwError(this, "Click on level to show stats, or press back to return to normal mode");
                 return true;
             case R.id.show_preferences_menu_item:
                 startPreferencesActivity();
@@ -156,14 +180,14 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         startActivity(intent);
     }
 
-    private void startStatisticsActivity() {
-        Logger.throwError(this, "Not implemented yet!");
-//        Intent intent = new Intent(this, StatsActivity.class);
-//        startActivity(intent);
-    }
-
     private void startPreferencesActivity() {
         Intent intent = new Intent(this, PreferencesActivity.class);
+        startActivity(intent);
+    }
+
+    private void startStatsActivity(String level) {
+        Intent intent = new Intent(this, StatsActivity.class);
+        intent.putExtra(StatsActivity.STATS_LEVEL_EXTRA, level);
         startActivity(intent);
     }
 

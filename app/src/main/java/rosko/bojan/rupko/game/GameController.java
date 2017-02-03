@@ -64,6 +64,7 @@ public class GameController implements SensorEventListener {
     private void processGameState(Ball.BallMovement ballState) {
         switch (ballState) {
             case START:
+                //TODO: also, velocity should be small or sth like that
                 timer.reset();
                 break;
             case END:

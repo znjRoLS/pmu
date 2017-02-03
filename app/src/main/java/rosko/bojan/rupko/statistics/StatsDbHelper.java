@@ -104,7 +104,7 @@ public class StatsDbHelper extends SQLiteOpenHelper {
     public void dropLevelStats(String level) {
         SQLiteDatabase sqLiteDatabase = getWritableDatabase();
         String command = "DELETE FROM " + StatsEntry.TABLE_NAME +
-                " WHERE LEVEL = " + level + ";";
+                " WHERE LEVEL = '" + level + "';";
         sqLiteDatabase.execSQL(command);
     }
 

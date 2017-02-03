@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Adapter;
@@ -30,6 +33,7 @@ public class StatsActivity extends AppCompatActivity {
 
     private String levelName;
     private ListView statsListView;
+    private StatsDbHelper dbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,8 @@ public class StatsActivity extends AppCompatActivity {
         GameConfiguration.fillCurrentConfiguration(this);
 
         levelName = getIntent().getStringExtra(STATS_LEVEL_EXTRA);
-
         statsListView = (ListView) findViewById(R.id.statsListView);
+        dbHelper = new StatsDbHelper(this);
 
         inflateListView();
     }
@@ -49,7 +53,6 @@ public class StatsActivity extends AppCompatActivity {
         Log.d("statsinflate", "hreh");
         Log.d("statsinflate", "levelname " + levelName);
 
-        StatsDbHelper dbHelper = new StatsDbHelper(this);
         Cursor cursor = dbHelper.getOrderedStatsForLevel(levelName);
 
         ListAdapter adapter = new CursorAdapter(this, cursor, 0) {
@@ -79,5 +82,29 @@ public class StatsActivity extends AppCompatActivity {
 
         statsListView.setAdapter(adapter);
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_stats, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.reset_stats_menu_item:
+                dbHelper.dropLevelStats(levelName);
+                finish();
+                return true;
+            case R.id.reset_all_stats_menu_item:
+                dbHelper.dropAllStats();
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
