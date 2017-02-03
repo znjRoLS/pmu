@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_level_menu_item:
+                Logger.throwError(this, "Create a new level!");
                 startNewLevelActivity();
                 return true;
             case R.id.show_statistics_menu_item:
@@ -168,6 +169,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
                 Logger.throwError(this, "Click on level to show stats, or press back to return to normal mode");
                 return true;
             case R.id.show_preferences_menu_item:
+                Logger.throwError(this, "Change preferences");
                 startPreferencesActivity();
                 return true;
             default:

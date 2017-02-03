@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 
@@ -97,10 +98,12 @@ public class StatsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.reset_stats_menu_item:
                 dbHelper.dropLevelStats(levelName);
+                Logger.throwError(this, "Dropped all stats for level " + levelName);
                 finish();
                 return true;
             case R.id.reset_all_stats_menu_item:
                 dbHelper.dropAllStats();
+                Logger.throwError(this, "Dropped all stats for all levels");
                 finish();
                 return true;
             default:
