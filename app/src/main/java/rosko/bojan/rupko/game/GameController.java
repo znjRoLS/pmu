@@ -9,6 +9,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.util.Log;
+import android.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -47,8 +48,8 @@ public class GameController implements SensorEventListener {
                     Ball.BallMovement ballState = gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
                     view.updateView();
 
-                    deltaTime = timer.tick();
                     processGameState(ballState);
+                    deltaTime = timer.tick();
                     timer.updateView();
                     if (deltaTime > 0) {
                         Thread.sleep(deltaTime);
@@ -146,6 +147,16 @@ public class GameController implements SensorEventListener {
 
         setupGameVectorSensor();
 
+        final GameController that = this;
+
+        //update sizes
+        myImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageData.setScreenSize(new Pair<Integer, Integer>(that.myImageView.getHeight(), that.myImageView.getWidth()));
+                imageData.updateRadius();
+            }
+        });
     }
 
     public Timer getTimer() {

@@ -1,6 +1,8 @@
 package rosko.bojan.rupko.game;
 
+import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Point;
@@ -9,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.view.KeyEvent;
 
 import java.sql.Time;
 
@@ -44,8 +47,8 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
         myImageView = (GameImageView) findViewById(R.id.myImageView);
         imageData = (GameImageData) myImageView.getImageData();
-        imageData.setScreenSize(getScreenSize());
-        imageData.updateRadius();
+//        imageData.setScreenSize(getScreenSize());
+//        imageData.updateRadius();
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -65,7 +68,14 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
 
         gameController = new GameController(this, this, myImageView, levelName);
         gameController.setPixelsRatio(pixelsByMeter);
-        gameController.startLevel();
+
+        //starting level
+        myImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                gameController.startLevel();
+            }
+        });
     }
 
 
@@ -94,6 +104,7 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
     @Override
     public void showEndGameDialog() {
         DialogFragment dialog = new ScoreDialog();
+        dialog.setCancelable(false);
         dialog.show(getFragmentManager(), "ScoreDialog");
     }
 
@@ -128,6 +139,11 @@ public class GameActivity extends AppCompatActivity implements GameController.Vi
         Intent intent = new Intent(this, StatsActivity.class);
         intent.putExtra(StatsActivity.STATS_LEVEL_EXTRA, levelName);
         startActivity(intent);
+    }
+
+    @Override
+    public void onDialogNegativeAction() {
+        finish();
     }
 
     public void writeScore(String username, Time time) {

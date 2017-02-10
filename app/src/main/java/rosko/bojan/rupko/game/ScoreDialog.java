@@ -20,6 +20,7 @@ public class ScoreDialog extends DialogFragment{
 
     public interface DialogActionListener {
         void onDialogPositiveAction(String name);
+        void onDialogNegativeAction();
     }
 
     ScoreDialog.DialogActionListener listener;
@@ -59,10 +60,13 @@ public class ScoreDialog extends DialogFragment{
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
+                                listener.onDialogNegativeAction();
                             }
                         }
                 );
 
         return builder.create();
     }
+
+
 }

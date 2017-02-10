@@ -27,7 +27,7 @@ public class Ball {
     ImageData imageData;
 
     public enum BallMovement {
-        DEFAULT, BOUNCE, START, END, HOLE, OFSCREEN
+        DEFAULT, BOUNCE, START, END, HOLE
     }
 
     public Ball(ImageData imageData) {
@@ -100,6 +100,8 @@ public class Ball {
 
         boolean collides = false;
 
+        collides = collides || bounceOfLimits();
+
         for(MyRectF wall : imageData.getWalls()) {
             collides = collides || bounceOfWall(wall);
         }
@@ -127,6 +129,19 @@ public class Ball {
 
     private boolean fallInHole(Hole hole) {
         return dist(hole.getCenter(), center) <= Math.max(hole.getRadius(), radius);
+    }
+
+    private boolean bounceOfLimits(){
+        if (center.x < radius || center.x > imageData.screenWidth - radius) {
+            velocity.x *= - BALL_BOUNCE;
+            return true;
+        }
+        if (center.y < radius || center.y > imageData.screenHeight - radius) {
+            velocity.y *= - BALL_BOUNCE;
+            return true;
+        }
+
+        return false;
     }
 
     private boolean bounceOfWall(MyRectF wall) {

@@ -1,6 +1,7 @@
 package rosko.bojan.rupko.imageview;
 
 import android.content.Context;
+import android.util.Pair;
 
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
@@ -20,12 +21,14 @@ public class Controller {
         void updateImageView();
     }
 
-    public Controller(Context context, ViewInterface view, MyImageView myImageView) {
+    public Controller(Context context, ViewInterface view, final MyImageView myImageView) {
         this.context = context;
         this.view = view;
         this.myImageView = myImageView;
 
         imageData = myImageView.getImageData();
+
+
     }
 
     public MyImageView getMyImageView() {

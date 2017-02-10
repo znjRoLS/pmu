@@ -24,8 +24,8 @@ public class ImageData implements Serializable{
     protected ArrayList<Hole> holes;
     protected ArrayList<MyRectF> walls;
 
-    protected int screenWidth;
-    protected int screenHeight;
+    public int screenWidth;
+    public int screenHeight;
     protected float currentRadius;
 
     public ImageData() {
@@ -34,7 +34,6 @@ public class ImageData implements Serializable{
         currentRadius = 0f;
 
     }
-
 
     public boolean checkCollisions(MyPointF newHoleCenter) {
 
@@ -65,6 +64,7 @@ public class ImageData implements Serializable{
 
     public void setScreenSize(Pair<Integer, Integer> size) {
 
+        Log.e("runnable post?", "setting scren size");
         Log.d("screensize", "yep im herhe " + size.first + " " + size.second );
 
         screenHeight = size.first;
@@ -88,6 +88,8 @@ public class ImageData implements Serializable{
     }
 
     public void loadLevel(Level level) {
+
+        Log.e("runnable post?", "running level");
 
         MyPointF normalizedStartHole = level.getStartHole();
 
