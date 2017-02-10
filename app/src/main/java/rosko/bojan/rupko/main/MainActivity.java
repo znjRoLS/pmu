@@ -1,14 +1,10 @@
 package rosko.bojan.rupko.main;
 
-import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -21,19 +17,16 @@ import android.widget.TextView;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.game.GameActivity;
 import rosko.bojan.rupko.game.GameLandActivity;
-import rosko.bojan.rupko.newlevel.NewElementDialog;
 import rosko.bojan.rupko.newlevel.NewLevelActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.preferences.PreferencesActivity;

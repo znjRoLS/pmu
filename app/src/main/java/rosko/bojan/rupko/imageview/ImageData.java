@@ -1,7 +1,5 @@
 package rosko.bojan.rupko.imageview;
 
-import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.Log;
 import android.util.Pair;
 
@@ -9,7 +7,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import rosko.bojan.rupko.preferences.GameConfiguration;
-import rosko.bojan.rupko.Level;
 
 /**
  * Created by rols on 1/15/17.

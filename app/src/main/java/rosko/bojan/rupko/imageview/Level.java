@@ -1,5 +1,6 @@
-package rosko.bojan.rupko;
+package rosko.bojan.rupko.imageview;
 
+import android.graphics.Bitmap;
 import android.graphics.PointF;
 import android.graphics.RectF;
 
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.imageview.MyRectF;
+import rosko.bojan.rupko.preferences.GameConfiguration;
 
 /**
  * Created by rols on 1/19/17.
@@ -28,6 +30,10 @@ public class Level implements Serializable{
     public Level() {
         holes = new ArrayList<>();
         walls = new ArrayList<>();
+    }
+
+    public String getThumbnailName() {
+        return name + GameConfiguration.currentConfiguration.BITMAP_SUFIX;
     }
 
     public String getName() {

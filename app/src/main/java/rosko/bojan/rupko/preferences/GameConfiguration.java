@@ -2,6 +2,7 @@ package rosko.bojan.rupko.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -33,6 +34,11 @@ public class GameConfiguration implements Cloneable{
 
     public float FILTER_ALFA;
 
+    public String BITMAP_SUFIX;
+    public Bitmap.CompressFormat BITMAP_FORMAT;
+    public int BITMAP_SIZE;
+    public int BITMAP_COMPRESS_FACTOR;
+
     public final static GameConfiguration defaultConfiguration;
     public static GameConfiguration currentConfiguration;
 
@@ -58,6 +64,11 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration.FILTER_ALFA = 1f;
 
         defaultConfiguration.LEVEL_SUFIX = ".level";
+
+        defaultConfiguration.BITMAP_SUFIX = ".jpg";
+        defaultConfiguration.BITMAP_FORMAT = Bitmap.CompressFormat.JPEG;
+        defaultConfiguration.BITMAP_SIZE = 300;
+        defaultConfiguration.BITMAP_COMPRESS_FACTOR = 10;
 
         copyDefaultPreferences();
     }

@@ -38,6 +38,8 @@ public class NewLevelActivity extends AppCompatActivity implements
         GameConfiguration.fillCurrentConfiguration(this);
 
         myImageView = (NewLevelImageView) findViewById(R.id.myImageView);
+        myImageView.setDrawingCacheEnabled(true);
+
         imageData = myImageView.getImageData();
         imageData.setScreenSize(getScreenSize());
         imageData.updateRadius();

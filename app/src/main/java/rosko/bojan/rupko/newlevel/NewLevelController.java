@@ -3,19 +3,23 @@ package rosko.bojan.rupko.newlevel;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
-import android.graphics.PointF;
-import android.util.Log;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import rosko.bojan.rupko.imageview.Controller;
-import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.MyImageView;
@@ -34,10 +38,13 @@ public class NewLevelController extends Controller implements View.OnTouchListen
 
     private NewLevelImageData newLevelImageData;
 
+    private MyImageView myImageView;
+
 
     public NewLevelController(Context context, ViewInterface view, MyImageView myImageView) {
         super(context, view, myImageView);
 
+        this.myImageView = myImageView;
         newLevelImageData = (NewLevelImageData) imageData;
 
         initGestureDetector();
@@ -154,6 +161,44 @@ public class NewLevelController extends Controller implements View.OnTouchListen
             Logger.throwError(context, "Successfully saved level!");
         }
 
+        saveBitmap(filename);
+
         return true;
+    }
+
+    private void saveBitmap(String filename) {
+//        Bitmap bitmap = ((BitmapDrawable)myImageView.getDrawable()).getBitmap();
+//        Drawable d = myImageView.getDrawable();
+//        Bitmap bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = myImageView.getDrawingCache();
+        int bitmapSize = GameConfiguration.currentConfiguration.BITMAP_SIZE;
+        bitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, false);
+
+        Bitmap newBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), bitmap.getConfig());
+        Canvas canvas = new Canvas(newBitmap);
+        canvas.drawColor(Color.WHITE);
+        canvas.drawBitmap(bitmap, 0, 0, null);
+
+        File internalDir = context.getFilesDir();
+        File file = new File(internalDir, filename + GameConfiguration.currentConfiguration.BITMAP_SUFIX);
+
+        FileOutputStream bitmapOutStream = null;
+        try {
+            bitmapOutStream = new FileOutputStream(file);
+            newBitmap.compress(
+                    GameConfiguration.currentConfiguration.BITMAP_FORMAT,
+                    GameConfiguration.currentConfiguration.BITMAP_COMPRESS_FACTOR,
+                    bitmapOutStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (bitmapOutStream != null) {
+                    bitmapOutStream.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 }

@@ -69,6 +69,20 @@ public class StatsDbHelper extends SQLiteOpenHelper {
         long newRowId = sqLiteDatabase.insert(StatsEntry.TABLE_NAME, null, values);
     }
 
+    public long getBestStatsForLevel(String level) {
+
+        Cursor cursor = getOrderedStatsForLevel(level);
+
+        if (cursor.getCount() == 0) {
+            return 0;
+        }
+        else {
+            cursor.moveToNext();
+            return cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+        }
+
+    }
+
     public Cursor getOrderedStatsForLevel(String level) {
         SQLiteDatabase sqLiteDatabase = getReadableDatabase();
         // Define a projection that specifies which columns from the database

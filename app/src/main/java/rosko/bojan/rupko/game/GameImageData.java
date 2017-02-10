@@ -1,9 +1,6 @@
 package rosko.bojan.rupko.game;
 
-import android.graphics.PointF;
-
-import rosko.bojan.rupko.Level;
-import rosko.bojan.rupko.imageview.Hole;
+import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;
 import rosko.bojan.rupko.preferences.GameConfiguration;

@@ -1,10 +1,8 @@
 package rosko.bojan.rupko.newlevel;
 
-import android.graphics.PointF;
-import android.graphics.RectF;
 import android.util.Log;
 
-import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.imageview.Hole;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyPointF;

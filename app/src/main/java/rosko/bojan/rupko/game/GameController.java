@@ -1,9 +1,6 @@
 package rosko.bojan.rupko.game;
 
-import android.app.DialogFragment;
-import android.content.ContentValues;
 import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -13,20 +10,14 @@ import android.util.Pair;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.sql.Date;
-import java.sql.Time;
 
-import rosko.bojan.rupko.Level;
+import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.ImageData;
 import rosko.bojan.rupko.imageview.MyImageView;
-import rosko.bojan.rupko.newlevel.NewLevelImageData;
-import rosko.bojan.rupko.newlevel.SaveDialog;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.statistics.StatsDbHelper;
 
