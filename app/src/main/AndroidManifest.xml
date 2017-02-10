@@ -19,6 +19,8 @@
         <activity android:name=".preferences.PreferencesActivity" />
         <activity android:name=".game.GameActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".game.GameLandActivity"
+            android:screenOrientation="landscape"/>
         <activity android:name=".statistics.StatsActivity" />
     </application>
 

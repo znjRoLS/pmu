@@ -38,6 +38,8 @@ public class GameController implements SensorEventListener {
 
     private float GAME_UPDATE_MS;
 
+
+
     Thread timerThread = new Thread(new Runnable() {
         @Override
         public void run() {
@@ -45,7 +47,8 @@ public class GameController implements SensorEventListener {
             while(!gameEnd) {
                 long deltaTime;
                 try {
-                    Ball.BallMovement ballState = gameImageData.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
+                    Ball.BallMovement ballState = gameActivity.moveBall(currentX, currentY, currentZ, GAME_UPDATE_MS/1000f);
+
                     view.updateView();
 
                     processGameState(ballState);
@@ -97,6 +100,8 @@ public class GameController implements SensorEventListener {
     StatsDbHelper dbHelper;
     String levelName;
 
+    GameAbstractActivity gameActivity;
+
     private GameImageData gameImageData;
 
     private boolean gameEnd;
@@ -128,13 +133,14 @@ public class GameController implements SensorEventListener {
         this.myImageView = myImageView;
         this.context = context;
         this.levelName = levelName;
+        this.gameActivity = (GameAbstractActivity) context;
 
         filterX = new LowPassFilter();
         filterY = new LowPassFilter();
         filterZ = new LowPassFilter();
 
         //todo : fix this
-        timer = (Timer)((GameActivity)context).findViewById(R.id.timerTextView);
+        timer = (Timer)((GameAbstractActivity)context).findViewById(R.id.timerTextView);
 
         GAME_UPDATE_MS = (long)((999 + GameConfiguration.currentConfiguration.GAME_UPDATE_RATE) / GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
 
@@ -180,7 +186,7 @@ public class GameController implements SensorEventListener {
 
         // Log.d("sensor change ", " value " + values[1]);
 
-        float dx = -values[0];
+        float dx = values[0];
         float dy = values[1];
         float dz = values[2];
 
@@ -191,6 +197,8 @@ public class GameController implements SensorEventListener {
         // this is already normalized dumbass
 //        currentXTheta = (float)Math.atan2(dx, dz);
 //        currentYTheta = (float)Math.atan2(dy, dz);
+
+
 
         currentX = filterX.filter(dx);
         currentY = filterY.filter(dy);

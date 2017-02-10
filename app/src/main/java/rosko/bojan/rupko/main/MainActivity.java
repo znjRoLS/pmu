@@ -3,9 +3,12 @@ package rosko.bojan.rupko.main;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +32,7 @@ import rosko.bojan.rupko.Level;
 import rosko.bojan.rupko.Logger;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.game.GameActivity;
+import rosko.bojan.rupko.game.GameLandActivity;
 import rosko.bojan.rupko.newlevel.NewElementDialog;
 import rosko.bojan.rupko.newlevel.NewLevelActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
@@ -194,10 +198,20 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     }
 
     private void startNewGameActivity(String level) {
-        Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);
+        int orientation = getResources().getConfiguration().orientation;
+
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            Intent intent = new Intent(this, GameActivity.class);
+            intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        }
+        else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            Intent intent = new Intent(this, GameLandActivity.class);
+            intent.putExtra(INTENT_LEVEL_EXTRA_NAME, level);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+            startActivity(intent);
+        }
     }
 
     private void openEditLevelDialog(String level) {
