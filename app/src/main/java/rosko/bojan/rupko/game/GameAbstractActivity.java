@@ -111,6 +111,7 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
                 ScoreDialog.DIALOG_TIME_EXTRA_NAME,
                 ((TextView)findViewById(R.id.timerTextView)).getText().toString()
         );
+        dialog.setArguments(args);
         dialog.show(getFragmentManager(), "ScoreDialog");
     }
 

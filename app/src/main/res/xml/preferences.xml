@@ -2,13 +2,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
         android:title="Ball behavior "
-        android:key="pref_key_storage_settings">
+        android:key="pref_key_ball_behavior">
         <rosko.bojan.rupko.preferences.FloatEditTextPreference
             android:key="@string/preference_ball_bounce"
             android:title="Ball bounce"
             android:summary="Change Ball bounce ratio"
-            android:defaultValue="@string/preference_default_ball_bounce"
-            array="ball_bounce_values"/>
+            android:defaultValue="@string/preference_default_ball_bounce"/>
+            <!--array="ball_bounce_values"/>-->
         <rosko.bojan.rupko.preferences.FloatEditTextPreference
             android:key="@string/preference_ball_traction"
             android:title="Ball Traction"
@@ -19,6 +19,33 @@
             android:title="Gravity Magnitude"
             android:summary="Set gravity magnitude ratio"
             android:defaultValue="@string/preference_default_gravity_magnitude" />
+        <rosko.bojan.rupko.preferences.IntegerEditTextPreference
+            android:key="@string/preference_game_update_rate"
+            android:title="Game update rate"
+            android:summary="Set game update rate"
+            android:defaultValue="@string/preference_default_game_update_rate" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Level visual"
+        android:key="pref_key_level_visual">
+
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_hole_radius_ratio"
+            android:title="Hole radius ratio"
+            android:summary="Set hole radius ratio to ImageView size"
+            android:defaultValue="@string/preference_default_hole_radius_ratio" />
+
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_ball_radius_ratio"
+            android:title="Ball radius ratio"
+            android:summary="Set ball radius ratio to ImageView size"
+            android:defaultValue="@string/preference_default_ball_radius_ratio" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Revert settings"
+        android:key="pref_key_revert_settings">
         <rosko.bojan.rupko.preferences.RevertDefaultPreference
             android:key="nesto"
             android:title="nesto"
@@ -29,14 +56,6 @@
             android:title="nesto2"
             android:summary="nestooo22"
             />
-        <!--<ListPreference-->
-            <!--android:depende
-            ncy="pref_sync"-->
-            <!--android:key="pref_syncConnectionType"-->
-            <!--android:title="@string/pref_syncConnectionType"-->
-            <!--android:dialogTitle="opalaaa"-->
-            <!--android:entries="@array/pref_syncConnectionTypes_entries"-->
-            <!--android:entryValues="@array/pref_syncConnectionTypes_values"-->
-            <!--android:defaultValue="@string/pref_syncConnectionTypes_default" />-->
     </PreferenceCategory>
+
 </PreferenceScreen>

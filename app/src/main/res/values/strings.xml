@@ -3,11 +3,18 @@
     <string name="app_prefix">rosko.bojan.rupko.</string>
 
     <string name="preference_file_key">GLOBAL_PREFERENCES</string>
+
     <string name="preference_ball_traction">BALL_TRACTION</string>
     <string name="preference_ball_bounce">BALL_BOUNCE</string>
     <string name="preference_gravity_magnitude">GRAVITY_MAGNITUDE</string>
+    <string name="preference_hole_radius_ratio">HOLE_RADIUS_RATIO</string>
+    <string name="preference_ball_radius_ratio">BALL_RADIUS_RATIO</string>
+    <string name="preference_game_update_rate">GAME_UPDATE_RATE</string>
 
     <string name="preference_default_ball_bounce">0.7</string>
     <string name="preference_default_ball_traction">0.001</string>
     <string name="preference_default_gravity_magnitude">0.03</string>
+    <string name="preference_default_hole_radius_ratio">0.07</string>
+    <string name="preference_default_ball_radius_ratio">0.8</string>
+    <string name="preference_default_game_update_rate">60</string>
 </resources>

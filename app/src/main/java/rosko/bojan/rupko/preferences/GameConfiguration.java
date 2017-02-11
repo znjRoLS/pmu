@@ -22,13 +22,13 @@ public class GameConfiguration implements Cloneable{
     public int DRAGGABLE_COLOR;
     public int BALL_COLOR;
 
-    public float HOLE_RADIUS_PERCENTAGE;
-    public float BALL_RADIUS_PERCENTAGE;
+    public float HOLE_RADIUS_RATIO;
+    public float BALL_RADIUS_RATIO;
 
     public float BALL_TRACTION;
     public float BALL_BOUNCE;
     public float GRAVITY_MAGNITUDE;
-    public float GAME_UPDATE_RATE;
+    public int GAME_UPDATE_RATE;
 
     public String LEVEL_SUFIX;
 
@@ -39,6 +39,8 @@ public class GameConfiguration implements Cloneable{
     public int BITMAP_SIZE;
     public int BITMAP_COMPRESS_FACTOR;
 
+    public int AUDIO_BALL_BOUNCE;
+
     public final static GameConfiguration defaultConfiguration;
     public static GameConfiguration currentConfiguration;
 
@@ -47,8 +49,8 @@ public class GameConfiguration implements Cloneable{
     static {
         defaultConfiguration = new GameConfiguration();
 
-        defaultConfiguration.HOLE_RADIUS_PERCENTAGE = 0.07f;
-        defaultConfiguration.BALL_RADIUS_PERCENTAGE = 0.8f;
+        defaultConfiguration.HOLE_RADIUS_RATIO = 0.07f;
+        defaultConfiguration.BALL_RADIUS_RATIO = 0.8f;
         defaultConfiguration.START_HOLE_COLOR = Color.GREEN;
         defaultConfiguration.HOLE_COLOR = Color.BLUE;
         defaultConfiguration.END_HOLE_COLOR = Color.DKGRAY;
@@ -70,6 +72,8 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration.BITMAP_SIZE = 300;
         defaultConfiguration.BITMAP_COMPRESS_FACTOR = 10;
 
+        defaultConfiguration.AUDIO_BALL_BOUNCE = R.raw.c;
+
         copyDefaultPreferences();
     }
 
@@ -90,6 +94,19 @@ public class GameConfiguration implements Cloneable{
         currentConfiguration.BALL_BOUNCE = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_bounce),
                 defaultConfiguration.BALL_BOUNCE);
+        currentConfiguration.GRAVITY_MAGNITUDE = sharedPreferences.getFloat(
+                context.getString(R.string.preference_gravity_magnitude),
+                defaultConfiguration.GRAVITY_MAGNITUDE);
+        currentConfiguration.GAME_UPDATE_RATE = sharedPreferences.getInt(
+                context.getString(R.string.preference_game_update_rate),
+                defaultConfiguration.GAME_UPDATE_RATE);
+
+        currentConfiguration.HOLE_RADIUS_RATIO = sharedPreferences.getFloat(
+                context.getString(R.string.preference_hole_radius_ratio),
+                defaultConfiguration.HOLE_RADIUS_RATIO);
+        currentConfiguration.BALL_RADIUS_RATIO = sharedPreferences.getFloat(
+                context.getString(R.string.preference_ball_radius_ratio),
+                defaultConfiguration.BALL_RADIUS_RATIO);
     }
 
     public static void restoreDefaultPreferences(Context context) {

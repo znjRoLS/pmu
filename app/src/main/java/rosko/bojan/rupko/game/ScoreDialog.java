@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -48,7 +49,8 @@ public class ScoreDialog extends DialogFragment{
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_score, null));
+        View content = inflater.inflate(R.layout.dialog_score, null);
+        builder.setView(content);
         builder
                 .setTitle("Type your name ")
                 .setPositiveButton("Save",
@@ -69,7 +71,7 @@ public class ScoreDialog extends DialogFragment{
                 );
 
         String time = getArguments().getString(DIALOG_TIME_EXTRA_NAME);
-        ((TextView) getView().findViewById(R.id.yourTimeTextView)).setText(time);
+        ((TextView) content.findViewById(R.id.yourTimeTextView)).setText("Your time: " + time);
 
         return builder.create();
     }

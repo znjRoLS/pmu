@@ -72,7 +72,7 @@ public class ImageData implements Serializable{
 
     public void updateRadius(){
         int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
-        currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_PERCENTAGE * smaller;
+        currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_RATIO * smaller;
 
         Log.d("screensize", currentRadius + "");
 

@@ -5,6 +5,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.util.Log;
 import android.util.Pair;
 
@@ -29,7 +31,21 @@ public class GameController implements SensorEventListener {
 
     private float GAME_UPDATE_MS;
 
+    MediaPlayer bounceMediaPlayer;
 
+    private class bounceSoundTask extends AsyncTask {
+        @Override
+        protected Object doInBackground(Object[] objects) {
+            try {
+                bounceMediaPlayer.stop();
+                bounceMediaPlayer.prepare();
+                bounceMediaPlayer.start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+    };
 
     Thread timerThread = new Thread(new Runnable() {
         @Override
@@ -56,7 +72,10 @@ public class GameController implements SensorEventListener {
         }
     });
 
+    private long lastBounceTime = 0;
+    private static final int BOUNCE_WAIT_TIME = 200;
     private void processGameState(Ball.BallMovement ballState) {
+
         switch (ballState) {
             case START:
                 //TODO: also, velocity should be small or sth like that
@@ -67,6 +86,13 @@ public class GameController implements SensorEventListener {
                 break;
             case HOLE:
                 restartLevel();
+                break;
+            case BOUNCE:
+                if (timer.getTime() - lastBounceTime > BOUNCE_WAIT_TIME) {
+                    (new bounceSoundTask()).execute("");
+                }
+                lastBounceTime = timer.getTime();
+
                 break;
         }
     }
@@ -125,6 +151,9 @@ public class GameController implements SensorEventListener {
         this.context = context;
         this.levelName = levelName;
         this.gameActivity = (GameAbstractActivity) context;
+
+        bounceMediaPlayer = MediaPlayer.create(context,
+                GameConfiguration.currentConfiguration.AUDIO_BALL_BOUNCE);
 
         filterX = new LowPassFilter();
         filterY = new LowPassFilter();
