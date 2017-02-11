@@ -37,17 +37,21 @@ public class Timer extends TextView{
         super(context, attrs, defStyleAttr, defStyleRes);
     }
 
+    public String getFormatedTime() {
+        long diffTime = lastTimeMillis - startTimeMillis;
+
+        long minutes = diffTime / 60000;
+        long seconds = diffTime / 1000 % 60;
+        long millis = diffTime % 1000;
+
+        return String.format(Locale.getDefault(), "%02d:%02d:%03d", minutes, seconds, millis);
+    }
+
     public void updateView() {
         post(new Runnable() {
             @Override
             public void run() {
-                long diffTime = lastTimeMillis - startTimeMillis;
-
-                long minutes = diffTime / 60000;
-                long seconds = diffTime / 1000 % 60;
-                long millis = diffTime % 1000;
-
-                setText(String.format(Locale.getDefault(), "%02d:%02d:%03d", minutes, seconds, millis));
+                setText(getFormatedTime());
             }
         });
     }

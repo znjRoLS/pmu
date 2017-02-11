@@ -10,4 +10,11 @@
         android:ems="10"
         android:id="@+id/userScoreEditText"
         android:hint="User Name" />
+
+    <TextView
+        android:text="TextView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/yourTimeTextView"
+        android:textSize="24sp" />
 </LinearLayout>

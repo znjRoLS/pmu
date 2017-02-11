@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
+import android.widget.TextView;
 
 import java.sql.Time;
 
@@ -104,6 +105,12 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
     public void showEndGameDialog() {
         DialogFragment dialog = new ScoreDialog();
         dialog.setCancelable(false);
+
+        Bundle args = new Bundle();
+        args.putString(
+                ScoreDialog.DIALOG_TIME_EXTRA_NAME,
+                ((TextView)findViewById(R.id.timerTextView)).getText().toString()
+        );
         dialog.show(getFragmentManager(), "ScoreDialog");
     }
 

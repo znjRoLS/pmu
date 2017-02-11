@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.newlevel.SaveDialog;
@@ -17,6 +18,8 @@ import rosko.bojan.rupko.newlevel.SaveDialog;
  */
 
 public class ScoreDialog extends DialogFragment{
+
+    public static final String DIALOG_TIME_EXTRA_NAME = "rosko.bojan.rupko.dialog_time_extra_name";
 
     public interface DialogActionListener {
         void onDialogPositiveAction(String name);
@@ -64,6 +67,9 @@ public class ScoreDialog extends DialogFragment{
                             }
                         }
                 );
+
+        String time = getArguments().getString(DIALOG_TIME_EXTRA_NAME);
+        ((TextView) getView().findViewById(R.id.yourTimeTextView)).setText(time);
 
         return builder.create();
     }
