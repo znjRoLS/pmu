@@ -56,7 +56,7 @@ public class GameConfiguration implements Cloneable{
         defaultConfiguration.DRAGGABLE_COLOR = Color.parseColor("#998B4513");
         defaultConfiguration.BALL_COLOR = Color.GRAY;
 
-        defaultConfiguration.BALL_BOUNCE = 0.8f;
+        defaultConfiguration.BALL_BOUNCE = 0.7f;
         defaultConfiguration.BALL_TRACTION = 0.001f;
         defaultConfiguration.GRAVITY_MAGNITUDE = 0.03f;
         defaultConfiguration.GAME_UPDATE_RATE = 60;

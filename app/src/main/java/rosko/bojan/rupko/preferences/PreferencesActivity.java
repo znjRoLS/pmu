@@ -1,7 +1,11 @@
 package rosko.bojan.rupko.preferences;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.Preference;
 import android.preference.PreferenceActivity;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -24,6 +28,9 @@ public class PreferencesActivity extends PreferenceActivity{
 //                .replace(R.id.preferencesFrameLayout, new MyPreferenceFragment())
 //                .commit();
 //        GameConfiguration.fillCurrentConfiguration(this);
+
+
+
     }
 
     @Override
@@ -47,7 +54,6 @@ public class PreferencesActivity extends PreferenceActivity{
                 return super.onOptionsItemSelected(item);
         }
     }
-
 
 
 }

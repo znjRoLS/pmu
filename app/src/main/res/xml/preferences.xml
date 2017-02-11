@@ -3,7 +3,7 @@
     <PreferenceCategory
         android:title="Ball behavior "
         android:key="pref_key_storage_settings">
-        <rosko.bojan.rupko.preferences.NumberPickerPreference
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
             android:key="@string/preference_ball_bounce"
             android:title="Ball bounce"
             android:summary="Change Ball bounce ratio"
@@ -14,6 +14,21 @@
             android:title="Ball Traction"
             android:summary="Set ball traction ratio"
             android:defaultValue="@string/preference_default_ball_traction" />
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_gravity_magnitude"
+            android:title="Gravity Magnitude"
+            android:summary="Set gravity magnitude ratio"
+            android:defaultValue="@string/preference_default_gravity_magnitude" />
+        <rosko.bojan.rupko.preferences.RevertDefaultPreference
+            android:key="nesto"
+            android:title="nesto"
+            android:summary="nestooo"
+            />
+        <Preference
+            android:key="myKey"
+            android:title="nesto2"
+            android:summary="nestooo22"
+            />
         <!--<ListPreference-->
             <!--android:depende
             ncy="pref_sync"-->
