@@ -15,6 +15,7 @@ import android.widget.Adapter;
 import android.widget.CursorAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 
@@ -57,6 +58,8 @@ public class StatsActivity extends AppCompatActivity {
         Cursor cursor = dbHelper.getOrderedStatsForLevel(levelName);
 
         ListAdapter adapter = new CursorAdapter(this, cursor, 0) {
+
+            private long bestTime;
             @Override
             public View newView(Context context, Cursor cursor, ViewGroup viewGroup) {
                 return LayoutInflater.from(context).inflate(R.layout.row_stats, viewGroup, false);
@@ -64,6 +67,18 @@ public class StatsActivity extends AppCompatActivity {
 
             @Override
             public void bindView(View view, Context context, Cursor cursor) {
+
+                ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.backgroundProgressBar);
+                progressBar.setScaleY(7f);
+
+                if (cursor.getPosition() == 0) {
+                    bestTime = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+                    progressBar.setProgress(50);
+                } else {
+                    long notBestTime = cursor.getLong(cursor.getColumnIndexOrThrow("time"));
+                    progressBar.setProgress(50 + (int)(50 * (1 - 1f/((float)notBestTime/(float)bestTime))));
+                }
+
                 // Find fields to populate in inflated template
                 TextView tvusername = (TextView) view.findViewById(R.id.scoreUsernameTextView);
                 TextView tvtime = (TextView) view.findViewById(R.id.scoreTimeTextView);

@@ -42,7 +42,7 @@ public class StatsDbHelper extends SQLiteOpenHelper {
                     StatsEntry._ID + " INTEGER PRIMARY KEY," +
                     StatsEntry.COLUMN_NAME_LEVEL + " TEXT," +
                     StatsEntry.COLUMN_NAME_USERNAME + " TEXT," +
-                    StatsEntry.COLUMN_NAME_TIME + " TEXT)";
+                    StatsEntry.COLUMN_NAME_TIME + " LONG)";
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {

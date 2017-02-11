@@ -3,7 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="White">#FFFFFF</color>
+    <color name="White">#ffffff</color>
     <color name="Ivory">#FFFFF0</color>
     <color name="LightYellow">#FFFFE0</color>
     <color name="Yellow">#FFFF00</color>
@@ -37,7 +37,7 @@
     <color name="OldLace">#FDF5E6</color>
     <color name="LightGoldenrodYellow">#FAFAD2</color>
     <color name="Linen">#FAF0E6</color>
-    <color name="AntiqueWhite">#FAEBD7</color>
+    <color name="AntiqueWhite">#faebd7</color>
     <color name="Salmon">#FA8072</color>
     <color name="GhostWhite">#F8F8FF</color>
     <color name="MintCream">#F5FFFA</color>
@@ -47,7 +47,7 @@
     <color name="SandyBrown">#F4A460</color>
     <color name="Azure">#F0FFFF</color>
     <color name="Honeydew">#F0FFF0</color>
-    <color name="AliceBlue">#F0F8FF</color>
+    <color name="AliceBlue">#f0f8ff</color>
     <color name="Khaki">#F0E68C</color>
     <color name="LightCoral">#F08080</color>
     <color name="PaleGoldenrod">#EEE8AA</color>
@@ -78,7 +78,7 @@
     <color name="PowderBlue">#B0E0E6</color>
     <color name="LightSteelBlue">#B0C4DE</color>
     <color name="PaleTurquoise">#AFEEEE</color>
-    <color name="GreenYellow">#ADFF2F</color>
+    <color name="GreenYellow">#adff2f</color>
     <color name="LightBlue">#ADD8E6</color>
     <color name="DarkGray">#A9A9A9</color>
     <color name="Brown">#A52A2A</color>
