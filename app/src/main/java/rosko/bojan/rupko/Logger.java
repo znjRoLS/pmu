@@ -9,8 +9,10 @@ import android.widget.Toast;
 
 public class Logger {
 
-    public static void throwError(Context context, String msg) {
-        Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+    public static void throwError(Context context, String msg, boolean lengthLong) {
+
+        Toast toast = Toast.makeText(context, msg, lengthLong?Toast.LENGTH_LONG:Toast.LENGTH_SHORT);
+
         toast.show();
     }
 }

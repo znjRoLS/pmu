@@ -19,6 +19,9 @@ public class Hole implements Serializable{
     Type type;
 
 
+    public boolean collides(MyPointF point) {
+        return dist(center, point) <= radius;
+    }
 
     public boolean collides(Hole otherHole) {
         return dist(center, otherHole.center) <= radius + otherHole.radius;

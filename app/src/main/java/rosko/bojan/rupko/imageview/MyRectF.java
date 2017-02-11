@@ -25,7 +25,7 @@ public class MyRectF implements Serializable {
         bottom = left = top = right = 0;
     }
 
-    public boolean intersect(MyRectF other) {
+    public boolean collides(MyRectF other) {
         float interLeft = Math.max(left, other.left);
         float interRight = Math.min(right, other.right);
         float interTop = Math.max(top, other.top);
@@ -33,6 +33,10 @@ public class MyRectF implements Serializable {
 
         return (interLeft <= interRight && interTop <= interBottom);
 
+    }
+
+    public boolean collides(MyPointF point) {
+        return point.x <= right && point.x >= left && point.y <= bottom && point.y >= top;
     }
 
 }

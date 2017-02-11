@@ -86,10 +86,21 @@ public class NewLevelImageData extends ImageData {
         dragPointsEnd[index] = null;
     }
 
+    public boolean checkDraggableExistant(int index) {
+        MyPointF startPoint = dragPoints[index];
+        MyPointF endPoint = dragPointsEnd[index];
+
+        //draggable actually not existant (due to longpress action)
+        if (startPoint == null || endPoint == null)
+            return false;
+        return true;
+    }
+
     public boolean finishDraggable(int index) {
         MyPointF startPoint = dragPoints[index];
         MyPointF endPoint = dragPointsEnd[index];
 
+        //draggable actually not existant (due to longpress action)
         if (startPoint == null || endPoint == null)
             return false;
 
@@ -113,7 +124,7 @@ public class NewLevelImageData extends ImageData {
             if (hole.collides(wall)) return false;
         }
         for (MyRectF existingWall : walls) {
-            if (wall.intersect(existingWall)) {
+            if (wall.collides(existingWall)) {
                 return false;
             }
         }
@@ -128,6 +139,31 @@ public class NewLevelImageData extends ImageData {
             dragPointsEnd[index].x = x;
             dragPointsEnd[index].y = y;
         }
+    }
+
+    public boolean tryRemoveElement(MyPointF longPress) {
+        if (startHole.collides(longPress)) {
+            startHole = null;
+            return true;
+        }
+        if (endHole.collides(longPress)) {
+            endHole = null;
+            return true;
+        }
+        for (int i = 0 ; i < holes.size(); i ++) {
+            if (holes.get(i).collides(longPress)) {
+                holes.remove(i);
+                return true;
+            }
+        }
+
+        for (int i = 0 ; i < walls.size(); i ++) {
+            if (walls.get(i).collides(longPress)) {
+                walls.remove(i);
+                return true;
+            }
+        }
+        return false;
     }
 
     public MyPointF[] getDraggables() {

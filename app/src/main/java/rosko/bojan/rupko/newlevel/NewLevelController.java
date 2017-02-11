@@ -56,11 +56,9 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         gestureDetector = new GestureDetector(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public void onLongPress(MotionEvent motionEvent) {
-
                 newLevelImageData.removeDraggable(motionEvent.getActionIndex());
-
                 lastLongPress = new MyPointF(motionEvent.getX(), motionEvent.getY());
-                openSpawnDialogue();
+                processLongPress();
             }
         });
     }
@@ -83,8 +81,10 @@ public class NewLevelController extends Controller implements View.OnTouchListen
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
 //                Log.d("ontouch", "asction up");
-                if (!newLevelImageData.finishDraggable(motionEvent.getActionIndex())) {
-                    Logger.throwError(context, "New wall collides!");
+                if (newLevelImageData.checkDraggableExistant(motionEvent.getActionIndex())) {
+                    if (!newLevelImageData.finishDraggable(motionEvent.getActionIndex())) {
+                        Logger.throwError(context, "New wall would collide!", false);
+                    }
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
@@ -98,9 +98,18 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         return true;
     }
 
+    private void processLongPress() {
+
+        if (newLevelImageData.tryRemoveElement(lastLongPress)) {
+            Logger.throwError(context, "Element removed!", false);
+        } else {
+            openSpawnDialogue();
+        }
+    }
+
     private void openSpawnDialogue() {
         if (imageData.checkCollisions(lastLongPress)) {
-            Logger.throwError(context, "New hole would collide!");
+            Logger.throwError(context, "New hole would collide!", false);
         }
         else {
             // Create an instance of the dialog fragment and show it
@@ -129,7 +138,7 @@ public class NewLevelController extends Controller implements View.OnTouchListen
     public boolean saveLevel(String filename) {
         Level level = newLevelImageData.getLevel();
         if (level == null) {
-            Logger.throwError(context, "Level not valid!");
+            Logger.throwError(context, "Level not valid!", true);
             return false;
         }
 
@@ -150,15 +159,15 @@ public class NewLevelController extends Controller implements View.OnTouchListen
             objectOutputStream.close();
             outputStream.close();
         } catch (IOException e) {
-            Logger.throwError(context, "Problem with output stream!");
+            Logger.throwError(context, "Problem with output stream!", true);
             e.printStackTrace();
         }
 
         if (fileExisted) {
-            Logger.throwError(context, "Successfully overwritten existing level");
+            Logger.throwError(context, "Successfully overwritten existing level", false);
         }
         else {
-            Logger.throwError(context, "Successfully saved level!");
+            Logger.throwError(context, "Successfully saved level!", false);
         }
 
         saveBitmap(filename);
