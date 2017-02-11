@@ -142,13 +142,17 @@ public class NewLevelImageData extends ImageData {
     }
 
     public boolean tryRemoveElement(MyPointF longPress) {
-        if (startHole.collides(longPress)) {
-            startHole = null;
-            return true;
+        if (startHole != null) {
+            if (startHole.collides(longPress)) {
+                startHole = null;
+                return true;
+            }
         }
-        if (endHole.collides(longPress)) {
-            endHole = null;
-            return true;
+        if (endHole != null) {
+            if (endHole.collides(longPress)) {
+                endHole = null;
+                return true;
+            }
         }
         for (int i = 0 ; i < holes.size(); i ++) {
             if (holes.get(i).collides(longPress)) {

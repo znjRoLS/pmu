@@ -134,6 +134,8 @@ public class ImageData implements Serializable{
 
             walls.add(wall);
         }
+
+        updateRadius();
     }
 
     public Hole getStartHole() {

@@ -11,6 +11,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import rosko.bojan.rupko.imageview.Controller;
+import rosko.bojan.rupko.imageview.Level;
+import rosko.bojan.rupko.main.MainActivity;
 import rosko.bojan.rupko.preferences.GameConfiguration;
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.Hole;
@@ -41,10 +43,26 @@ public class NewLevelActivity extends AppCompatActivity implements
         myImageView.setDrawingCacheEnabled(true);
 
         imageData = myImageView.getImageData();
-        imageData.setScreenSize(getScreenSize());
-        imageData.updateRadius();
+
+        final String levelName = getIntent().getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
+
+        //todo: not here
+        final NewLevelActivity that = this;
+        //update sizes
+        myImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageData.setScreenSize(new Pair<Integer, Integer>(that.myImageView.getHeight(), that.myImageView.getWidth()));
+                if (levelName != null) {
+                    imageData.loadLevel(Level.loadLevel(that, levelName));
+                }
+                imageData.updateRadius();
+            }
+        });
 
         controller = new NewLevelController(this, this, myImageView);
+
+
     }
 
     @Override
@@ -101,23 +119,30 @@ public class NewLevelActivity extends AppCompatActivity implements
 
         imageData = (ImageData) savedInstanceState.getSerializable("data");
 
-        imageData.setScreenSize(getScreenSize());
-        imageData.updateRadius();
+        final NewLevelActivity that = this;
+        //update sizes
+        myImageView.post(new Runnable() {
+            @Override
+            public void run() {
+                imageData.setScreenSize(new Pair<Integer, Integer>(that.myImageView.getHeight(), that.myImageView.getWidth()));
+                imageData.updateRadius();
+            }
+        });
     }
 
     //TODO : refactor
-    private Pair<Integer, Integer> getScreenSize() {
-
-        //TODO: imageview size, not screen size
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-
-        return new Pair<Integer, Integer>(height, width);
-    }
+//    private Pair<Integer, Integer> getScreenSize() {
+//
+//        //TODO: imageview size, not screen size
+//        DisplayMetrics displayMetrics = new DisplayMetrics();
+//        getWindowManager()
+//                .getDefaultDisplay()
+//                .getMetrics(displayMetrics);
+//        int height = displayMetrics.heightPixels;
+//        int width = displayMetrics.widthPixels;
+//
+//        return new Pair<Integer, Integer>(height, width);
+//    }
 
     @Override
     public void onDialogPositiveAction(String name) {

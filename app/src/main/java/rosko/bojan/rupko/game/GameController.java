@@ -224,33 +224,7 @@ public class GameController implements SensorEventListener {
 
 
     public void loadLevel() {
-        Level level = null;
-
-        String levelSuffix = GameConfiguration.currentConfiguration.LEVEL_SUFIX;
-        File internalDir = context.getFilesDir();
-        File file = new File(internalDir, levelName + levelSuffix);
-        boolean fileExisted = file.exists();
-
-        if (!fileExisted) {
-            Logger.throwError(context, "Level doesn't exist! Level: " + levelName + levelSuffix);
-            return;
-        }
-
-        try {
-            FileInputStream inputStream = new FileInputStream(file);
-            ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-            level = (Level) objectInputStream.readObject();
-            objectInputStream.close();
-            inputStream.close();
-        } catch (IOException e) {
-            Logger.throwError(context, "Problem with output stream!");
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            Logger.throwError(context, "Problem with class not found!");
-            e.printStackTrace();
-        }
-
-        Logger.throwError(context, "Successfully loaded level!");
+        Level level = Level.loadLevel(context, levelName);
 
         gameImageData.loadLevel(level);
         gameImageData.updateRadius();

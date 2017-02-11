@@ -124,10 +124,10 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
             objectInputStream.close();
             inputStream.close();
         } catch (IOException e) {
-            Logger.throwError(this, "Problem with input stream!");
+            Logger.throwError(this, "Problem with input stream!", false);
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
-            Logger.throwError(this, "Problem with class not found!");
+            Logger.throwError(this, "Problem with class not found!", false);
             e.printStackTrace();
         }
 
@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     public void onBackPressed() {
         if (statsWaiting) {
             //TODO: lepse pisanije
-            Logger.throwError(this, "Got out from STATS mode");
+            Logger.throwError(this, "Got out from STATS mode", false);
             statsWaiting = false;
         }
         else {
@@ -158,15 +158,15 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         // Handle item selection
         switch (item.getItemId()) {
             case R.id.new_level_menu_item:
-                Logger.throwError(this, "Create a new level!");
+                Logger.throwError(this, "Create a new level!", false);
                 startNewLevelActivity();
                 return true;
             case R.id.show_statistics_menu_item:
                 statsWaiting = true;
-                Logger.throwError(this, "Click on level to show stats, or press back to return to normal mode");
+                Logger.throwError(this, "Click on level to show stats, or press back to return to normal mode", false);
                 return true;
             case R.id.show_preferences_menu_item:
-                Logger.throwError(this, "Change preferences");
+                Logger.throwError(this, "Change preferences", false);
                 startPreferencesActivity();
                 return true;
             default:

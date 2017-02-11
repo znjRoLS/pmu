@@ -113,12 +113,12 @@ public class StatsActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.reset_stats_menu_item:
                 dbHelper.dropLevelStats(levelName);
-                Logger.throwError(this, "Dropped all stats for level " + levelName);
+                Logger.throwError(this, "Dropped all stats for level " + levelName, false);
                 finish();
                 return true;
             case R.id.reset_all_stats_menu_item:
                 dbHelper.dropAllStats();
-                Logger.throwError(this, "Dropped all stats for all levels");
+                Logger.throwError(this, "Dropped all stats for all levels", false);
                 finish();
                 return true;
             default:

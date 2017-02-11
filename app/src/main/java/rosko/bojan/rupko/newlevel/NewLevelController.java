@@ -50,6 +50,7 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         initGestureDetector();
 
         myImageView.setOnTouchListener(this);
+
     }
 
     private void initGestureDetector() {
