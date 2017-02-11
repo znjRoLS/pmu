@@ -235,6 +235,9 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         File file = new File(dir, levelName + GameConfiguration.currentConfiguration.LEVEL_SUFIX);
         boolean deleted = file.delete();
 
+        File bitmapfile = new File(dir, levelName + GameConfiguration.currentConfiguration.BITMAP_SUFIX);
+        boolean bitmapdeleted = bitmapfile.delete();
+
         //update list view
         inflateLevels();
     }
