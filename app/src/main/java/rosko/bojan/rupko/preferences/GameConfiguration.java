@@ -90,7 +90,7 @@ public class GameConfiguration implements Cloneable{
                 Integer.parseInt(resources.getString(R.string.preference_default_bitmap_compress_factor));
 
         defaultConfiguration.BITMAP_FORMAT = Bitmap.CompressFormat.JPEG;
-        defaultConfiguration.AUDIO_BALL_BOUNCE = R.raw.c;
+        defaultConfiguration.AUDIO_BALL_BOUNCE = R.raw.g;
 
         copyDefaultPreferences();
     }

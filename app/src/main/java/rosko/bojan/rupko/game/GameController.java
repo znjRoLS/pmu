@@ -73,7 +73,7 @@ public class GameController implements SensorEventListener {
     });
 
     private long lastBounceTime = 0;
-    private static final int BOUNCE_WAIT_TIME = 200;
+    private static final int BOUNCE_WAIT_TIME = 50;
     private void processGameState(Ball.BallMovement ballState) {
 
         switch (ballState) {

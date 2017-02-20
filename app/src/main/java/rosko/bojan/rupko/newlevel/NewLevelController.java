@@ -50,7 +50,11 @@ public class NewLevelController extends Controller implements View.OnTouchListen
         initGestureDetector();
 
         myImageView.setOnTouchListener(this);
+    }
 
+    public void setNewLevelImageData(NewLevelImageData imageData) {
+        newLevelImageData = imageData;
+        setImageDate(imageData);
     }
 
     private void initGestureDetector() {

@@ -5,6 +5,7 @@ import android.app.DialogFragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -62,7 +63,7 @@ public class NewLevelActivity extends AppCompatActivity implements
                 }
                 imageData.updateRadius();
 
-                updateImageView();
+                myImageView.invalidate();
             }
         });
 
@@ -133,15 +134,30 @@ public class NewLevelActivity extends AppCompatActivity implements
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
+        Log.e("changeorientation", "blahh");
         imageData = (ImageData) savedInstanceState.getSerializable("data");
+
+        Log.e("changeorientation", "height sadasda");
 
         final NewLevelActivity that = this;
         //update sizes
         myImageView.post(new Runnable() {
             @Override
             public void run() {
+                myImageView.setImageData(imageData);
+                controller.setNewLevelImageData((NewLevelImageData)imageData);
+
+//                Log.e("changeorientation", "height " + that.myImageView.getHeight());
+//                Log.e("changeorientation", "wid " + that.myImageView.getWidth());
+
+//                if (that.myImageView.getHeight() > that.myImageView.getWidth()) {
+//                    imageData.changeOrientation(that.myImageView.getHeight(), that.myImageView.getWidth());
+//                } else {
+//                    imageData.changeOrientation(that.myImageView.getWidth(), that.myImageView.getHeight());
+//                }
                 imageData.setScreenSize(new Pair<Integer, Integer>(that.myImageView.getHeight(), that.myImageView.getWidth()));
                 imageData.updateRadius();
+                myImageView.invalidate();
             }
         });
     }

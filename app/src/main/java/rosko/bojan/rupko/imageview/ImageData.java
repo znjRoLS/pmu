@@ -21,8 +21,8 @@ public class ImageData implements Serializable{
     protected ArrayList<Hole> holes;
     protected ArrayList<MyRectF> walls;
 
-    public int screenWidth;
-    public int screenHeight;
+    public int screenWidth = 0;
+    public int screenHeight = 0;
     protected float currentRadius;
 
     public ImageData() {
@@ -62,12 +62,14 @@ public class ImageData implements Serializable{
     public void setScreenSize(Pair<Integer, Integer> size) {
 
         Log.e("runnable post?", "setting scren size");
-        Log.d("screensize", "yep im herhe " + size.first + " " + size.second );
+        Log.d("screensize", "yep im herheh " + size.first + " w " + size.second );
+
+        if (screenHeight != 0) {
+            changeOrientation(size.first, size.second);
+        }
 
         screenHeight = size.first;
         screenWidth = size.second;
-
-
     }
 
     public void updateRadius(){
@@ -188,4 +190,32 @@ public class ImageData implements Serializable{
     public void setWalls(ArrayList<MyRectF> walls) {
         this.walls = walls;
     }
+
+    public void changeOrientation(int newHeight, int newWidth) {
+        float yRatio = (float)newHeight/(float)screenHeight;
+        float xRatio = (float)newWidth/(float)screenWidth;
+
+        Log.e("changeorientation", "x " + xRatio);
+        Log.e("changeorientation", "y " + yRatio);
+
+        if (startHole != null) {
+            startHole.center.x *= xRatio;
+            startHole.center.y *= yRatio;
+        }
+        if (endHole != null) {
+            endHole.center.x *= xRatio;
+            endHole.center.y *= yRatio;
+        }
+        for (Hole hole: holes) {
+            hole.center.x *= xRatio;
+            hole.center.y *= yRatio;
+        }
+        for (MyRectF wall : walls) {
+            wall.bottom *= yRatio;
+            wall.top *= yRatio;
+            wall.left *= xRatio;
+            wall.right *= xRatio;
+        }
+    }
+
 }

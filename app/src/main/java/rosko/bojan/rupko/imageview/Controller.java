@@ -31,6 +31,10 @@ public class Controller {
 
     }
 
+    public void setImageDate(ImageData imageData) {
+        this.imageData = imageData;
+    }
+
     public MyImageView getMyImageView() {
         return myImageView;
     }
