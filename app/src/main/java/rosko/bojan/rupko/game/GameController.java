@@ -52,7 +52,7 @@ public class GameController implements SensorEventListener {
     private boolean gameEnd;
 
     private long lastBounceTime = 0;
-    private static final int BOUNCE_WAIT_TIME = 50;
+    private static final int BOUNCE_WAIT_TIME = 150;
 
     private class bounceSoundTask extends AsyncTask {
         @Override

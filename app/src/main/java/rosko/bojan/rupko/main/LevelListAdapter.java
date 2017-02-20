@@ -81,8 +81,6 @@ public class LevelListAdapter extends ArrayAdapter<Level> {
 
             levelName.setText(level.getName());
 
-            Log.e("levellistview", level.getName());
-
             long time = dbHelper.getBestStatsForLevel(level.getName());
             if (time == 0) {
                 bestScore.setText("No high scores");
