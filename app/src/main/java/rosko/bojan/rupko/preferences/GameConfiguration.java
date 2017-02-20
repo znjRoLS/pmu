@@ -51,7 +51,7 @@ public class GameConfiguration implements Cloneable{
 
         defaultConfiguration.HOLE_RADIUS_RATIO = 0.07f;
         defaultConfiguration.BALL_RADIUS_RATIO = 0.8f;
-        defaultConfiguration.START_HOLE_COLOR = Color.GREEN;
+        defaultConfiguration.START_HOLE_COLOR = Color.parseColor("#ff00ff00");
         defaultConfiguration.HOLE_COLOR = Color.BLUE;
         defaultConfiguration.END_HOLE_COLOR = Color.DKGRAY;
         defaultConfiguration.WALL_COLOR = Color.parseColor("#8B4513");
@@ -107,6 +107,13 @@ public class GameConfiguration implements Cloneable{
         currentConfiguration.BALL_RADIUS_RATIO = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_radius_ratio),
                 defaultConfiguration.BALL_RADIUS_RATIO);
+
+        currentConfiguration.START_HOLE_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_start_hole_color),
+                defaultConfiguration.START_HOLE_COLOR
+        );
+
+        Log.e("reading pref", "color is " + currentConfiguration.START_HOLE_COLOR);
     }
 
     public static void restoreDefaultPreferences(Context context) {

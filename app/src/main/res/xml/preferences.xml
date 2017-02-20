@@ -41,6 +41,14 @@
             android:title="Ball radius ratio"
             android:summary="Set ball radius ratio to ImageView size"
             android:defaultValue="@string/preference_default_ball_radius_ratio" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_start_hole_color"
+            android:title="kolor piker"
+            android:summary="asdfasdfasdf"
+            android:defaultValue="#333333"  />   <!-- integer resources are also accepted -->
+                                       <!-- enable alpha slider via XML -->
+
     </PreferenceCategory>
 
     <PreferenceCategory

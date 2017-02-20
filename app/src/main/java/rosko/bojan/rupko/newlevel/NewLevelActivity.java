@@ -39,9 +39,9 @@ public class NewLevelActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new_level);
-
         GameConfiguration.fillCurrentConfiguration(this);
+
+        setContentView(R.layout.activity_new_level);
 
         myImageView = (NewLevelImageView) findViewById(R.id.myImageView);
         myImageView.setDrawingCacheEnabled(true);
