@@ -9,7 +9,9 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.TextView;
 
+import rosko.bojan.rupko.game.ScoreDialog;
 import rosko.bojan.rupko.imageview.Controller;
 import rosko.bojan.rupko.imageview.Level;
 import rosko.bojan.rupko.main.MainActivity;
@@ -32,6 +34,8 @@ public class NewLevelActivity extends AppCompatActivity implements
     NewLevelImageView myImageView;
     ImageData imageData;
 
+    private String levelName;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +48,7 @@ public class NewLevelActivity extends AppCompatActivity implements
 
         imageData = myImageView.getImageData();
 
-        final String levelName = getIntent().getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
+        levelName = getIntent().getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
 
         //todo: not here
         final NewLevelActivity that = this;
@@ -57,6 +61,8 @@ public class NewLevelActivity extends AppCompatActivity implements
                     imageData.loadLevel(Level.loadLevel(that, levelName));
                 }
                 imageData.updateRadius();
+
+                updateImageView();
             }
         });
 
@@ -87,6 +93,16 @@ public class NewLevelActivity extends AppCompatActivity implements
     private void openSaveDialog() {
         // Create an instance of the dialog fragment and show it
         DialogFragment dialog = new SaveDialog();
+
+        Bundle args = new Bundle();
+        if (levelName != null) {
+            args.putString(
+                    SaveDialog.LEVEL_NAME_EXTRA_NAME,
+                    levelName
+            );
+        }
+        dialog.setArguments(args);
+
         dialog.show(getFragmentManager(), "SaveDialog");
     }
 

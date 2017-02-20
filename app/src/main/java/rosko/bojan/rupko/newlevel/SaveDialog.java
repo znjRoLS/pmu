@@ -7,7 +7,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import rosko.bojan.rupko.R;
 import rosko.bojan.rupko.imageview.Hole;
@@ -17,6 +19,8 @@ import rosko.bojan.rupko.imageview.Hole;
  */
 
 public class SaveDialog extends DialogFragment {
+
+    public static final String LEVEL_NAME_EXTRA_NAME = "rosko.bojan.rupko.LEVEL_NAME_EXTRA_NAME";
 
     public interface DialogActionListener {
         void onDialogPositiveAction(String name);
@@ -44,7 +48,8 @@ public class SaveDialog extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        builder.setView(inflater.inflate(R.layout.dialog_save, null));
+        View content = inflater.inflate(R.layout.dialog_save, null);
+        builder.setView(content);
         builder
                 .setTitle("Type a level name ")
                 .setPositiveButton("Save",
@@ -62,6 +67,11 @@ public class SaveDialog extends DialogFragment {
                             }
                         }
                 );
+
+        String levelName = getArguments().getString(LEVEL_NAME_EXTRA_NAME);
+        if (levelName != null) {
+            ((EditText) content.findViewById(R.id.levelNameEditText)).setText(levelName);
+        }
 
         return builder.create();
     }
