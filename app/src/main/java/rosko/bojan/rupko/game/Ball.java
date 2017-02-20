@@ -23,11 +23,14 @@ public class Ball {
     private float GRAVITY_MAGNITUDE;
     private float BALL_TRACTION;
     private float BALL_BOUNCE;
+    private float BALL_BOUNCE_THRESHOLD;
+
+    BallMovement bState;
 
     ImageData imageData;
 
     public enum BallMovement {
-        DEFAULT, BOUNCE, START, END, HOLE
+        DEFAULT, BOUNCE, SLIDE, START, END, HOLE
     }
 
     public Ball(ImageData imageData) {
@@ -36,6 +39,7 @@ public class Ball {
         GRAVITY_MAGNITUDE = GameConfiguration.currentConfiguration.GRAVITY_MAGNITUDE;
         BALL_TRACTION = GameConfiguration.currentConfiguration.BALL_TRACTION;
         BALL_BOUNCE = GameConfiguration.currentConfiguration.BALL_BOUNCE;
+        BALL_BOUNCE_THRESHOLD = GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio;
     }
 
     public void setPixelsByMetersRatio(float pixelsByMetersRatio){
@@ -61,7 +65,7 @@ public class Ball {
 
     public BallMovement updateBallMovement(float gravityX, float gravityY, float gravityZ,  float deltaTime) {
 
-        BallMovement bState = BallMovement.DEFAULT;
+        bState = BallMovement.DEFAULT;
 
         float accelerationStrength = pixelsByMetersRatio * GRAVITY_MAGNITUDE ;
         velocity.x += gravityX * accelerationStrength * deltaTime;
@@ -87,12 +91,11 @@ public class Ball {
 
         boolean collides = false;
 
-        collides = collides || bounceOfLimits();
+        collides = bounceOfLimits() || collides;
         for(MyRectF wall : imageData.getWalls()) {
-            collides = collides || bounceOfWall(wall);
+            collides = bounceOfWall(wall) || collides;
         }
         if (collides) {
-            bState = BallMovement.BOUNCE;
             center.x = oldX + velocity.x * deltaTime;
             center.y = oldY + velocity.y * deltaTime;
         }
@@ -116,17 +119,56 @@ public class Ball {
         return dist(hole.getCenter(), center) <= Math.max(hole.getRadius(), radius);
     }
 
-    private boolean bounceOfLimits(){
-        if (center.x < radius || center.x > imageData.screenWidth - radius) {
-            velocity.x *= - BALL_BOUNCE;
-            return true;
+    private float bounce(float velocity, boolean positiveBounceDirection) {
+
+        Log.e("bounce", GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio + " thresh");
+        Log.e("bounce", GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD + " config");
+        Log.e("bounce", pixelsByMetersRatio + " pixmet");
+        Log.e("bounce", velocity + " vel");
+
+        //bounce only in one direction
+        if (positiveBounceDirection && velocity > 0) {
+            Log.e("bounce", "returning " + positiveBounceDirection);
+            return velocity;
         }
-        if (center.y < radius || center.y > imageData.screenHeight - radius) {
-            velocity.y *= - BALL_BOUNCE;
-            return true;
+        if (!positiveBounceDirection && velocity < 0) {
+            Log.e("bounce", "returning " + positiveBounceDirection);
+            return velocity;
         }
 
-        return false;
+        velocity *= - BALL_BOUNCE;
+        if (Math.abs(velocity) < GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio) {
+            Log.e("bounce", "slajd, bijac");
+            velocity = 0;
+            if (bState != BallMovement.BOUNCE)
+                bState = BallMovement.SLIDE;
+        } else {
+            bState = BallMovement.BOUNCE;
+        }
+
+        return velocity;
+    }
+
+    private boolean bounceOfLimits(){
+        boolean bounced = false;
+        if (center.x < radius) {
+            velocity.x = bounce(velocity.x, true);
+            bounced = true;
+        }
+        if (center.x > imageData.screenWidth - radius) {
+            velocity.x = bounce(velocity.x, false);
+            bounced = true;
+        }
+        if (center.y < radius) {
+            velocity.y = bounce(velocity.y, true);
+            bounced = true;
+        }
+        if (center.y > imageData.screenHeight - radius) {
+            velocity.y = bounce(velocity.y, false);
+            bounced = true;
+        }
+
+        return bounced;
     }
 
     private boolean bounceOfWall(MyRectF wall) {
@@ -139,15 +181,23 @@ public class Ball {
             return false;
         }
 
-        if (center.y >= wall.top && center.y <= wall.bottom) {
-            velocity.x *= - BALL_BOUNCE;
+        if (center.y >= wall.top && center.y <= wall.bottom && center.x < wall.left) {
+            velocity.x = bounce(velocity.x, false);
+            return true;
+        }
+        if (center.y >= wall.top && center.y <= wall.bottom && center.x > wall.right) {
+            velocity.x = bounce(velocity.x, true);
+            return true;
+        }
+        if (center.x >= wall.left && center.x <= wall.right && center.y < wall.top) {
+            velocity.y = bounce(velocity.y, false);
+            return true;
+        }
+        if (center.x >= wall.left && center.x <= wall.right && center.y > wall.bottom) {
+            velocity.y = bounce(velocity.y, true);
             return true;
         }
 
-        if (center.x >= wall.left && center.x <= wall.right) {
-            velocity.y *= - BALL_BOUNCE;
-            return true;
-        }
 
         boolean collision = false;
         MyPointF otherPoint = null;
@@ -180,7 +230,7 @@ public class Ball {
         resistanceVector.subtract(center);
         float resistanceAngle = resistanceVector.getAngle();
         velocity.rotate(-resistanceAngle);
-        velocity.x *= -BALL_BOUNCE;
+        velocity.x = bounce(velocity.x, false);
         velocity.rotate(resistanceAngle);
 
         return true;

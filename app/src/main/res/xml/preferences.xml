@@ -23,6 +23,11 @@
             android:summary="Set gravity magnitude ratio"
             android:defaultValue="@string/preference_default_gravity_magnitude" />
         <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_ball_bounce_threshold"
+            android:title="Ball bounce threshold"
+            android:summary="Change Ball bounce threshold udner which ball wont bounce"
+            android:defaultValue="@string/preference_default_ball_bounce_threshold"/>
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
             android:key="@string/preference_filter_alfa"
             android:title="Filter alfa"
             android:summary="Set alfa value of low pass filter for filtering gravity signal"

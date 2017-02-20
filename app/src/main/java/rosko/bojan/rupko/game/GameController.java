@@ -225,6 +225,7 @@ public class GameController implements SensorEventListener {
     }
 
     public void sensorChanged(float values[]) {
+        Log.e("?", "zasto ?");
         float dx = values[0];
         float dy = values[1];
         float dz = values[2];
