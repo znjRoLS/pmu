@@ -49,7 +49,7 @@ public class ScoreDialog extends DialogFragment{
         View content = inflater.inflate(R.layout.dialog_score, null);
         builder.setView(content);
         builder
-                .setTitle("Type your name ")
+                .setTitle("Congratz!")
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {

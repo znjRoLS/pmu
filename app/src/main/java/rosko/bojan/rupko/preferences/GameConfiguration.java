@@ -16,6 +16,8 @@ import rosko.bojan.rupko.R;
 
 public class GameConfiguration implements Cloneable{
 
+    public final static String ROOT_PACKAGE_NAME = "rosko.bojan.rupko";
+
     public int START_HOLE_COLOR;
     public int END_HOLE_COLOR;
     public int HOLE_COLOR;
@@ -41,6 +43,7 @@ public class GameConfiguration implements Cloneable{
     public int BITMAP_COMPRESS_FACTOR;
 
     public int AUDIO_BALL_BOUNCE;
+    public int AUDIO_BALL_HOLE;
 
     private static GameConfiguration defaultConfiguration = null;
     public static GameConfiguration currentConfiguration;
@@ -90,7 +93,16 @@ public class GameConfiguration implements Cloneable{
                 Integer.parseInt(resources.getString(R.string.preference_default_bitmap_compress_factor));
 
         defaultConfiguration.BITMAP_FORMAT = Bitmap.CompressFormat.JPEG;
-        defaultConfiguration.AUDIO_BALL_BOUNCE = R.raw.g;
+        defaultConfiguration.AUDIO_BALL_BOUNCE = context.getResources().getIdentifier(
+                resources.getString(R.string.preference_default_sound_bounce),
+                "raw",
+                ROOT_PACKAGE_NAME
+        );
+        defaultConfiguration.AUDIO_BALL_HOLE = context.getResources().getIdentifier(
+                resources.getString(R.string.preference_default_sound_hole),
+                "raw",
+                ROOT_PACKAGE_NAME
+        );
 
         copyDefaultPreferences();
     }
@@ -180,6 +192,15 @@ public class GameConfiguration implements Cloneable{
         currentConfiguration.BITMAP_COMPRESS_FACTOR = sharedPreferences.getInt(
                 context.getString(R.string.preference_bitmap_compress_factor),
                 defaultConfiguration.BITMAP_COMPRESS_FACTOR
+        );
+
+        currentConfiguration.AUDIO_BALL_BOUNCE = sharedPreferences.getInt(
+                context.getString(R.string.preference_sound_bounce),
+                defaultConfiguration.AUDIO_BALL_BOUNCE
+        );
+        currentConfiguration.AUDIO_BALL_HOLE = sharedPreferences.getInt(
+                context.getString(R.string.preference_sound_hole),
+                defaultConfiguration.AUDIO_BALL_HOLE
         );
 
     }

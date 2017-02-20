@@ -3,6 +3,9 @@
     <PreferenceCategory
         android:title="Ball behavior "
         android:key="pref_key_ball_behavior">
+
+
+
         <rosko.bojan.rupko.preferences.FloatEditTextPreference
             android:key="@string/preference_ball_bounce"
             android:title="Ball bounce"
@@ -83,6 +86,23 @@
             android:summary="Sets color of ball"
             android:defaultValue="@string/preference_default_ball_color" />
 
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:title="Level sounds"
+        android:key="pref_key_level_sounds">
+        <rosko.bojan.rupko.preferences.SoundPickerPreference
+            android:key="@string/preference_sound_bounce"
+            android:title="Ball bounce sound"
+            android:summary="Change sound effect of ball bouncing"
+            android:defaultValue="@string/preference_default_sound_bounce"
+            array="sounds"/>
+
+        <rosko.bojan.rupko.preferences.SoundPickerPreference
+            android:key="@string/preference_sound_hole"
+            android:title="Hole sound"
+            android:summary="Change sound effect for ball falling into hole"
+            android:defaultValue="@string/preference_default_sound_hole"
+            array="sounds"/>
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -26,6 +26,9 @@
     <string name="preference_bitmap_size">BITMAP_SIZE</string>
     <string name="preference_bitmap_compress_factor">BITMAP_COMPRESS_FACTOR</string>
 
+    <string name="preference_sound_bounce">AUDIO_BALL_BOUNCE</string>
+    <string name="preference_sound_hole">AUDIO_BALL_HOLE</string>
+
 
     <string name="preference_default_ball_bounce">0.7</string>
     <string name="preference_default_ball_traction">0.001</string>
@@ -46,6 +49,9 @@
     <string name="preference_default_bitmap_sufix">.jpg</string>
     <string name="preference_default_bitmap_size">300</string>
     <string name="preference_default_bitmap_compress_factor">10</string>
+
+    <string name="preference_default_sound_bounce">g</string>
+    <string name="preference_default_sound_hole">e</string>
 
 
     <!-- Color Picker -->

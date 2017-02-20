@@ -6,6 +6,7 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
+import android.media.SoundPool;
 import android.os.AsyncTask;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,6 +35,7 @@ public class GameController implements SensorEventListener {
     private float GAME_UPDATE_MS;
 
     private MediaPlayer bounceMediaPlayer;
+    private MediaPlayer holeMediaPlayer;
     private Timer timer;
     private Context context;
 
@@ -54,19 +56,37 @@ public class GameController implements SensorEventListener {
     private long lastBounceTime = 0;
     private static final int BOUNCE_WAIT_TIME = 150;
 
-    private class bounceSoundTask extends AsyncTask {
-        @Override
-        protected Object doInBackground(Object[] objects) {
-            try {
-                bounceMediaPlayer.stop();
-                bounceMediaPlayer.prepare();
-                bounceMediaPlayer.start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-    }
+    private SoundPool soundPool;
+    private int soundBounceStreamID;
+    private int soundHoleStreamID;
+
+//    private class bounceSoundTask extends AsyncTask {
+//        @Override
+//        protected Object doInBackground(Object[] objects) {
+//            try {
+//                bounceMediaPlayer.stop();
+//                bounceMediaPlayer.prepare();
+//                bounceMediaPlayer.start();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//    }
+//
+//    private class holeSoundTask extends AsyncTask {
+//        @Override
+//        protected Object doInBackground(Object[] objects) {
+//            try {
+//                holeMediaPlayer.stop();
+//                holeMediaPlayer.prepare();
+//                holeMediaPlayer.start();
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            return null;
+//        }
+//    }
 
     Thread timerThread = new Thread(new Runnable() {
         @Override
@@ -101,14 +121,16 @@ public class GameController implements SensorEventListener {
                 timer.reset();
                 break;
             case END:
+                soundPool.play(soundHoleStreamID, 1.0f, 1.0f, 0, 0, 1.0f);
                 gameEnd();
                 break;
             case HOLE:
+                soundPool.play(soundHoleStreamID, 1.0f, 1.0f, 0, 0, 1.0f);
                 restartLevel();
                 break;
             case BOUNCE:
                 if (timer.getTime() - lastBounceTime > BOUNCE_WAIT_TIME) {
-                    (new bounceSoundTask()).execute("");
+                    soundPool.play(soundBounceStreamID, 1.0f, 1.0f, 0, 0, 1.0f);
                 }
                 lastBounceTime = timer.getTime();
 
@@ -153,8 +175,12 @@ public class GameController implements SensorEventListener {
 
         setPixelsByMetersRatio(context);
 
-        bounceMediaPlayer = MediaPlayer.create(context,
-                GameConfiguration.currentConfiguration.AUDIO_BALL_BOUNCE);
+        initSounds();
+
+//        bounceMediaPlayer = MediaPlayer.create(context,
+//                GameConfiguration.currentConfiguration.AUDIO_BALL_BOUNCE);
+//        holeMediaPlayer = MediaPlayer.create(context,
+//                GameConfiguration.currentConfiguration.AUDIO_BALL_HOLE);
 
         filterX = new LowPassFilter();
         filterY = new LowPassFilter();
@@ -178,6 +204,12 @@ public class GameController implements SensorEventListener {
                 imageData.updateRadius();
             }
         });
+    }
+
+    private void initSounds() {
+        soundPool = (new SoundPool.Builder()).setMaxStreams(3).build();
+        soundBounceStreamID = soundPool.load(context, GameConfiguration.currentConfiguration.AUDIO_BALL_BOUNCE, 0);
+        soundHoleStreamID = soundPool.load(context, GameConfiguration.currentConfiguration.AUDIO_BALL_HOLE, 0);
     }
 
     public Timer getTimer() {
