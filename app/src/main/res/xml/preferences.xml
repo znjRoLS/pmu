@@ -44,25 +44,19 @@
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_start_hole_color"
-            android:title="kolor piker"
-            android:summary="asdfasdfasdf"
-            android:defaultValue="#333333"  />   <!-- integer resources are also accepted -->
-                                       <!-- enable alpha slider via XML -->
+            android:title="Start hole color"
+            android:summary="Sets color of start hole"
+            android:defaultValue="@string/preference_default_start_hole_color"  />
 
     </PreferenceCategory>
 
     <PreferenceCategory
         android:title="Revert settings"
         android:key="pref_key_revert_settings">
-        <rosko.bojan.rupko.preferences.RevertDefaultPreference
-            android:key="nesto"
-            android:title="nesto"
-            android:summary="nestooo"
-            />
         <Preference
-            android:key="myKey"
-            android:title="nesto2"
-            android:summary="nestooo22"
+            android:key="@string/preference_revert"
+            android:title="Revert defaults"
+            android:summary="Sets all setings to default values"
             />
     </PreferenceCategory>
 

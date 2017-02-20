@@ -16,7 +16,7 @@ import rosko.bojan.rupko.R;
  * Created by rols on 1/20/17.
  */
 
-public class PreferencesActivity extends PreferenceActivity{
+public class PreferencesActivity extends PreferenceActivity implements RevertDefaultDialog.DialogActionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +53,17 @@ public class PreferencesActivity extends PreferenceActivity{
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    public void onDialogPositiveAction() {
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.clear();
+        editor.commit();
+
+        finish();
+        startActivity(getIntent());
     }
 
 

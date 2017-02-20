@@ -8,10 +8,8 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.EditText;
 
 import rosko.bojan.rupko.R;
-import rosko.bojan.rupko.newlevel.SaveDialog;
 
 /**
  * Created by rols on 2/20/17.
@@ -20,10 +18,10 @@ import rosko.bojan.rupko.newlevel.SaveDialog;
 public class RevertDefaultDialog extends DialogFragment {
 
     public interface DialogActionListener {
-        void onDialogPositiveAction(String name);
+        void onDialogPositiveAction();
     }
 
-    SaveDialog.DialogActionListener listener;
+    RevertDefaultDialog.DialogActionListener listener;
 
     @Override
     public void onAttach(Context context) {
@@ -31,7 +29,7 @@ public class RevertDefaultDialog extends DialogFragment {
         // Verify that the host activity implements the callback interface
         try {
             // Instantiate the NoticeDialogListener so we can send events to the host
-            listener = (SaveDialog.DialogActionListener) context;
+            listener = (RevertDefaultDialog.DialogActionListener) context;
         } catch (ClassCastException e) {
             // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
@@ -44,31 +42,25 @@ public class RevertDefaultDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View content = inflater.inflate(R.layout.dialog_save, null);
-        builder.setView(content);
+//        LayoutInflater inflater = getActivity().getLayoutInflater();
+//        View content = inflater.inflate(R.layout.dialog_save, null);
+//        builder.setView(content);
         builder
-                .setTitle("Type a level name ")
-                .setPositiveButton("Save",
+                .setTitle("Are you sure?")
+                .setPositiveButton("Yes",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
-                                EditText editText = (EditText) getDialog().findViewById(R.id.levelNameEditText);
-                                listener.onDialogPositiveAction(editText.getText().toString());
+                                listener.onDialogPositiveAction();
                             }
                         }
                 )
-                .setNegativeButton("Cancel",
+                .setNegativeButton("No",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int whichButton) {
                                 dialog.dismiss();
                             }
                         }
                 );
-
-        String levelName = getArguments().getString(LEVEL_NAME_EXTRA_NAME);
-        if (levelName != null) {
-            ((EditText) content.findViewById(R.id.levelNameEditText)).setText(levelName);
-        }
 
         return builder.create();
     }
