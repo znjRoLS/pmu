@@ -59,37 +59,43 @@
             android:key="@string/preference_start_hole_color"
             android:title="Start hole color"
             android:summary="Sets color of start hole"
-            android:defaultValue="@string/preference_default_start_hole_color" />
+            android:defaultValue="@string/preference_default_start_hole_color"
+            alphaSlider="true"/>
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_hole_color"
             android:title="Hole color"
             android:summary="Sets color of hole"
-            android:defaultValue="@string/preference_default_hole_color" />
+            android:defaultValue="@string/preference_default_hole_color"
+            alphaSlider="true"/>
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_end_hole_color"
             android:title="End hole color"
             android:summary="Sets color of end hole"
-            android:defaultValue="@string/preference_default_end_hole_color" />
+            android:defaultValue="@string/preference_default_end_hole_color"
+            alphaSlider="true" />
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_wall_color"
             android:title="Wall color"
             android:summary="Sets color of wall"
-            android:defaultValue="@string/preference_default_wall_color" />
+            android:defaultValue="@string/preference_default_wall_color"
+            alphaSlider="true" />
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_draggable_color"
             android:title="Draggable color"
             android:summary="Sets color of draggable"
-            android:defaultValue="@string/preference_default_draggable_color" />
+            android:defaultValue="@string/preference_default_draggable_color"
+            alphaSlider="true" />
 
         <net.margaritov.preference.colorpicker.ColorPickerPreference
             android:key="@string/preference_ball_color"
             android:title="Ball color"
             android:summary="Sets color of ball"
-            android:defaultValue="@string/preference_default_ball_color" />
+            android:defaultValue="@string/preference_default_ball_color"
+            alphaSlider="true" />
 
     </PreferenceCategory>
     <PreferenceCategory

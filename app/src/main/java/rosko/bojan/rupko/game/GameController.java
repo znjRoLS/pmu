@@ -54,7 +54,7 @@ public class GameController implements SensorEventListener {
     private boolean gameEnd;
 
     private long lastBounceTime = 0;
-    private static final int BOUNCE_WAIT_TIME = 150;
+    private static final int BOUNCE_WAIT_TIME = 50;
 
     private SoundPool soundPool;
     private int soundBounceStreamID;
@@ -225,7 +225,7 @@ public class GameController implements SensorEventListener {
     }
 
     public void sensorChanged(float values[]) {
-        Log.e("?", "zasto ?");
+//        Log.e("?", "zasto ?");
         float dx = values[0];
         float dy = values[1];
         float dz = values[2];

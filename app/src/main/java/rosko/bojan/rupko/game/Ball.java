@@ -98,6 +98,20 @@ public class Ball {
         if (collides) {
             center.x = oldX + velocity.x * deltaTime;
             center.y = oldY + velocity.y * deltaTime;
+
+            boolean collidesAgain = false;
+            collidesAgain = bounceOfLimits() || collidesAgain;
+            for(MyRectF wall : imageData.getWalls()) {
+                collidesAgain = bounceOfWall(wall) || collidesAgain;
+            }
+
+            if (collidesAgain) {
+                velocity.x = 0;
+                velocity.y = 0;
+                center.x = oldX;
+                center.y = oldY;
+            }
+
         }
 
         if (fallInHole(imageData.getStartHole())) {
@@ -121,24 +135,17 @@ public class Ball {
 
     private float bounce(float velocity, boolean positiveBounceDirection) {
 
-        Log.e("bounce", GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio + " thresh");
-        Log.e("bounce", GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD + " config");
-        Log.e("bounce", pixelsByMetersRatio + " pixmet");
-        Log.e("bounce", velocity + " vel");
 
         //bounce only in one direction
         if (positiveBounceDirection && velocity > 0) {
-            Log.e("bounce", "returning " + positiveBounceDirection);
             return velocity;
         }
         if (!positiveBounceDirection && velocity < 0) {
-            Log.e("bounce", "returning " + positiveBounceDirection);
             return velocity;
         }
 
         velocity *= - BALL_BOUNCE;
         if (Math.abs(velocity) < GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio) {
-            Log.e("bounce", "slajd, bijac");
             velocity = 0;
             if (bState != BallMovement.BOUNCE)
                 bState = BallMovement.SLIDE;
