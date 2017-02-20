@@ -61,17 +61,9 @@ public class Ball {
 
     public BallMovement updateBallMovement(float gravityX, float gravityY, float gravityZ,  float deltaTime) {
 
-//        Log.d("skk", gravityX + " " + gravityY + " " + gravityZ + " " + deltaTime);
-
         BallMovement bState = BallMovement.DEFAULT;
 
         float accelerationStrength = pixelsByMetersRatio * GRAVITY_MAGNITUDE ;
-
-//        Log.d("ball" ,"accelerationStrength "+ accelerationStrength);
-//        Log.d("ball" ,"pixelsByMetersRatio "+ pixelsByMetersRatio);
-//        Log.d("ball" ,"GRAVITY_MAGNITUDE "+ GRAVITY_MAGNITUDE);
-//        Log.d("ball" ,"velocity.x "+ velocity.x);
-
         velocity.x += gravityX * accelerationStrength * deltaTime;
         velocity.y += gravityY * accelerationStrength * deltaTime;
 
@@ -79,7 +71,6 @@ public class Ball {
         float tractionAcceleration = gravityZ * tractionStrength * deltaTime;
 
         if (velocity.getMagnitude() > tractionAcceleration) {
-
             float velocityAngle = velocity.getAngle();
             velocity.rotate(-velocityAngle);
             velocity.x -= tractionAcceleration;
@@ -91,21 +82,15 @@ public class Ball {
 
         float oldX = center.x;
         float oldY = center.y;
-
         center.x += velocity.x * deltaTime;
         center.y += velocity.y * deltaTime;
-
-//        Log.d("ball", "deltav " + gravityX * accelerationStrength * deltaTime);
-//        Log.d("ball", "deltas " + velocity.x * deltaTime);
 
         boolean collides = false;
 
         collides = collides || bounceOfLimits();
-
         for(MyRectF wall : imageData.getWalls()) {
             collides = collides || bounceOfWall(wall);
         }
-
         if (collides) {
             bState = BallMovement.BOUNCE;
             center.x = oldX + velocity.x * deltaTime;

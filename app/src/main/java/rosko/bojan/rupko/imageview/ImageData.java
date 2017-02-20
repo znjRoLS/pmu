@@ -60,14 +60,9 @@ public class ImageData implements Serializable{
     }
 
     public void setScreenSize(Pair<Integer, Integer> size) {
-
-        Log.e("runnable post?", "setting scren size");
-        Log.d("screensize", "yep im herheh " + size.first + " w " + size.second );
-
         if (screenHeight != 0) {
             changeOrientation(size.first, size.second);
         }
-
         screenHeight = size.first;
         screenWidth = size.second;
     }
@@ -75,8 +70,6 @@ public class ImageData implements Serializable{
     public void updateRadius(){
         int smaller = screenHeight>screenWidth?screenWidth:screenHeight;
         currentRadius = GameConfiguration.currentConfiguration.HOLE_RADIUS_RATIO * smaller;
-
-        Log.d("screensize", currentRadius + "");
 
         if (startHole != null)
             startHole.setRadius(currentRadius);
@@ -87,11 +80,7 @@ public class ImageData implements Serializable{
     }
 
     public void loadLevel(Level level) {
-
-        Log.e("runnable post?", "running level");
-
         MyPointF normalizedStartHole = level.getStartHole();
-
         startHole = new Hole(
                 new MyPointF(
                     normalizedStartHole.x * screenWidth,
@@ -101,7 +90,6 @@ public class ImageData implements Serializable{
         );
 
         MyPointF normalizedEndHole = level.getEndHole();
-
         endHole = new Hole(
                 new MyPointF(
                         normalizedEndHole.x * screenWidth,
@@ -111,7 +99,6 @@ public class ImageData implements Serializable{
         );
 
         for (MyPointF levelHole : level.getHoles()) {
-
             Hole hole = new Hole(
                     new MyPointF(
                             levelHole.x * screenWidth,
@@ -119,7 +106,6 @@ public class ImageData implements Serializable{
                     ),
                     Hole.Type.HOLE
             );
-
             holes.add(hole);
         }
 
@@ -130,10 +116,6 @@ public class ImageData implements Serializable{
                     levelWall.right * screenWidth,
                     levelWall.bottom * screenHeight
             );
-
-            Log.d("wall", "one wall " + wall.left + " " + wall.top);
-            Log.d("wall", "two wall " + levelWall.left + " " + levelWall.top);
-
             walls.add(wall);
         }
 
@@ -194,9 +176,6 @@ public class ImageData implements Serializable{
     public void changeOrientation(int newHeight, int newWidth) {
         float yRatio = (float)newHeight/(float)screenHeight;
         float xRatio = (float)newWidth/(float)screenWidth;
-
-        Log.e("changeorientation", "x " + xRatio);
-        Log.e("changeorientation", "y " + yRatio);
 
         if (startHole != null) {
             startHole.center.x *= xRatio;

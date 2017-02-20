@@ -52,9 +52,6 @@ public class StatsActivity extends AppCompatActivity {
     }
 
     private void inflateListView() {
-        Log.d("statsinflate", "hreh");
-        Log.d("statsinflate", "levelname " + levelName);
-
         Cursor cursor = dbHelper.getOrderedStatsForLevel(levelName);
 
         ListAdapter adapter = new CursorAdapter(this, cursor, 0) {

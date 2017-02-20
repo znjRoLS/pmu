@@ -28,14 +28,9 @@ public class LevelEditDialog extends DialogFragment {
     public void onAttach(Context context) {
         super.onAttach(context);
 
-
-
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (LevelEditDialog.ListDialogListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
                     + " must implement NoticeDialogListener");
         }
@@ -43,18 +38,13 @@ public class LevelEditDialog extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-//        int title = getArguments().getInt("title");
-
         Bundle bundle = getArguments();
         final String levelName = bundle.getString(MainActivity.DIALOG_BUNDLE_LEVEL_NAME,"");
 
         return new AlertDialog.Builder(getActivity())
-//                .setIcon(R.drawable.alert_dialog_icon)
                 .setTitle("Do you want to edit or remove level" + levelName + " ?")
                 .setItems(R.array.edit_remove_dialog_items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        // The 'which' argument contains the index position
-                        // of the selected item
                         switch(which) {
                             case 0: // edit
                                 listener.onDialogEditClick(levelName);

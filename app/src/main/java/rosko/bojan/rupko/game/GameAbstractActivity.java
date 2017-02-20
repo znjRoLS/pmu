@@ -25,7 +25,6 @@ import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 public abstract class GameAbstractActivity extends AppCompatActivity implements GameController.ViewInterface, ScoreDialog.DialogActionListener {
 
-
     GameController gameController;
     GameImageView myImageView;
     GameImageData imageData;
@@ -45,31 +44,10 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
         Intent intent = getIntent();
         levelName = intent.getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
 
-        GameConfiguration.fillCurrentConfiguration(this);
-
         myImageView = (GameImageView) findViewById(R.id.myImageView);
         imageData = (GameImageData) myImageView.getImageData();
-//        imageData.setScreenSize(getScreenSize());
-//        imageData.updateRadius();
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        double x = getScreenSize().second/dm.xdpi;
-        double y = getScreenSize().first/dm.ydpi;
-        x *= 2.54;
-        y *= 2.54;
-
-//        Log.d("gravity", 9.81f / (x/100) + "");
-//        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second + "");
-////        Log.d("gravity", 9.81f / (x/100) * getScreenSize().second / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2) + "");
-//        //TODO: refactor
-//        float gravityByPixels = (float) (
-//                9.81f / (x/100) * getScreenSize().second);// / Math.pow(GameConfiguration.currentConfiguration.GAME_UPDATE_RATE,2));
-
-        float pixelsByMeter = getScreenSize().second / (float)(x/100);
 
         gameController = new GameController(this, this, myImageView, levelName);
-        gameController.setPixelsRatio(pixelsByMeter);
 
         //starting level
         myImageView.post(new Runnable() {
@@ -79,7 +57,6 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
             }
         });
     }
-
 
     @Override
     protected void onResume() {
@@ -117,19 +94,6 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
         dialog.show(getFragmentManager(), "ScoreDialog");
     }
 
-    private Pair<Integer, Integer> getScreenSize() {
-
-        //TODO: imageview size, not screen size
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager()
-                .getDefaultDisplay()
-                .getMetrics(displayMetrics);
-        int height = displayMetrics.heightPixels;
-        int width = displayMetrics.widthPixels;
-
-        return new Pair<Integer, Integer>(height, width);
-    }
-
     @Override
     public void finish(){
         gameController.gameStop();
@@ -138,12 +102,8 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
 
     @Override
     public void onDialogPositiveAction(String name) {
-
-        Log.d("endgame", "herhe");
-
         Time time = new Time(gameController.getTimer().getTime());
         writeScore(name, time);
-        Log.d("endgame", "herhe2");
 
         Intent intent = new Intent(this, StatsActivity.class);
         intent.putExtra(StatsActivity.STATS_LEVEL_EXTRA, levelName);
@@ -163,7 +123,5 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
         SQLiteDatabase db = dbHelper.getWritableDatabase();
 
         dbHelper.insertNewStat(levelName, username, time);
-        Log.d("endgame", "herhe3");
     }
-
 }

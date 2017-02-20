@@ -26,12 +26,9 @@ public class RevertDefaultDialog extends DialogFragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        // Verify that the host activity implements the callback interface
         try {
-            // Instantiate the NoticeDialogListener so we can send events to the host
             listener = (RevertDefaultDialog.DialogActionListener) context;
         } catch (ClassCastException e) {
-            // The activity doesn't implement the interface, throw exception
             throw new ClassCastException(context.toString()
                     + " must implement NoticeDialogListener");
         }
@@ -42,9 +39,6 @@ public class RevertDefaultDialog extends DialogFragment {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
-//        LayoutInflater inflater = getActivity().getLayoutInflater();
-//        View content = inflater.inflate(R.layout.dialog_save, null);
-//        builder.setView(content);
         builder
                 .setTitle("Are you sure?")
                 .setPositiveButton("Yes",

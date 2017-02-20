@@ -72,20 +72,14 @@ public class NewLevelController extends Controller implements View.OnTouchListen
     public boolean onTouch(View view, MotionEvent motionEvent) {
         gestureDetector.onTouchEvent(motionEvent);
 
-//        Log.d("ontouch", "view " + view.getId() + " with height " + view.getHeight());
-//        Log.d("ontouch", "motionEventtype " + motionEvent.getAction());
-//        Log.d("ontouch", "motion index " + motionEvent.getActionIndex());
-
         //TODO: fix multiple touches
         switch (motionEvent.getAction()) {
             case MotionEvent.ACTION_DOWN:
             case MotionEvent.ACTION_POINTER_DOWN:
-//                Log.d("ontouch", "asction down");
                 newLevelImageData.addDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
                 break;
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_POINTER_UP:
-//                Log.d("ontouch", "asction up");
                 if (newLevelImageData.checkDraggableExistant(motionEvent.getActionIndex())) {
                     if (!newLevelImageData.finishDraggable(motionEvent.getActionIndex())) {
                         Logger.throwError(context, "New wall would collide!", false);
@@ -93,7 +87,6 @@ public class NewLevelController extends Controller implements View.OnTouchListen
                 }
                 break;
             case MotionEvent.ACTION_MOVE:
-//                Log.d("ontouch", "asction move");
                 newLevelImageData.updateDraggable(motionEvent.getActionIndex(), motionEvent.getX(), motionEvent.getY());
                 break;
         }
@@ -181,9 +174,6 @@ public class NewLevelController extends Controller implements View.OnTouchListen
     }
 
     private void saveBitmap(String filename) {
-//        Bitmap bitmap = ((BitmapDrawable)myImageView.getDrawable()).getBitmap();
-//        Drawable d = myImageView.getDrawable();
-//        Bitmap bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(), d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
         Bitmap bitmap = myImageView.getDrawingCache();
         int bitmapSize = GameConfiguration.currentConfiguration.BITMAP_SIZE;
         bitmap = Bitmap.createScaledBitmap(bitmap, bitmapSize, bitmapSize, false);

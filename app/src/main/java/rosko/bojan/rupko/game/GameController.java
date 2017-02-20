@@ -7,6 +7,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.Pair;
 
@@ -29,9 +30,29 @@ import rosko.bojan.rupko.statistics.StatsDbHelper;
 
 public class GameController implements SensorEventListener {
 
+    //TODO:add restart game
     private float GAME_UPDATE_MS;
 
-    MediaPlayer bounceMediaPlayer;
+    private MediaPlayer bounceMediaPlayer;
+    private Timer timer;
+    private Context context;
+
+    private SensorManager sensorManager;
+    private Sensor accelerometerSensor;
+    private LowPassFilter filterX, filterY, filterZ;
+    private float currentX, currentY, currentZ;
+    private float pixelsByMetersRatio;
+
+    private String levelName;
+    private ImageData imageData;
+    private MyImageView myImageView;
+    private GameAbstractActivity gameActivity;
+    private GameImageData gameImageData;
+
+    private boolean gameEnd;
+
+    private long lastBounceTime = 0;
+    private static final int BOUNCE_WAIT_TIME = 50;
 
     private class bounceSoundTask extends AsyncTask {
         @Override
@@ -45,7 +66,7 @@ public class GameController implements SensorEventListener {
             }
             return null;
         }
-    };
+    }
 
     Thread timerThread = new Thread(new Runnable() {
         @Override
@@ -72,8 +93,6 @@ public class GameController implements SensorEventListener {
         }
     });
 
-    private long lastBounceTime = 0;
-    private static final int BOUNCE_WAIT_TIME = 50;
     private void processGameState(Ball.BallMovement ballState) {
 
         switch (ballState) {
@@ -97,37 +116,6 @@ public class GameController implements SensorEventListener {
         }
     }
 
-    //TODO:add restart game
-
-    Timer timer;
-
-    Context context;
-
-    SensorManager sensorManager;
-    Sensor accelerometerSensor;
-    private float currentXTheta;
-    private float currentYTheta;
-    private LowPassFilter filterX, filterY, filterZ;
-    private float currentX, currentY, currentZ;
-    private float pixelsByMetersRatio;
-
-    ImageData imageData;
-    MyImageView myImageView;
-
-    StatsDbHelper dbHelper;
-    String levelName;
-
-    GameAbstractActivity gameActivity;
-
-    private GameImageData gameImageData;
-
-    private boolean gameEnd;
-
-
-    public void setPixelsRatio(float pixelsByMetersRatio) {
-        this.pixelsByMetersRatio = pixelsByMetersRatio;
-    }
-
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
         sensorChanged(sensorEvent.values);
@@ -145,12 +133,25 @@ public class GameController implements SensorEventListener {
 
     protected ViewInterface view;
 
-    public GameController(Context context, ViewInterface view, MyImageView myImageView, String levelName) {
+    private void setPixelsByMetersRatio(GameAbstractActivity context) {
+        DisplayMetrics dm = new DisplayMetrics();
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
+        double x = dm.heightPixels/dm.xdpi;
+        double y = dm.widthPixels/dm.ydpi;
+        x *= 2.54;
+        y *= 2.54;
+
+        pixelsByMetersRatio = dm.heightPixels / (float)(x/100);
+    }
+
+    public GameController(GameAbstractActivity context, ViewInterface view, MyImageView myImageView, String levelName) {
         this.view = view;
         this.myImageView = myImageView;
         this.context = context;
         this.levelName = levelName;
         this.gameActivity = (GameAbstractActivity) context;
+
+        setPixelsByMetersRatio(context);
 
         bounceMediaPlayer = MediaPlayer.create(context,
                 GameConfiguration.currentConfiguration.AUDIO_BALL_BOUNCE);
@@ -159,22 +160,16 @@ public class GameController implements SensorEventListener {
         filterY = new LowPassFilter();
         filterZ = new LowPassFilter();
 
-        //todo : fix this
         timer = (Timer)((GameAbstractActivity)context).findViewById(R.id.timerTextView);
 
         GAME_UPDATE_MS = (long)((999 + GameConfiguration.currentConfiguration.GAME_UPDATE_RATE) / GameConfiguration.currentConfiguration.GAME_UPDATE_RATE);
 
-        currentXTheta = 0;
-        currentYTheta = 0;
-
         imageData = myImageView.getImageData();
-
         gameImageData = (GameImageData) imageData;
 
         setupGameVectorSensor();
 
         final GameController that = this;
-
         //update sizes
         myImageView.post(new Runnable() {
             @Override
@@ -190,8 +185,6 @@ public class GameController implements SensorEventListener {
     }
 
     private void setupGameVectorSensor() {
-
-        Log.d("sensor", "wtf?");
         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
         accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
 
@@ -200,25 +193,9 @@ public class GameController implements SensorEventListener {
     }
 
     public void sensorChanged(float values[]) {
-        for (int i = 0 ; i< values.length; i ++) {
-//            Log.d("sensor change ", "i " + i + " value " + values[i]);
-        }
-
-        // Log.d("sensor change ", " value " + values[1]);
-
         float dx = values[0];
         float dy = values[1];
         float dz = values[2];
-
-//        Log.d("sensor", dx + "dx");
-//        Log.d("sensor", dy + "dy");
-//        Log.d("sensor", dz + "dz");
-
-        // this is already normalized dumbass
-//        currentXTheta = (float)Math.atan2(dx, dz);
-//        currentYTheta = (float)Math.atan2(dy, dz);
-
-
 
         currentX = filterX.filter(dx);
         currentY = filterY.filter(dy);
@@ -226,28 +203,22 @@ public class GameController implements SensorEventListener {
     }
 
     public void onResume() {
-        Log.d("sensor", "register1");
         sensorManager.registerListener(this, accelerometerSensor,
                 SensorManager.SENSOR_DELAY_GAME);
     }
 
     public void onPause() {
-
-        Log.d("sensor", "unregisterd1");
         sensorManager.unregisterListener(this);
         gameEnd = true;
     }
 
     public void gameStop() {
-        Log.d("sensor", "unregisterd2");
         sensorManager.unregisterListener(this);
         gameEnd = true;
     }
 
     public void gameEnd() {
-
         gameEnd = true;
-
         view.showEndGameDialog();
     }
 
@@ -261,23 +232,17 @@ public class GameController implements SensorEventListener {
     }
 
     public void startLevel() {
-
         gameEnd = false;
-
         loadLevel();
-
         timerThread.start();
-
         restartLevel();
     }
 
     public void restartLevel() {
-
         timer.reset();
         filterX.reset();
         filterY.reset();
         filterZ.reset();
         gameImageData.resetBall();
     }
-
 }

@@ -18,9 +18,6 @@ public class NewLevelImageData extends ImageData {
     private MyPointF dragPoints[];
     private MyPointF dragPointsEnd[];
 
-    //TODO: small rectangles
-    //private HashMap<Integer, MyPointF> dragPoints;
-
     public NewLevelImageData() {
         super();
 
@@ -64,8 +61,6 @@ public class NewLevelImageData extends ImageData {
                     wall.right / screenWidth,
                     wall.bottom / screenHeight
             );
-            Log.d("wall", "one wall " + wall.left + " " + wall.top);
-            Log.d("wall", "two wall " + normalizedWall.left + " " + normalizedWall.top);
             level.addWall(normalizedWall);
         }
 
@@ -90,7 +85,6 @@ public class NewLevelImageData extends ImageData {
         MyPointF startPoint = dragPoints[index];
         MyPointF endPoint = dragPointsEnd[index];
 
-        //draggable actually not existant (due to longpress action)
         if (startPoint == null || endPoint == null)
             return false;
         return true;
@@ -100,7 +94,6 @@ public class NewLevelImageData extends ImageData {
         MyPointF startPoint = dragPoints[index];
         MyPointF endPoint = dragPointsEnd[index];
 
-        //draggable actually not existant (due to longpress action)
         if (startPoint == null || endPoint == null)
             return false;
 

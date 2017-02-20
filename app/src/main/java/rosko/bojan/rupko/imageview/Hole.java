@@ -64,7 +64,6 @@ public class Hole implements Serializable{
         this.type = type;
 
         radius = 30f;
-//        radius = GameConfiguration.HOLE_RADIUS_RATIO;
     }
 
     public Type getType() {

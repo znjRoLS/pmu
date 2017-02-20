@@ -46,7 +46,6 @@ public class NewLevelActivity extends AppCompatActivity implements
 
         myImageView = (NewLevelImageView) findViewById(R.id.myImageView);
         myImageView.setDrawingCacheEnabled(true);
-
         imageData = myImageView.getImageData();
 
         levelName = getIntent().getStringExtra(MainActivity.INTENT_LEVEL_EXTRA_NAME);
@@ -68,8 +67,6 @@ public class NewLevelActivity extends AppCompatActivity implements
         });
 
         controller = new NewLevelController(this, this, myImageView);
-
-
     }
 
     @Override
@@ -126,7 +123,6 @@ public class NewLevelActivity extends AppCompatActivity implements
     public void onSaveInstanceState(Bundle savedInstanceState) {
         super.onSaveInstanceState(savedInstanceState);
 
-        //TODO: proper serialization
         savedInstanceState.putSerializable("data", imageData);
     }
 
@@ -134,10 +130,7 @@ public class NewLevelActivity extends AppCompatActivity implements
     public void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
 
-        Log.e("changeorientation", "blahh");
         imageData = (ImageData) savedInstanceState.getSerializable("data");
-
-        Log.e("changeorientation", "height sadasda");
 
         final NewLevelActivity that = this;
         //update sizes
@@ -147,34 +140,12 @@ public class NewLevelActivity extends AppCompatActivity implements
                 myImageView.setImageData(imageData);
                 controller.setNewLevelImageData((NewLevelImageData)imageData);
 
-//                Log.e("changeorientation", "height " + that.myImageView.getHeight());
-//                Log.e("changeorientation", "wid " + that.myImageView.getWidth());
-
-//                if (that.myImageView.getHeight() > that.myImageView.getWidth()) {
-//                    imageData.changeOrientation(that.myImageView.getHeight(), that.myImageView.getWidth());
-//                } else {
-//                    imageData.changeOrientation(that.myImageView.getWidth(), that.myImageView.getHeight());
-//                }
                 imageData.setScreenSize(new Pair<Integer, Integer>(that.myImageView.getHeight(), that.myImageView.getWidth()));
                 imageData.updateRadius();
                 myImageView.invalidate();
             }
         });
     }
-
-    //TODO : refactor
-//    private Pair<Integer, Integer> getScreenSize() {
-//
-//        //TODO: imageview size, not screen size
-//        DisplayMetrics displayMetrics = new DisplayMetrics();
-//        getWindowManager()
-//                .getDefaultDisplay()
-//                .getMetrics(displayMetrics);
-//        int height = displayMetrics.heightPixels;
-//        int width = displayMetrics.widthPixels;
-//
-//        return new Pair<Integer, Integer>(height, width);
-//    }
 
     @Override
     public void onDialogPositiveAction(String name) {

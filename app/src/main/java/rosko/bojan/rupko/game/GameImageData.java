@@ -17,7 +17,6 @@ public class GameImageData extends ImageData {
 
     public GameImageData() {
         super();
-
         ball = new Ball(this);
     }
 

@@ -25,7 +25,6 @@ public class MyImageView extends ImageView {
 
 
     public void MyImageViewConstructor() {
-//        imageData = new ImageData();
 
         holePaint = new Paint();
         holePaint.setColor(GameConfiguration.currentConfiguration.HOLE_COLOR);

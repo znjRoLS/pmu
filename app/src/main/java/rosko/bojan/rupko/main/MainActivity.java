@@ -48,12 +48,9 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
         setContentView(R.layout.activity_main);
 
         statsWaiting = false;
-
         GameConfiguration.fillCurrentConfiguration(this);
-
         levelsListView = (ListView) findViewById(R.id.levelsListView);
 
-        Log.d("imherh", "am i here?");
     }
 
     @Override
@@ -105,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
                 TextView textView = (TextView) view.findViewById(R.id.levelNameTextView);
                 openEditLevelDialog(textView.getText().toString());
 
-//                return false;
                 return true;
             }
         });
@@ -114,8 +110,6 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     //TODO: somewhere else?
     private Level getLevel(File levelFile) {
         Level level = null;
-
-        //File file = new File(getFilesDir(), levelFilename);
 
         try {
             FileInputStream inputStream = new FileInputStream(levelFile);
@@ -137,7 +131,6 @@ public class MainActivity extends AppCompatActivity implements LevelEditDialog.L
     @Override
     public void onBackPressed() {
         if (statsWaiting) {
-            //TODO: lepse pisanije
             Logger.throwError(this, "Got out from STATS mode", false);
             statsWaiting = false;
         }
