@@ -12,7 +12,20 @@
     <string name="preference_hole_radius_ratio">HOLE_RADIUS_RATIO</string>
     <string name="preference_ball_radius_ratio">BALL_RADIUS_RATIO</string>
     <string name="preference_game_update_rate">GAME_UPDATE_RATE</string>
+
     <string name="preference_start_hole_color">START_HOLE_COLOR</string>
+    <string name="preference_hole_color">HOLE_COLOR</string>
+    <string name="preference_end_hole_color">END_HOLE_COLOR</string>
+    <string name="preference_wall_color">WALL_COLOR</string>
+    <string name="preference_draggable_color">DRAGGABLE_COLOR</string>
+    <string name="preference_ball_color">BALL_COLOR</string>
+
+    <string name="preference_filter_alfa">FILTER_ALFA</string>
+    <string name="preference_level_sufix">LEVEL_SUFIX</string>
+    <string name="preference_bitmap_sufix">BITMAP_SUFIX</string>
+    <string name="preference_bitmap_size">BITMAP_SIZE</string>
+    <string name="preference_bitmap_compress_factor">BITMAP_COMPRESS_FACTOR</string>
+
 
     <string name="preference_default_ball_bounce">0.7</string>
     <string name="preference_default_ball_traction">0.001</string>
@@ -20,7 +33,20 @@
     <string name="preference_default_hole_radius_ratio">0.07</string>
     <string name="preference_default_ball_radius_ratio">0.8</string>
     <string name="preference_default_game_update_rate">60</string>
+
     <string name="preference_default_start_hole_color">#ff00ff00</string>
+    <string name="preference_default_hole_color">#ff0000ff</string>
+    <string name="preference_default_end_hole_color">#ff444444</string>
+    <string name="preference_default_wall_color">#ff8B4513</string>
+    <string name="preference_default_draggable_color">#998B4513</string>
+    <string name="preference_default_ball_color">#ff888888</string>
+
+    <string name="preference_default_filter_alfa">1.0</string>
+    <string name="preference_default_level_sufix">.level</string>
+    <string name="preference_default_bitmap_sufix">.jpg</string>
+    <string name="preference_default_bitmap_size">300</string>
+    <string name="preference_default_bitmap_compress_factor">10</string>
+
 
     <!-- Color Picker -->
     <string name="dialog_color_picker">Color Picker</string>

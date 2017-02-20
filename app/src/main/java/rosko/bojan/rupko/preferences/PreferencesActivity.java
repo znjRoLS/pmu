@@ -33,27 +33,27 @@ public class PreferencesActivity extends PreferenceActivity implements RevertDef
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_preferences, menu);
-        return true;
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.menu_preferences, menu);
+//        return true;
+//    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle item selection
-        switch (item.getItemId()) {
-            case R.id.restore_default_menu_item:
-                GameConfiguration.restoreDefaultPreferences(this);
-                return true;
-//            case R.id.save_preferences_menu_item:
-//                GameConfiguration.savePreferences(this);
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        // Handle item selection
+//        switch (item.getItemId()) {
+//            case R.id.restore_default_menu_item:
+//                GameConfiguration.restoreDefaultPreferences(this);
 //                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
+////            case R.id.save_preferences_menu_item:
+////                GameConfiguration.savePreferences(this);
+////                return true;
+//            default:
+//                return super.onOptionsItemSelected(item);
+//        }
+//    }
 
     @Override
     public void onDialogPositiveAction() {

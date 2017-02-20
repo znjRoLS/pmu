@@ -19,6 +19,11 @@
             android:title="Gravity Magnitude"
             android:summary="Set gravity magnitude ratio"
             android:defaultValue="@string/preference_default_gravity_magnitude" />
+        <rosko.bojan.rupko.preferences.FloatEditTextPreference
+            android:key="@string/preference_filter_alfa"
+            android:title="Filter alfa"
+            android:summary="Set alfa value of low pass filter for filtering gravity signal"
+            android:defaultValue="@string/preference_default_filter_alfa" />
         <rosko.bojan.rupko.preferences.IntegerEditTextPreference
             android:key="@string/preference_game_update_rate"
             android:title="Game update rate"
@@ -46,8 +51,64 @@
             android:key="@string/preference_start_hole_color"
             android:title="Start hole color"
             android:summary="Sets color of start hole"
-            android:defaultValue="@string/preference_default_start_hole_color"  />
+            android:defaultValue="@string/preference_default_start_hole_color" />
 
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_hole_color"
+            android:title="Hole color"
+            android:summary="Sets color of hole"
+            android:defaultValue="@string/preference_default_hole_color" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_end_hole_color"
+            android:title="End hole color"
+            android:summary="Sets color of end hole"
+            android:defaultValue="@string/preference_default_end_hole_color" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_wall_color"
+            android:title="Wall color"
+            android:summary="Sets color of wall"
+            android:defaultValue="@string/preference_default_wall_color" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_draggable_color"
+            android:title="Draggable color"
+            android:summary="Sets color of draggable"
+            android:defaultValue="@string/preference_default_draggable_color" />
+
+        <net.margaritov.preference.colorpicker.ColorPickerPreference
+            android:key="@string/preference_ball_color"
+            android:title="Ball color"
+            android:summary="Sets color of ball"
+            android:defaultValue="@string/preference_default_ball_color" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="Level file parameters"
+        android:key="pref_key_level_file">
+
+        <EditTextPreference
+            android:key="@string/preference_level_sufix"
+            android:title="Level suffix"
+            android:summary="Set level suffix when saving"
+            android:defaultValue="@string/preference_default_level_sufix" />
+        <EditTextPreference
+            android:key="@string/preference_bitmap_sufix"
+            android:title="Bitmap suffix"
+            android:summary="Set bitmap suffix when saving"
+            android:defaultValue="@string/preference_default_bitmap_sufix" />
+        <rosko.bojan.rupko.preferences.IntegerEditTextPreference
+            android:key="@string/preference_bitmap_size"
+            android:title="Bitmap size"
+            android:summary="Set bitmap width and height when saving"
+            android:defaultValue="@string/preference_default_bitmap_size" />
+        <rosko.bojan.rupko.preferences.IntegerEditTextPreference
+            android:key="@string/preference_bitmap_compress_factor"
+            android:title="Bitmap compress factor"
+            android:summary="Set compress factor when saving bitmap to JPEG"
+            android:defaultValue="@string/preference_default_bitmap_compress_factor" />
     </PreferenceCategory>
 
     <PreferenceCategory

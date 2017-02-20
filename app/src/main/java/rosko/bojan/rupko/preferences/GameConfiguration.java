@@ -2,6 +2,7 @@ package rosko.bojan.rupko.preferences;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
@@ -41,43 +42,65 @@ public class GameConfiguration implements Cloneable{
 
     public int AUDIO_BALL_BOUNCE;
 
-    public final static GameConfiguration defaultConfiguration;
+    private static GameConfiguration defaultConfiguration = null;
     public static GameConfiguration currentConfiguration;
 
     private GameConfiguration(){};
 
-    static {
+    private static void init(Context context) {
+
+        Resources resources = context.getResources();
+
         defaultConfiguration = new GameConfiguration();
 
-        defaultConfiguration.HOLE_RADIUS_RATIO = 0.07f;
-        defaultConfiguration.BALL_RADIUS_RATIO = 0.8f;
-        defaultConfiguration.START_HOLE_COLOR = Color.parseColor("#ff00ff00");
-        defaultConfiguration.HOLE_COLOR = Color.BLUE;
-        defaultConfiguration.END_HOLE_COLOR = Color.DKGRAY;
-        defaultConfiguration.WALL_COLOR = Color.parseColor("#8B4513");
-        defaultConfiguration.DRAGGABLE_COLOR = Color.parseColor("#998B4513");
-        defaultConfiguration.BALL_COLOR = Color.GRAY;
+        defaultConfiguration.BALL_BOUNCE =
+                Float.parseFloat(resources.getString(R.string.preference_default_ball_bounce));
+        defaultConfiguration.BALL_TRACTION =
+                Float.parseFloat(resources.getString(R.string.preference_default_ball_traction));
+        defaultConfiguration.GRAVITY_MAGNITUDE =
+                Float.parseFloat(resources.getString(R.string.preference_default_gravity_magnitude));
+        defaultConfiguration.GAME_UPDATE_RATE =
+                Integer.parseInt(resources.getString(R.string.preference_default_game_update_rate));
 
-        defaultConfiguration.BALL_BOUNCE = 0.7f;
-        defaultConfiguration.BALL_TRACTION = 0.001f;
-        defaultConfiguration.GRAVITY_MAGNITUDE = 0.03f;
-        defaultConfiguration.GAME_UPDATE_RATE = 60;
+        defaultConfiguration.HOLE_RADIUS_RATIO =
+                Float.parseFloat(resources.getString(R.string.preference_default_hole_radius_ratio));
+        defaultConfiguration.BALL_RADIUS_RATIO =
+                Float.parseFloat(resources.getString(R.string.preference_default_ball_radius_ratio));
+        defaultConfiguration.START_HOLE_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_start_hole_color));
+        defaultConfiguration.HOLE_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_hole_color));
+        defaultConfiguration.END_HOLE_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_end_hole_color));
+        defaultConfiguration.WALL_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_wall_color));
+        defaultConfiguration.DRAGGABLE_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_draggable_color));
+        defaultConfiguration.BALL_COLOR =
+                Color.parseColor(resources.getString(R.string.preference_default_ball_color));
 
-        defaultConfiguration.FILTER_ALFA = 1f;
+        defaultConfiguration.FILTER_ALFA =
+                Float.parseFloat(resources.getString(R.string.preference_default_filter_alfa));
 
-        defaultConfiguration.LEVEL_SUFIX = ".level";
+        defaultConfiguration.LEVEL_SUFIX = resources.getString(R.string.preference_default_level_sufix);
+        defaultConfiguration.BITMAP_SUFIX = resources.getString(R.string.preference_default_bitmap_sufix);
+        defaultConfiguration.BITMAP_SIZE =
+                Integer.parseInt(resources.getString(R.string.preference_default_bitmap_size));
+        defaultConfiguration.BITMAP_COMPRESS_FACTOR =
+                Integer.parseInt(resources.getString(R.string.preference_default_bitmap_compress_factor));
 
-        defaultConfiguration.BITMAP_SUFIX = ".jpg";
         defaultConfiguration.BITMAP_FORMAT = Bitmap.CompressFormat.JPEG;
-        defaultConfiguration.BITMAP_SIZE = 300;
-        defaultConfiguration.BITMAP_COMPRESS_FACTOR = 10;
-
         defaultConfiguration.AUDIO_BALL_BOUNCE = R.raw.c;
 
         copyDefaultPreferences();
     }
 
     public static void fillCurrentConfiguration(Context context) {
+
+        if (defaultConfiguration == null) {
+            init(context);
+        }
+
         copyDefaultPreferences();
 
 //        SharedPreferences sharedPreferences = context.getSharedPreferences(
@@ -90,30 +113,75 @@ public class GameConfiguration implements Cloneable{
 
         currentConfiguration.BALL_TRACTION = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_traction),
-                defaultConfiguration.BALL_TRACTION);
+                defaultConfiguration.BALL_TRACTION
+        );
         currentConfiguration.BALL_BOUNCE = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_bounce),
-                defaultConfiguration.BALL_BOUNCE);
+                defaultConfiguration.BALL_BOUNCE
+        );
         currentConfiguration.GRAVITY_MAGNITUDE = sharedPreferences.getFloat(
                 context.getString(R.string.preference_gravity_magnitude),
-                defaultConfiguration.GRAVITY_MAGNITUDE);
+                defaultConfiguration.GRAVITY_MAGNITUDE
+        );
         currentConfiguration.GAME_UPDATE_RATE = sharedPreferences.getInt(
                 context.getString(R.string.preference_game_update_rate),
-                defaultConfiguration.GAME_UPDATE_RATE);
+                defaultConfiguration.GAME_UPDATE_RATE
+        );
 
         currentConfiguration.HOLE_RADIUS_RATIO = sharedPreferences.getFloat(
                 context.getString(R.string.preference_hole_radius_ratio),
-                defaultConfiguration.HOLE_RADIUS_RATIO);
+                defaultConfiguration.HOLE_RADIUS_RATIO
+        );
         currentConfiguration.BALL_RADIUS_RATIO = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_radius_ratio),
-                defaultConfiguration.BALL_RADIUS_RATIO);
-
+                defaultConfiguration.BALL_RADIUS_RATIO
+        );
         currentConfiguration.START_HOLE_COLOR = sharedPreferences.getInt(
                 context.getString(R.string.preference_start_hole_color),
                 defaultConfiguration.START_HOLE_COLOR
         );
+        currentConfiguration.HOLE_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_hole_color),
+                defaultConfiguration.HOLE_COLOR
+        );
+        currentConfiguration.END_HOLE_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_end_hole_color),
+                defaultConfiguration.END_HOLE_COLOR
+        );
+        currentConfiguration.WALL_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_wall_color),
+                defaultConfiguration.WALL_COLOR
+        );
+        currentConfiguration.DRAGGABLE_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_draggable_color),
+                defaultConfiguration.DRAGGABLE_COLOR
+        );
+        currentConfiguration.BALL_COLOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_ball_color),
+                defaultConfiguration.BALL_COLOR
+        );
 
-        Log.e("reading pref", "color is " + currentConfiguration.START_HOLE_COLOR);
+        currentConfiguration.FILTER_ALFA = sharedPreferences.getFloat(
+                context.getString(R.string.preference_filter_alfa),
+                defaultConfiguration.FILTER_ALFA
+        );
+        currentConfiguration.LEVEL_SUFIX = sharedPreferences.getString(
+                context.getString(R.string.preference_level_sufix),
+                defaultConfiguration.LEVEL_SUFIX
+        );
+        currentConfiguration.BITMAP_SUFIX = sharedPreferences.getString(
+                context.getString(R.string.preference_bitmap_sufix),
+                defaultConfiguration.BITMAP_SUFIX
+        );
+        currentConfiguration.BITMAP_SIZE = sharedPreferences.getInt(
+                context.getString(R.string.preference_bitmap_size),
+                defaultConfiguration.BITMAP_SIZE
+        );
+        currentConfiguration.BITMAP_COMPRESS_FACTOR = sharedPreferences.getInt(
+                context.getString(R.string.preference_bitmap_compress_factor),
+                defaultConfiguration.BITMAP_COMPRESS_FACTOR
+        );
+
     }
 
     public static void restoreDefaultPreferences(Context context) {

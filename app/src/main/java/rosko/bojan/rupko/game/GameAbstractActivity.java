@@ -38,6 +38,8 @@ public abstract class GameAbstractActivity extends AppCompatActivity implements 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GameConfiguration.fillCurrentConfiguration(this);
+
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
