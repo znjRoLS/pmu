@@ -24,6 +24,7 @@ public class Ball {
     private float BALL_TRACTION;
     private float BALL_BOUNCE;
     private float BALL_BOUNCE_THRESHOLD;
+    private float SECOND_COLLISION_THRESHOLD;
 
     BallMovement bState;
 
@@ -40,6 +41,7 @@ public class Ball {
         BALL_TRACTION = GameConfiguration.currentConfiguration.BALL_TRACTION;
         BALL_BOUNCE = GameConfiguration.currentConfiguration.BALL_BOUNCE;
         BALL_BOUNCE_THRESHOLD = GameConfiguration.currentConfiguration.BALL_BOUNCE_THRESHOLD * pixelsByMetersRatio;
+        SECOND_COLLISION_THRESHOLD = GameConfiguration.currentConfiguration.SECOND_COLLISION_THRESHOLD;
     }
 
     public void setPixelsByMetersRatio(float pixelsByMetersRatio){
@@ -93,7 +95,7 @@ public class Ball {
 
         collides = bounceOfLimits() || collides;
         for(MyRectF wall : imageData.getWalls()) {
-            collides = bounceOfWall(wall) || collides;
+            collides = bounceOfWall(wall, false) || collides;
         }
         if (collides) {
             center.x = oldX + velocity.x * deltaTime;
@@ -102,7 +104,7 @@ public class Ball {
             boolean collidesAgain = false;
             collidesAgain = bounceOfLimits() || collidesAgain;
             for(MyRectF wall : imageData.getWalls()) {
-                collidesAgain = bounceOfWall(wall) || collidesAgain;
+                collidesAgain = bounceOfWall(wall, true) || collidesAgain;
             }
 
             if (collidesAgain) {
@@ -178,13 +180,13 @@ public class Ball {
         return bounced;
     }
 
-    private boolean bounceOfWall(MyRectF wall) {
+    private boolean bounceOfWall(MyRectF wall, boolean collidesAgain) {
         float xtopLeft = Math.max(center.x - radius, wall.left);
         float ytopLeft = Math.max(center.y - radius, wall.top);
         float xbottomRight = Math.min(center.x + radius, wall.right);
         float ybottomRight = Math.min(center.y + radius, wall.bottom);
 
-        if (xtopLeft > xbottomRight || ytopLeft > ybottomRight) {
+        if (xtopLeft > xbottomRight - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0)) || ytopLeft > ybottomRight - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0))) {
             return false;
         }
 
@@ -210,22 +212,22 @@ public class Ball {
         MyPointF otherPoint = null;
 
         MyPointF topLeft = new MyPointF(wall.left, wall.top);
-        if (dist(topLeft, center) <= radius) {
+        if (dist(topLeft, center) <= radius - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0)) ) {
             collision = true;
             otherPoint = topLeft;
         }
         MyPointF topRight = new MyPointF(wall.right, wall.top);
-        if (dist(topRight, center) <= radius) {
+        if (dist(topRight, center) <= radius - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0)) ) {
             collision = true;
             otherPoint = topRight;
         }
         MyPointF bottomLeft = new MyPointF(wall.left, wall.bottom);
-        if (dist(bottomLeft, center) <= radius) {
+        if (dist(bottomLeft, center) <= radius - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0)) ) {
             collision = true;
             otherPoint = bottomLeft;
         }
         MyPointF bottomRight = new MyPointF(wall.right, wall.bottom);
-        if (dist(bottomRight, center) <= radius) {
+        if (dist(bottomRight, center) <= radius - (SECOND_COLLISION_THRESHOLD * ((collidesAgain) ? 1 : 0)) ) {
             collision = true;
             otherPoint = bottomRight;
         }

@@ -33,6 +33,7 @@ public class GameConfiguration implements Cloneable{
     public float GRAVITY_MAGNITUDE;
     public int GAME_UPDATE_RATE;
     public float BALL_BOUNCE_THRESHOLD;
+    public float SECOND_COLLISION_THRESHOLD;
 
     public String LEVEL_SUFIX;
 
@@ -67,6 +68,8 @@ public class GameConfiguration implements Cloneable{
                 Integer.parseInt(resources.getString(R.string.preference_default_game_update_rate));
         defaultConfiguration.BALL_BOUNCE_THRESHOLD =
                 Float.parseFloat(resources.getString(R.string.preference_default_ball_bounce_threshold));
+        defaultConfiguration.SECOND_COLLISION_THRESHOLD =
+                Float.parseFloat(resources.getString(R.string.preference_default_second_collision_threshold));
 
         defaultConfiguration.HOLE_RADIUS_RATIO =
                 Float.parseFloat(resources.getString(R.string.preference_default_hole_radius_ratio));
@@ -145,6 +148,10 @@ public class GameConfiguration implements Cloneable{
         currentConfiguration.BALL_BOUNCE_THRESHOLD = sharedPreferences.getFloat(
                 context.getString(R.string.preference_ball_bounce_threshold),
                 defaultConfiguration.BALL_BOUNCE_THRESHOLD
+        );
+        currentConfiguration.SECOND_COLLISION_THRESHOLD = sharedPreferences.getFloat(
+                context.getString(R.string.preference_second_collision_threshold),
+                defaultConfiguration.SECOND_COLLISION_THRESHOLD
         );
 
         currentConfiguration.HOLE_RADIUS_RATIO = sharedPreferences.getFloat(
